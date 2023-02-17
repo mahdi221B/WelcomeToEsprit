@@ -23,6 +23,9 @@ public class Comment extends AbstractEntity {
     @ManyToOne
     @JoinColumn(name = "postId", referencedColumnName = "id")
     Post post;
-    @ManyToMany(mappedBy = "comments", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
     List<React> reactions;
+    @ManyToOne
+    @JoinColumn(name = "userId", referencedColumnName = "id")
+    User user;
 }

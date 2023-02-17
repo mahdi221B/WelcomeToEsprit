@@ -21,6 +21,9 @@ public class Post extends AbstractEntity {
     String content;
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Comment> comments;
-    @ManyToMany(mappedBy = "posts", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     List<React> reactions;
+    @ManyToOne
+    @JoinColumn(name = "userId", referencedColumnName = "id")
+    User user;
 }
