@@ -10,4 +10,5 @@ public interface IServiceAdvertisement {
     public Advertisement retrieveAdvertisementById(Integer id);
     public Advertisement addAdvertisement(Advertisement advertisement);
     public Advertisement updateAdvertisement(Advertisement advertisement,Integer id);
+
 }
