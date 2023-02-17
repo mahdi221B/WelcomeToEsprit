@@ -13,7 +13,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 
 @EnableSpringConfigured
-//k
 @Configuration
 @Slf4j
 @EnableScheduling
