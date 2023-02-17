@@ -1,22 +1,17 @@
 package tn.esprit.spring.entity;
-
 import lombok.*;
-
+import lombok.experimental.FieldDefaults;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
 @Entity
-public class Profil {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+@ToString
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@EqualsAndHashCode(callSuper = true)
+@AllArgsConstructor
+@NoArgsConstructor
+public class Profil extends AbstractEntity{
     private String education;
     private String diplomas;
     private String certification;

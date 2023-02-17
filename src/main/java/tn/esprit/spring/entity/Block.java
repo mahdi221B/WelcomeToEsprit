@@ -1,27 +1,25 @@
 package tn.esprit.spring.entity;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-
+import lombok.experimental.FieldDefaults;
 import javax.persistence.*;
 import java.util.List;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
 @Entity
-public class Block {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private String name;private String location;
-    private String description;
-    private int numberOfFloor;
-
+@ToString
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@EqualsAndHashCode(callSuper = true)
+@AllArgsConstructor
+@NoArgsConstructor
+public class Block extends AbstractEntity{
+    String name;
+    String location;
+    String description;
+    int numberOfFloor;
     @OneToMany(mappedBy = "block",cascade = CascadeType.ALL)
     @JsonIgnore
-    private List<Classroom> classrooms;
+    List<Classroom> classrooms;
 
 }
