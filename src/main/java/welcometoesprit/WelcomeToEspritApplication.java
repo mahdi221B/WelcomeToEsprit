@@ -1,4 +1,5 @@
-package tn.esprit.spring.welcometoesprit;
+package welcometoesprit;
+
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
@@ -10,10 +11,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
-
-
 @EnableSpringConfigured
-//k
 @Configuration
 @Slf4j
 @EnableScheduling
