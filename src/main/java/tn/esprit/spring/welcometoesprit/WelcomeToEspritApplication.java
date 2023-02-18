@@ -21,6 +21,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @ComponentScan(basePackages = {"tn.esprit.spring.controllers","tn.esprit.spring.services","tn.esprit.spring.configuration"})
 @EnableJpaRepositories(basePackages = {"tn.esprit.spring.repositories"})
 @EnableAspectJAutoProxy
+
 public class WelcomeToEspritApplication {
 
     public static void main(String[] args) {
