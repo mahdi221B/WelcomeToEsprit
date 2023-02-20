@@ -1,5 +1,5 @@
 package tn.esprit.spring.entity;
 
-public enum Status {
+public enum status {
     pending,resolved
 }

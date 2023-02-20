@@ -27,7 +27,7 @@ public class Reclamation implements Serializable {
 
     Date creationDate;
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private status status;
     private String Description;
     @Enumerated(EnumType.STRING)
     private Type type;

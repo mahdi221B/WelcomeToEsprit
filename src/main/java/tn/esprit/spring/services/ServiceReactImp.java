@@ -45,13 +45,16 @@ public class ServiceReactImp implements IServiceReact{
 
     @Transactional
     public void assignReactToPost(React react, Integer id) {
+
+        react.setPost(postRepository.findById(id).orElse(null));
+
         reactRepository.save(react);
-        react.getPosts().add(postRepository.findById(id).get());
     }
 
     @Transactional
     public void assignReactToComment(React react, Integer id) {
+        react.setComment(commentRepository.findById(id).orElse(null));
+
         reactRepository.save(react);
-        react.getComments().add(commentRepository.findById(id).get());
     }
 }
