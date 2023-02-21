@@ -37,13 +37,13 @@ public class User extends AbstractEntity{
     @ManyToMany(cascade = CascadeType.ALL)
     @JsonIgnore
     List<Role> roles;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     @JsonIgnore
     List<Comment> comments;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JsonIgnore
     List<Post> posts;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     @JsonIgnore
     List<React> reacts;
 

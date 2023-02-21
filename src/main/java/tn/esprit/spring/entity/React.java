@@ -19,6 +19,7 @@ public class React extends AbstractEntity {
     ReactType reaction;
     @ManyToOne
     Post post;
+
     @ManyToOne
     Comment comment;
     @ManyToOne
