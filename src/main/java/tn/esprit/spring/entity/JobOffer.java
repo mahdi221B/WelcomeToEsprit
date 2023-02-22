@@ -30,13 +30,20 @@ public class JobOffer implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date date_limite;
 
-    @ManyToMany
+
+    @ManyToMany(mappedBy = "jobOffers")
+    private List<ApplicationForm> applicationForms;
+
+
+
+
+   /* @ManyToMany
     @JoinTable(
             name = "applicationForm_JobOffer",
             joinColumns = @JoinColumn(name = "jobOffer_id"),
             inverseJoinColumns = @JoinColumn(name = "applicationForm_id")
     )
-    private List<ApplicationForm> formulairesCandidature;
-
+    private List<ApplicationForm> applicationForm;
+*/
 
 }

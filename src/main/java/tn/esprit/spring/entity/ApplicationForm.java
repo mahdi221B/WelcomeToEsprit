@@ -31,14 +31,21 @@ public class ApplicationForm implements Serializable {
     private String result;
 
 
+
+
+    @ManyToMany
+    @JoinTable(
+            name = "applicationForm_joboffer",
+            joinColumns = @JoinColumn(name = "applicationForm_id"),
+            inverseJoinColumns = @JoinColumn(name = "jobOffer_id")
+    )
+    private List<JobOffer> jobOffers;
+
+
+
     // Relation many-to-one avec OffreEmploi
-
-    @ManyToMany(mappedBy = "formulairesCandidature")
-    private List<JobOffer> offresEmplois;
-
-    @ManyToOne
-    @JoinColumn(name = "job_offer_id")
-    private JobOffer jobOffer;
-
+/*
+    @ManyToMany(mappedBy = "applicationForm")
+    private List<JobOffer> jobOffers;*/
 
 }

@@ -61,5 +61,39 @@ public class ApplicationFormImp implements IApplicationForm {
     }
 
 
+    /////////----------------------------------////////////////////////////////////////
+    public ApplicationForm saveApplicationForm(ApplicationForm applicationForm) {
+        return applicationFormRepository.save(applicationForm);
+    }
+
+    public JobOffer saveJobOffer(JobOffer jobOffer) {
+        return jobOfferRepository.save(jobOffer);
+    }
+
+    public void assignApplicationFormToJobOffer(Long applicationFormId, Long jobOfferId) {
+        ApplicationForm applicationForm = applicationFormRepository.findById(applicationFormId)
+                .orElseThrow(() -> new EntityNotFoundException("ApplicationForm not found with id " + applicationFormId));
+
+        JobOffer jobOffer = jobOfferRepository.findById(jobOfferId)
+                .orElseThrow(() -> new EntityNotFoundException("JobOffer not found with id " + jobOfferId));
+
+        applicationForm.getJobOffers().add(jobOffer);
+        jobOffer.getApplicationForms().add(applicationForm);
+
+        applicationFormRepository.save(applicationForm);
+        jobOfferRepository.save(jobOffer);
+    }
+
+    public void createApplicationFormAndAssignToJobOffer(ApplicationForm applicationForm, Long jobOfferId) {
+        JobOffer jobOffer = jobOfferRepository.findById(jobOfferId)
+                .orElseThrow(() -> new EntityNotFoundException("JobOffer not found with id " + jobOfferId));
+
+        applicationForm.getJobOffers().add(jobOffer);
+        jobOffer.getApplicationForms().add(applicationForm);
+
+        applicationFormRepository.save(applicationForm);
+        jobOfferRepository.save(jobOffer);
+    }
+
 
 }

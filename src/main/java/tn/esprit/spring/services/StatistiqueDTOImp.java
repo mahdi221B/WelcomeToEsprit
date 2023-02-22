@@ -37,7 +37,7 @@ public class StatistiqueDTOImp implements IStatistiqueDTO {
             StatistiqueDTO statistique = new StatistiqueDTO();
             statistique.setSpecialite(jobOffer.getSpecialty());
             statistique.setNbOffres(1L);
-            statistique.setNbCandidats((long) jobOffer.getFormulairesCandidature().size());
+            statistique.setNbCandidats((long) jobOffer.getApplicationForms().size());
             statistiques.add(statistique);
         }
 
