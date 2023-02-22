@@ -36,4 +36,9 @@ public class ApplicationForm implements Serializable {
     @ManyToMany(mappedBy = "formulairesCandidature")
     private List<JobOffer> offresEmplois;
 
+    @ManyToOne
+    @JoinColumn(name = "job_offer_id")
+    private JobOffer jobOffer;
+
+
 }

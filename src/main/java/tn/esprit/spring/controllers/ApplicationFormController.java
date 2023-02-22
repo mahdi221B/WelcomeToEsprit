@@ -18,6 +18,11 @@ public class    ApplicationFormController {
     @Autowired
     private IApplicationForm applicationFormService;
 
+
+  /*  @PostMapping("/{jobOfferId}")
+    public ApplicationForm createApplicationForm(@RequestBody ApplicationForm applicationForm, @PathVariable Long jobOfferId) {
+        return applicationFormService.createApplicationForm(applicationForm, jobOfferId);
+    }*/
     @PostMapping
     public ResponseEntity<ApplicationForm> createApplicationForm(@RequestBody ApplicationForm applicationForm) {
         ApplicationForm createdApplicationForm = applicationFormService.createApplicationForm(applicationForm);

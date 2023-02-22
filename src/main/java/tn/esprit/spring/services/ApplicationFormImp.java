@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import tn.esprit.spring.entity.ApplicationForm;
+import tn.esprit.spring.entity.JobOffer;
 import tn.esprit.spring.repositories.ApplicationFormRepository;
+import tn.esprit.spring.repositories.JobOfferRepository;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -17,6 +19,15 @@ public class ApplicationFormImp implements IApplicationForm {
 
 
     private ApplicationFormRepository applicationFormRepository;
+
+   // @Autowired
+    private JobOfferRepository jobOfferRepository;
+
+   /* public ApplicationForm createApplicationForm(ApplicationForm applicationForm, Long jobOfferId) {
+        JobOffer jobOffer = jobOfferRepository.findById(jobOfferId).orElseThrow(() -> new EntityNotFoundException("Job offer not found with id " + jobOfferId));
+        applicationForm.setJobOffer(jobOffer);
+        return applicationFormRepository.save(applicationForm);
+    }*/
 
     public ApplicationForm createApplicationForm(ApplicationForm applicationForm) {
         return applicationFormRepository.save(applicationForm);

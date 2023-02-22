@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -36,5 +37,6 @@ public class JobOffer implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "applicationForm_id")
     )
     private List<ApplicationForm> formulairesCandidature;
+
 
 }
