@@ -4,19 +4,26 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import tn.esprit.spring.entity.Post;
+import tn.esprit.spring.entity.PostMedia;
+import tn.esprit.spring.repositories.PostMediaRepository;
 import tn.esprit.spring.repositories.PostRepository;
 import tn.esprit.spring.repositories.UserRepository;
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+
 @Slf4j
 @Service
 @AllArgsConstructor
 public class ServicePostImp implements IServicePost{
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final PostMediaRepository mediaRepository;
+    private final IServiceFilesStorage iServiceFilesStorage;
     ObjectMapper objectMapper;
 
     @Override
@@ -25,15 +32,18 @@ public class ServicePostImp implements IServicePost{
     }
     @Override
     public void deletePost(Integer id) {
-        postRepository.delete(postRepository.findById(id).get());
+        Post post = postRepository.findById(id).get();
+        postRepository.delete(post);
     }
+    @Override
+    public void deletePostByUserId(Integer id) {
+        List<Post> posts = postRepository.findAllByUser(userRepository.findById(id).get());
+        postRepository.deleteAll(posts);
+    }
+
     @Override
     public Post retrievePostById(Integer id) {
         return postRepository.findById(id).get();
-    }
-
-    public Post addPost(Post post) {
-        return postRepository.save(post);
     }
 
     public Post updatePost(JsonNode postJson, Integer postId) throws IOException {
@@ -47,10 +57,25 @@ public class ServicePostImp implements IServicePost{
     }
 
     @Transactional
-    public void add(Post post, Integer id) {
-        addPost(post).setUser(userRepository.findById(id).get());
+    public void simpleAdd(Post post, Integer id) {
+        post.setUser(userRepository.findById(id).get());
+        postRepository.save(post);
     }
-
-
-
+    @Transactional
+    public void complexAdd(Integer id,String post,List<MultipartFile> files ) throws IOException {
+        Post postJSON = objectMapper.readValue(post, Post.class);
+        simpleAdd(postJSON,id);
+        List<PostMedia> medias = new ArrayList<>();
+        for (MultipartFile m:files) {
+            PostMedia media = new PostMedia();
+            media.setOriginalFilename(m.getOriginalFilename());
+            media.setName(m.getName());
+            media.setContentType(m.getContentType());
+            media.setSize(m.getBytes());
+            media.setPost(postJSON);
+            medias.add(media);
+            mediaRepository.save(media);
+            iServiceFilesStorage.save(m.getOriginalFilename(), m);
+        }
+    }
 }

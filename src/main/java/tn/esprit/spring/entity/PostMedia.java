@@ -22,7 +22,7 @@ public class PostMedia extends AbstractEntity{
     String contentType;
     @Lob
     byte[] size;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,cascade =CascadeType.ALL)
     @JoinColumn(name = "post_id")
     private Post post;
 

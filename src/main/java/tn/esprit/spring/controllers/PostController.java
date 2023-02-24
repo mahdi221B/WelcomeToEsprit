@@ -1,21 +1,24 @@
 package tn.esprit.spring.controllers;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.stanford.nlp.simple.Document;
+import edu.stanford.nlp.simple.Sentence;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import tn.esprit.spring.entity.Post;
-import tn.esprit.spring.entity.PostMedia;
-import tn.esprit.spring.repositories.PostMediaRepository;
-import tn.esprit.spring.services.IServiceFilesStorage;
 import tn.esprit.spring.services.IServicePost;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+import java.util.Properties;
+import edu.stanford.nlp.pipeline.Annotation;
+import edu.stanford.nlp.pipeline.StanfordCoreNLP;
+import edu.stanford.nlp.util.CoreMap;
 
 @RestController
 @Slf4j
@@ -23,25 +26,37 @@ import java.util.List;
 @RequestMapping("/post")
 public class PostController {
     private final IServicePost iServicePost;
-    private final IServiceFilesStorage iServiceFilesStorage;
-    private final PostMediaRepository mediaRepository;
-    ObjectMapper objectMapper = new ObjectMapper();
 
-
+    @DeleteMapping("/delete/{id}")
+    public void deletePost(@PathVariable("id") Integer id){
+        iServicePost.deletePost(id);
+    }
     @PutMapping("/update/{id}")
     @ResponseBody
     public Post updatePost(@RequestBody JsonNode post, @PathVariable("id") Integer id) throws IOException {
         return iServicePost.updatePost(post,id);
     }
-    @DeleteMapping("/delete/{id}")
-    @ResponseBody
-    public void deletePost(@PathVariable("id") Integer id){
-        iServicePost.deletePost(id);
+    @DeleteMapping("/deletePostByUserId/{id}")
+    public void deletePostByUserId(@PathVariable("id") Integer id){
+        iServicePost.deletePostByUserId(id);
     }
+
     @GetMapping("/get/{id}")
     @ResponseBody
     public Post getPostById(@PathVariable("id") Integer id){
         return iServicePost.retrievePostById(id);
+    }
+    @GetMapping("/corenlp")
+    @ResponseBody
+    public void getkoko(){
+        String text = "This is a test sentence.";
+        Document doc = new Document(text);
+        String classpath = System.getProperty("java.class.path");
+        System.out.println("Classpath: " + classpath);
+        for (Sentence sent : doc.sentences()) {
+            System.out.println(sent);
+            System.out.println("Tokens: " + sent.tokens());
+        }
     }
     @GetMapping("/getall")
     @ResponseBody
@@ -55,27 +70,11 @@ public class PostController {
     }
     @PostMapping("/add/{id}")
     public void add(@RequestBody Post post,@PathVariable("id") Integer id){
-        iServicePost.add(post,id);
+        iServicePost.simpleAdd(post,id);
     }
-    @PostMapping(value = "/upload/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE} )
+    @PostMapping(value = "/complexAdd/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE} )
     public ResponseEntity<String> uploadSingleFileExample1(@PathVariable("id") Integer id,@RequestPart("post") String post,@RequestPart("files") List<MultipartFile> files ) throws IOException {
-        //Transform from string to JSON function
-        String f;
-        Post postJSON = objectMapper.readValue(post, Post.class);
-        iServicePost.add(postJSON,id);
-        List<PostMedia> medias = new ArrayList<>();
-        for (MultipartFile m:files) {
-            PostMedia media = new PostMedia();
-            media.setOriginalFilename(m.getOriginalFilename());
-            media.setName(m.getName());
-            media.setContentType(m.getContentType());
-            media.setSize(m.getBytes());
-            media.setPost(postJSON);
-            medias.add(media);
-            mediaRepository.save(media);
-            log.info("111");
-            iServiceFilesStorage.save(m.getOriginalFilename(), m);
-        }
+        iServicePost.complexAdd(id,post,files);
         return ResponseEntity.ok("Success and the code is :" );
     }
 }

@@ -1,10 +1,8 @@
 package tn.esprit.spring.entity;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
 import javax.persistence.*;
-import java.io.Serializable;
-import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -24,7 +22,7 @@ public class Comment extends AbstractEntity {
     @JoinColumn(name = "postId", referencedColumnName = "id")
     Post post;
     @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
-    List<React> reactions;
+    List<React> reactions = new ArrayList<>();;
     @ManyToOne
     @JoinColumn(name = "userId", referencedColumnName = "id")
     User user;

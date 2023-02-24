@@ -3,6 +3,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.spring.entity.React;
 import tn.esprit.spring.services.IServiceReact;
+
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -10,16 +12,6 @@ import java.util.List;
 @RequestMapping("/react")
 public class ReactController {
     private final IServiceReact iserviceReact;
-    @PostMapping("/add")
-    @ResponseBody
-    public React addReact(@RequestBody React react){
-        return iserviceReact.addReact(react);
-    }
-    @PutMapping("/update/{id}")
-    @ResponseBody
-    public React updateReact(@RequestBody React react, @PathVariable("id") Integer id){
-        return iserviceReact.updateReact(react,id);
-    }
     @DeleteMapping("/delete/{id}")
     @ResponseBody
     public void deleteReact(@PathVariable("id") Integer id){
@@ -32,7 +24,13 @@ public class ReactController {
     }
     @GetMapping("/getall")
     @ResponseBody
+
     public List<React> getAllReact(){
         return iserviceReact.retrieveAllReacts();
+    }
+    @PostMapping("/addOrUpdate/{idUser}/{idPost}")
+    @ResponseBody
+    public React addOrUpdateAndAssignReactToPost(@RequestBody React react,@PathVariable("idUser") Integer idUser,@PathVariable("idPost") Integer idPost) {
+        return iserviceReact.addOrUpdateAndAssignReactToPost(react,idUser,idPost);
     }
 }
