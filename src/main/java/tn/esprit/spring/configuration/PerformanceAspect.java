@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Aspect
 public class PerformanceAspect {
-    @Around("execution(* tn.esprit.spring.services.*.*(..))")
+   // @Around("execution(* tn.esprit.spring.services.*.*(..))")
     public Object profile(ProceedingJoinPoint pjp) throws Throwable {
         long start = System.currentTimeMillis();
         Object out = pjp.proceed();

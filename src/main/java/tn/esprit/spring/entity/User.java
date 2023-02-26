@@ -38,14 +38,13 @@ public class User extends AbstractEntity{
     @ManyToMany(cascade = CascadeType.ALL)
     @JsonIgnore
     List<Role> roles = new ArrayList<>();
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JsonIgnore
     List<Comment> comments = new ArrayList<>();
-    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER,cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "user",cascade = CascadeType.REMOVE)
     @JsonIgnore
     List<Post> posts  = new ArrayList<>();
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     @JsonIgnore
     List<React> reacts = new ArrayList<>();
-
 }

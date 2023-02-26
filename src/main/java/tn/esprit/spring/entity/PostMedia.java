@@ -1,4 +1,5 @@
 package tn.esprit.spring.entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -23,6 +24,7 @@ public class PostMedia extends AbstractEntity{
     @Lob
     byte[] size;
     @ManyToOne(fetch = FetchType.LAZY,cascade =CascadeType.ALL)
+    @JsonIgnore
     @JoinColumn(name = "post_id")
     private Post post;
 

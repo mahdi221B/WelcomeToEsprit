@@ -1,20 +1,27 @@
 package tn.esprit.spring.services;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.stanford.nlp.pipeline.Annotation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import tn.esprit.spring.entity.Comment;
 import tn.esprit.spring.entity.Post;
 import tn.esprit.spring.entity.PostMedia;
+import tn.esprit.spring.entity.User;
 import tn.esprit.spring.repositories.PostMediaRepository;
 import tn.esprit.spring.repositories.PostRepository;
 import tn.esprit.spring.repositories.UserRepository;
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import static tn.esprit.spring.services.ServiceCommentImp.getSentimentAnalysis;
+import static tn.esprit.spring.services.ServiceCommentImp.getSentimentScore;
 
 @Slf4j
 @Service
@@ -64,6 +71,9 @@ public class ServicePostImp implements IServicePost{
     @Transactional
     public void complexAdd(Integer id,String post,List<MultipartFile> files ) throws IOException {
         Post postJSON = objectMapper.readValue(post, Post.class);
+        Annotation annotation = getSentimentAnalysis(postJSON.getContent());
+        postJSON.setSentimentScore(getSentimentScore(annotation));
+        postJSON.setCreatedAt(LocalDateTime.now());
         simpleAdd(postJSON,id);
         List<PostMedia> medias = new ArrayList<>();
         for (MultipartFile m:files) {
