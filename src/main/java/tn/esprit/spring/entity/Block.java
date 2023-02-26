@@ -16,7 +16,8 @@ public class Block {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String name;private String location;
+    private String name;
+    private String location;
     private String description;
     private int numberOfFloor;
 

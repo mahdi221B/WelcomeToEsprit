@@ -10,5 +10,5 @@ public interface IServiceEquipement {
     public void updateEquipement(Equipement equipement);
     public void deleteEquipement(int id);
     public List<Equipement> displayEquipement();
-    void addEquipementAndAssignToClassroom(Equipement equipement ,int idClassroom);
+    String addEquipementAndAssignToClassroom(Equipement equipement ,int idClassroom);
 }

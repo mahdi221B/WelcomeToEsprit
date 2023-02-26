@@ -31,8 +31,8 @@ public class EquipementController {
         return serviceEquipement.displayEquipement();
     }
 @PostMapping("/addEquipementAndAssignToClassroom/{id}")
-    public void addEquipementAndAssignToClassroom(@RequestBody Equipement equipement , @PathVariable int id ){
-        serviceEquipement.addEquipementAndAssignToClassroom(equipement, id);
+    public String addEquipementAndAssignToClassroom(@RequestBody Equipement equipement , @PathVariable int id ){
+        return serviceEquipement.addEquipementAndAssignToClassroom(equipement, id);
     }
 }
 

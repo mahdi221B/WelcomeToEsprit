@@ -2,10 +2,12 @@ package tn.esprit.spring.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import tn.esprit.spring.entity.Classroom;
 import tn.esprit.spring.entity.Profil;
 import tn.esprit.spring.services.IServiceProfil;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -29,6 +31,10 @@ public class ProfilController {
     @GetMapping("/findAll")
     public List<Profil> findAll(){
         return serviceProfil.displayProfil();
+    }
+    @PostMapping("/assignDiplomeToProfile/{idProfil}")
+    public void assignDiplomeToProfile(@RequestParam("file") MultipartFile file, @PathVariable Integer idProfil) throws IOException {
+        serviceProfil.assignDiplomeToProfile(idProfil,file);
     }
 }
 

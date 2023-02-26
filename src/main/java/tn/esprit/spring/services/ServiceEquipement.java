@@ -27,10 +27,33 @@ public class ServiceEquipement implements IServiceEquipement{
     public List<Equipement> displayEquipement() {return equipementRepository.findAll();}
 
     @Override
-    public void addEquipementAndAssignToClassroom(Equipement equipement, int idClassroom) {
+    public String addEquipementAndAssignToClassroom(Equipement equipement, int idClassroom) {
         Classroom classroom= classroomRepository.findById(idClassroom).orElse(null);
       equipement.setClassroom(classroom);
-      equipementRepository.save(equipement);
+        String erreur="";
+        if(equipement.getCost()==0){
+            erreur+="-Cost null\n";
+        }
+        if(equipement.getName()==null||equipement.getName().trim().isEmpty()){
+            erreur+="-Name null\n";
+        }
+        if(equipement.getDescription()==null||equipement.getDescription().trim().isEmpty()){
+            erreur+="-Description null\n";
+        }
+        if(equipement.getType()==null||equipement.getType().trim().isEmpty()){
+            erreur+="-Type null\n";
+        }
+        if(equipement.getQuantity()==0){
+            erreur+="-Cost null\n";
+        }
+        if(erreur.length()>0){
+            return erreur;
+        }
+        else{
+            equipementRepository.save(equipement);
+            return "Ajout avec success";
+        }
+
 
     }
 }

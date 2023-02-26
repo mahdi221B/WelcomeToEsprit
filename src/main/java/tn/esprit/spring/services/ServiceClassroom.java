@@ -16,14 +16,30 @@ public class ServiceClassroom implements IServiceClassroom {
     @Autowired
     private BlockRepository blockRepository;
     @Override
-    public void addClassroom(Classroom classroom) {
-        classroomRepository.save(classroom);
+    public String addClassroom(Classroom classroom) {
+        String erreur="";
+        if(classroom.getCapacity()==0){
+            erreur+="-Capacite null\n";
+        }
+        if(classroom.getRoomnumber()==0){
+            erreur+="-Room Number null\n";
+        }
+        if(classroom.getFloornumber()==0){
+            erreur+="-Floor Number null\n";
+        }
+        if(erreur.length()>0){
+            return erreur;
+        }
+        else{
+            classroomRepository.save(classroom);
+            return "Ajout avec success";
+        }
+
     }
 
     @Override
-    public void updateClassroom(Classroom classroom) {
-        classroomRepository.save(classroom);
-    }
+    public void updateClassroom(Classroom classroom) { classroomRepository.save(classroom);}
+
 
     @Override
     public void deleteClassroom(int id) {
@@ -36,9 +52,28 @@ public class ServiceClassroom implements IServiceClassroom {
     }
 
     @Override
-    public void addClassroomAndAssignToBlock(Classroom classroom, int idBlock) {
+    public String addClassroomAndAssignToBlock(Classroom classroom, int idBlock) {
         Block block = blockRepository.findById(idBlock).orElse(null);
         classroom.setBlock(block);
-        classroomRepository.save(classroom);
+        String erreur="";
+        if(classroom.getCapacity()==0){
+            erreur+="-Capacite null\n";
+        }
+        if(classroom.getRoomnumber()==0){
+            erreur+="-Room Number null\n";
+        }
+        if(classroom.getFloornumber()==0){
+            erreur+="-Floor Number null\n";
+        }
+        if(erreur.length()>0){
+            return erreur;
+        }
+        else{
+            classroomRepository.save(classroom);
+            return "Ajout avec success";
+        }
     }
-}
+
+
+    }
+
