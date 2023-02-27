@@ -136,14 +136,4 @@ public class ServiceCommentImp implements IServiceComment{
         recommendedPosts.sort(Comparator.comparingInt(Post::getSentimentScore).thenComparing(Post::getCreatedAt).reversed());
         return recommendedPosts;
     }
-
 }
-    //@Scheduled(cron = "0 0 */12 * * *")
-    /*public void countPostContentLength() {
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime sixHoursAgo = now.minusHours(6);
-        List<User> users = userRepository.findAll();
-        //List<Post> posts = postRepository.findPostByUserIDAndCreatedAtBetween(userId, sixHoursAgo, now);
-        int totalLength = posts.stream().mapToInt(post -> post.getContent().length()).sum();
-        System.out.println("Total length of posts for user " + userId + " in the last 6 hours: " + totalLength);
-    }*/
