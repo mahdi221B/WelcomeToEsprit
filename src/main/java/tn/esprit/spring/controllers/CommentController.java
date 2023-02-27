@@ -6,6 +6,7 @@ import tn.esprit.spring.entity.Post;
 import tn.esprit.spring.entity.User;
 import tn.esprit.spring.services.IServiceComment;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.util.List;
 
@@ -48,7 +49,7 @@ public class CommentController {
     }
     @PutMapping("/assignCommentToPost/{idPost}/{idUser}")
     @ResponseBody
-    public Comment assignCommentToPost(@RequestBody Comment comment, @PathVariable("idPost") Integer idPost, @PathVariable("idUser") Integer idUser){
+    public Comment assignCommentToPost(@RequestBody Comment comment, @PathVariable("idPost") Integer idPost, @PathVariable("idUser") Integer idUser) throws IOException {
         return iserviceComment.assignCommentToPost(comment,idPost,idUser);
     }
 }

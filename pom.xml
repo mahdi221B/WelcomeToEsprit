@@ -85,15 +85,10 @@
             <classifier>models</classifier>
         </dependency>
         <dependency>
-            <groupId>ai.djl.mxnet</groupId>
-            <artifactId>mxnet-engine</artifactId>
-            <version>0.12.0</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
-        <!--<dependency>
-            <groupId>com.microsoft.azure</groupId>
-            <artifactId>azure</artifactId>
-            <version>1.33.0</version>
-        </dependency>-->
+
     </dependencies>
     <build>
         <plugins>

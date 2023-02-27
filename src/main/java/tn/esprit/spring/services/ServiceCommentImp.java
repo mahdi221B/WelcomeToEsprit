@@ -17,6 +17,7 @@ import tn.esprit.spring.entity.User;
 import tn.esprit.spring.repositories.CommentRepository;
 import tn.esprit.spring.repositories.PostRepository;
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.sql.Date;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -31,7 +32,7 @@ import tn.esprit.spring.repositories.UserRepository;
 
 import java.util.Properties;
 
-
+import static tn.esprit.spring.services.BadWordFilterService.filterText;
 @Slf4j
 @Service
 @AllArgsConstructor
@@ -61,15 +62,19 @@ public class ServiceCommentImp implements IServiceComment{
         return commentRepository.save(comment);
     }
     @Transactional
-    public Comment assignCommentToPost(Comment comment, Integer idPost,Integer idUser) {
-        User user = userRepository.findById(idUser).get();
+    public Comment assignCommentToPost(Comment comment, Integer idPost,Integer idUser) throws IOException {
+       System.out.println(comment.getContent());
         Post post = postRepository.findById(idPost).get();
-        comment.setUser(user);
-        comment.setPost(post);
-        comment.setCreatedAt(LocalDateTime.now());
-        Annotation annotation = getSentimentAnalysis(comment.getContent());
-        comment.setSentiment(getSentimentScore(annotation));
-        return commentRepository.save(comment);
+        if (filterText(comment.getContent()).equals(comment.getContent()) && post !=null) {
+            User user = userRepository.findById(idUser).get();
+            comment.setUser(user);
+            comment.setPost(post);
+            comment.setCreatedAt(LocalDateTime.now());
+            Annotation annotation = getSentimentAnalysis(comment.getContent());
+            comment.setSentiment(getSentimentScore(annotation));
+            return commentRepository.save(comment);
+        }
+        return null;
     }
     public static Annotation getSentimentAnalysis(String text) {
         StanfordCoreNLP stanfordCoreNLP =  Pipeline.getInstance();
