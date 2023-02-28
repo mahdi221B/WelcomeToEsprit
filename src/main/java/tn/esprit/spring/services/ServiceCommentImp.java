@@ -112,6 +112,7 @@ public class ServiceCommentImp implements IServiceComment{
     public List<Post> getRecommendedPosts(Integer userId, Duration timeFilter) {
         List<Post> recommendedPosts = new ArrayList<>();
         List<Post> similarPosts;
+
         List<Post> userPosts = postRepository.findPostsByUser(userRepository.findById(userId).get());
         List<Comment> userComments = commentRepository.findCommentsByUser(userRepository.findById(userId).get());
         int totalSentimentScore = 0;
@@ -126,6 +127,7 @@ public class ServiceCommentImp implements IServiceComment{
         }
         int avgSentimentScore = numInteractions > 0 ? totalSentimentScore / numInteractions : 2;
         LocalDateTime oldestAllowedDate = LocalDateTime.now().minus(timeFilter);
+
         if (avgSentimentScore < 2) {
             similarPosts = postRepository.findBySentimentScoreBetweenAndCreatedAtAfter(0, 2);
         } else if (avgSentimentScore == 2) {

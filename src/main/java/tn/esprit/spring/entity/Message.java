@@ -1,10 +1,10 @@
 package tn.esprit.spring.entity;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -16,6 +16,9 @@ import javax.persistence.ManyToOne;
 @NoArgsConstructor
 public class Message extends AbstractEntity{
     String content;
+    @Temporal(TemporalType.TIMESTAMP)
+    Date createdAt = new Date();
+    boolean deleted = false;
     @ManyToOne(cascade = CascadeType.ALL)
     Conversation conversation;
     @ManyToOne(cascade = CascadeType.ALL)
