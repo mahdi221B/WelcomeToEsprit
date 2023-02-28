@@ -40,6 +40,7 @@ public class User implements Serializable {
     List<Role> roles;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Availablity> availablities = new ArrayList<>();
+    @JsonIgnore
+    private List<AvailablityDay> availablities = new ArrayList<>();
 
 }

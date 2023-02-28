@@ -1,10 +1,8 @@
 package tn.esprit.spring.entity;
-
-
 import lombok.*;
-
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -14,21 +12,17 @@ import java.util.Date;
 @ToString
 @Entity
 
-public class Availablity {
-
-
+public class AvailablityDay {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idDisbo;
-
     @Temporal(TemporalType.DATE)
     private Date date_debut_diso ;
     @Temporal(TemporalType.DATE)
     private Date date_fin_diso ;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-
-
+    @OneToMany(mappedBy = "availablityDays",cascade = CascadeType.ALL)
+    private List<AvailablityTime> availablityTimeList;
 }
