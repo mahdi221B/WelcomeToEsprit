@@ -40,9 +40,7 @@ public class StatistiqueDTOImp implements IStatistiqueDTO {
             statistique.setNbCandidats((long) jobOffer.getApplicationForms().size());
             statistiques.add(statistique);
         }
-
         Map<String, StatistiqueDTO> map = new HashMap<>();
-
         for (StatistiqueDTO statistique : statistiques) {
             if (map.containsKey(statistique.getSpecialite())) {
                 StatistiqueDTO existingStatistique = map.get(statistique.getSpecialite());
@@ -52,13 +50,6 @@ public class StatistiqueDTOImp implements IStatistiqueDTO {
                 map.put(statistique.getSpecialite(), statistique);
             }
         }
-
         return new ArrayList<>(map.values());
-
     }
-
-
-
-
-
 }

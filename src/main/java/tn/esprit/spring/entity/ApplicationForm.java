@@ -1,6 +1,7 @@
 package tn.esprit.spring.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -29,9 +30,13 @@ public class ApplicationForm implements Serializable {
     private String email;
     private String note;
     private String result;
+    private int motivationRelevance;
+    private double score;
 
 
-
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @ManyToMany
     @JoinTable(
@@ -39,6 +44,7 @@ public class ApplicationForm implements Serializable {
             joinColumns = @JoinColumn(name = "applicationForm_id"),
             inverseJoinColumns = @JoinColumn(name = "jobOffer_id")
     )
+    @JsonIgnore
     private List<JobOffer> jobOffers;
 
 

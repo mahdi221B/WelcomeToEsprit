@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 
@@ -29,9 +30,12 @@ public class AppointmentBooking implements Serializable {
     @JoinColumn(name = "rendezvous_id")
     private Appointment rdv;
 
+    //@Temporal(TemporalType.DATE)
     @Temporal(TemporalType.DATE)
     private Date date_reservation;
 
-
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
 }

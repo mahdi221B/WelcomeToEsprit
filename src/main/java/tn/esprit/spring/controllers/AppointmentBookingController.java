@@ -25,6 +25,7 @@ public class AppointmentBookingController {
         return reservationService.create(reservation);
     }
 
+
     @GetMapping("/{id}")
     public AppointmentBooking getById(@PathVariable Long id) {
         return reservationService.getById(id);
@@ -57,6 +58,11 @@ public class AppointmentBookingController {
     }
 
 
+
+    @PostMapping("/send")
+    public void sendmail(@RequestBody AppointmentBooking reservation) {
+        reservationService.sendConfirmationEmail(reservation);
+    }
 
 
    /*
