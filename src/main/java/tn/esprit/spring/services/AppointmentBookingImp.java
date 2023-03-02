@@ -8,6 +8,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import tn.esprit.spring.entity.AppointmentBooking;
+import tn.esprit.spring.entity.AvailablityDay;
+import tn.esprit.spring.entity.AvailablityTime;
 import tn.esprit.spring.entity.User;
 import tn.esprit.spring.repositories.AppointmentBookingRepository;
 import tn.esprit.spring.repositories.UserRepository;
@@ -15,6 +17,7 @@ import tn.esprit.spring.repositories.UserRepository;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -78,7 +81,43 @@ public class AppointmentBookingImp implements IAppointmentBooking {
     }
 */
 
-    public void sendConfirmationEmail(AppointmentBooking appointment) {
+
+
+
+
+    public void sendConfirmationEmail(AppointmentBooking appointment ) {
+        Date Day= appointment.getDate_reservation();
+        //Date hour = appointment.getHeure_reservation();
+        List<User> availableTeachers = new ArrayList<>();
+        for (User u:userRepository.findTeachersdisponibilty()) {
+
+            for (AvailablityDay availablityDay:u.getAvailablities()) {
+                if(availablityDay.getDate_fin_diso().after(Day) && availablityDay.getDate_debut_diso().before(Day)){
+                    availableTeachers.add(u);
+                }
+            }
+        }
+
+           // availableTeachers.add();
+           if (!availableTeachers.isEmpty()) {
+
+               for (User teacher : availableTeachers) {
+                   // envoyer un email de confirmation
+                   SimpleMailMessage message = new SimpleMailMessage();
+                   message.setFrom("bacem.mallek999@gmail.com");
+                   message.setTo(teacher.getEmail());
+
+                   message.setSubject("Confirmation de rendez-vous");
+                   message.setText("Votre rendez-vous a été confirmé pour le " + appointment.getDate_reservation());
+                   javaMailSender.send(message);
+               }
+
+           }
+        }
+
+
+
+   /* public void sendConfirmationEmail(AppointmentBooking appointment) {
         List<User> adminUsers = userRepository.findAdminUsersByAvailability(appointment.getDate_reservation());
         if (!adminUsers.isEmpty()) {
             for (User adminUser : adminUsers) {
@@ -91,6 +130,6 @@ public class AppointmentBookingImp implements IAppointmentBooking {
                 javaMailSender.send(message);
             }
         }
-        }
+        }*/
     }
 

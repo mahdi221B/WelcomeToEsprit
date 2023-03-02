@@ -3,11 +3,14 @@ package tn.esprit.spring.services;
 
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import tn.esprit.spring.entity.JobOffer;
 import tn.esprit.spring.repositories.JobOfferRepository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,19 +22,27 @@ import java.util.Optional;
 @Service
 public class JobOfferImp implements IJobOffer {
 
+
+
+
        // @Autowired
         private JobOfferRepository repository;
 
         public JobOffer createJobOffer(JobOffer jobOffer) {
+
+        //    redisTemplate.opsForValue().set("JobOffer:" + jobOffer.getIdOffre(), jobOffer);
+          //  return repository.save(jobOffer);//
             return repository.save(jobOffer);
         }
 
         public JobOffer getJobOfferById(Long id) {
             return repository.findById(id).orElse(null);
         }
-
+       // @Transactional
         public List<JobOffer> getAllJobOffers() {
             return repository.findAll();
+
+
         }
 
     /*public JobOffer updateJobOffer(JobOffer JobOffer) {
@@ -61,9 +72,5 @@ public class JobOfferImp implements IJobOffer {
         public void deleteJobOffer(Long id) {
             repository.deleteById(id);
         }
-
-
-
-
 
 }

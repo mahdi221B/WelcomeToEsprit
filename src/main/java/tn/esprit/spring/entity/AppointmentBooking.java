@@ -2,6 +2,7 @@ package tn.esprit.spring.entity;
 
 
 import lombok.*;
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -29,11 +30,10 @@ public class AppointmentBooking implements Serializable {
     @ManyToOne
     @JoinColumn(name = "rendezvous_id")
     private Appointment rdv;
-
-    //@Temporal(TemporalType.DATE)
     @Temporal(TemporalType.DATE)
     private Date date_reservation;
-
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date Heure_reservation;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
