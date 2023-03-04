@@ -6,7 +6,7 @@ import tn.esprit.spring.entity.AvailablityTime;
 import java.util.List;
 
 public interface IAvailablity {
-    AvailablityTime createAvailablityTime(AvailablityTime availablityTime,Integer id);
+   // AvailablityTime createAvailablityTime(AvailablityTime availablityTime,Integer id);
     AvailablityDay createAvailablityDay(AvailablityDay availablityDate, Long id);
     public List<AvailablityDay> getUserDisponbility(Long id);
     }

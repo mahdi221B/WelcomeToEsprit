@@ -38,4 +38,8 @@ public class AppointmentBooking implements Serializable {
     @JoinColumn(name = "user_id")
     private User user;
 
+
+
+
+
 }

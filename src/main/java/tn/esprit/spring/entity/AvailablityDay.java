@@ -26,3 +26,5 @@ public class AvailablityDay {
     @OneToMany(mappedBy = "availablityDays",cascade = CascadeType.ALL)
     private List<AvailablityTime> availablityTimeList;
 }
+
+

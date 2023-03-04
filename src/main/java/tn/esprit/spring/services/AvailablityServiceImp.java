@@ -19,12 +19,12 @@ public class AvailablityServiceImp implements  IAvailablity{
     private final AvailablityTimeRepository availablityTimeRepository ;
     private final UserRepository userRepository ;
 
-    @Override
+  /*  @Override
     public AvailablityTime createAvailablityTime(AvailablityTime availablityTime, Integer id) {
         AvailablityDay availablityDay = availablityDayRepository.findById(id).get();
         availablityTime.setAvailablityDays(availablityDay);
         return availablityTimeRepository.save(availablityTime);
-    }
+    }*/
     @Override
     public AvailablityDay createAvailablityDay(AvailablityDay availablityDate, Long id){
         User user = userRepository.findById(id).get();

@@ -19,10 +19,10 @@ public class AvailablityController {
     public AvailablityDay createAvailablityDay(@RequestBody AvailablityDay availablityDay, @PathVariable("id") Long id) {
         return availablity.createAvailablityDay(availablityDay,id);
     }
-    @PostMapping("/addTime/{id}")
+ /*   @PostMapping("/addTime/{id}")
     public AvailablityTime createAvailablityTime(@RequestBody AvailablityTime availablityTime,@PathVariable("id") Integer id) {
         return availablity.createAvailablityTime(availablityTime,id);
-    }
+    }*/
     @GetMapping("/getUserDisponbility/{id}")
     @ResponseBody
     public List<AvailablityDay> getUserDisponbility(@PathVariable("id") Long id) {

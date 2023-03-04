@@ -22,7 +22,7 @@ public class AppointmentBookingController {
 
     @PostMapping
     public AppointmentBooking create(@RequestBody AppointmentBooking reservation) {
-        reservationService.sendConfirmationEmail(reservation);
+       // reservationService.sendConfirmationEmail(reservation);
         return reservationService.create(reservation);
     }
 
