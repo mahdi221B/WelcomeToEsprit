@@ -43,10 +43,6 @@ public class AppointmentBookingController {
     }
 
 
-
-
-
-
     @PutMapping("/{id}")
     public ResponseEntity<AppointmentBooking> updateAppointmentBooking(@RequestBody AppointmentBooking appointmentBooking, @PathVariable Long id) {
         AppointmentBooking updatedAppointmentBooking = reservationService.updateAppointmentBooking(appointmentBooking, id);

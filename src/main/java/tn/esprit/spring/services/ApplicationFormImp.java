@@ -21,6 +21,8 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import tn.esprit.spring.entity.ApplicationForm;
@@ -30,9 +32,7 @@ import tn.esprit.spring.repositories.JobOfferRepository;
 
 import javax.persistence.EntityNotFoundException;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @AllArgsConstructor
 @Service
@@ -43,6 +43,10 @@ public class ApplicationFormImp implements IApplicationForm {
 
    // @Autowired
     private JobOfferRepository jobOfferRepository;
+
+    @Autowired
+    private JavaMailSender javaMailSender;
+
 
    /* public ApplicationForm createApplicationForm(ApplicationForm applicationForm, Long jobOfferId) {
         JobOffer jobOffer = jobOfferRepository.findById(jobOfferId).orElseThrow(() -> new EntityNotFoundException("Job offer not found with id " + jobOfferId));
@@ -148,7 +152,7 @@ public class ApplicationFormImp implements IApplicationForm {
 ///// méthode de préselection 'makthar'/////////////
 
 
-
+/*
     private final String INDEX_DIRECTORY = "index";
     private final String[] SEARCH_FIELDS = {"motivationLetter"};
 
@@ -198,8 +202,66 @@ public class ApplicationFormImp implements IApplicationForm {
         indexReader.close();
         indexDirectory.close();
         return applicationForms;
-    }
+    }*/
     // System.out.println(applicationForms);
-//////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////----------------ca marche --------////////////////////////////////////////////////////
+/*
+    public List<ApplicationForm> classifyCandidates() {
+        List<ApplicationForm> candidates = applicationFormRepository.findAll();
+        List<ApplicationForm> classifiedCandidates = new ArrayList<>();
+
+        for (ApplicationForm candidate : candidates) {
+            int experience = candidate.getExperience();
+            String noteMotivation = candidate.getMotivationLetter();
+
+            if (experience >= 5 && noteMotivation.contains("Capacité")) {
+                classifiedCandidates.add(candidate);
+            } else if (experience >= 3 && noteMotivation.contains("Esprit")) {
+                classifiedCandidates.add(candidate);
+            } else if (experience >= 1 && noteMotivation.contains("Créativité ")) {
+                classifiedCandidates.add(candidate);
+            }
+        }
+
+        return classifiedCandidates;
+    }
+*/
+
+    public List<ApplicationForm> classifyCandidates() {
+        List<ApplicationForm> candidates = applicationFormRepository.findAll();
+        List<ApplicationForm> classifiedCandidates = new ArrayList<>();
+
+        // mots-clés positifs
+        List<String> positiveKeywords = Arrays.asList("test", "positif");
+
+        for (ApplicationForm candidate : candidates) {
+            int experience = candidate.getExperience();
+            String noteMotivation = candidate.getMotivationLetter().toLowerCase();
+
+            // vérifie s'il contient des mots-clés positifs
+            boolean containsPositiveKeyword = positiveKeywords.stream().anyMatch(noteMotivation::contains);
+
+            if (experience >= 5 && containsPositiveKeyword) {
+                classifiedCandidates.add(candidate);
+            } else if (experience >= 3 && containsPositiveKeyword) {
+                classifiedCandidates.add(candidate);
+            }
+        }
+        sendEmails(classifiedCandidates);
+        return classifiedCandidates;
+    }
+    private void sendEmails(List<ApplicationForm> classifiedCandidates) {
+        String subject = "Congratulations! You have been classified!";
+        String text = "Dear %s,\n\nCongratulations! Your application has been classified as a strong candidate.\n\nbook an appointment:\n\nhttp://localhost:8088/springMVC/reservations/send\n\nBest regards,\nThe HR team";
+
+        for (ApplicationForm candidate : classifiedCandidates) {
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setTo(candidate.getEmail());
+            message.setSubject(subject);
+            message.setText(String.format(text, candidate.getName()));
+
+            javaMailSender.send(message);
+        }
+    }
 
 }

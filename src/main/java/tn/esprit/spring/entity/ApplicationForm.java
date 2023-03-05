@@ -23,7 +23,7 @@ public class ApplicationForm implements Serializable {
     private Long idFormCand;
 
     private String name;
-    private String experience;
+    private int experience;
     private double salary;
     private String cv;
     private String motivationLetter;

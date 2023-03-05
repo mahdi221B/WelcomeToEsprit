@@ -114,48 +114,13 @@ public class AppointmentBookingImp implements IAppointmentBooking {
 
 
         }
-        // Envoyer un email de confirmation au candidat également
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("bacem.mallek999@gmail.com");
-        message.setTo(bestTeacher.getApplicationForm().getEmail());
-        message.setSubject(" rendez-vous de entretien");
-        message.setText("Votre une entretien a été confirmé pour le " + appointment.getDate_reservation());
-        javaMailSender.send(message);
+
 
     }
 
-/*
 
-    public void sendConfirmationEmail(AppointmentBooking appointment ) {
-        Date Day= appointment.getDate_reservation();
-        //Date hour = appointment.getHeure_reservation();
-        List<User> availableTeachers = new ArrayList<>();
-        for (User u:userRepository.findTeachersdisponibilty()) {
 
-            for (AvailablityDay availablityDay:u.getAvailablities()) {
-                if(availablityDay.getDate_fin_diso().after(Day) && availablityDay.getDate_debut_diso().before(Day)){
-                    availableTeachers.add(u);
-                }
-            }
-        }
 
-        // availableTeachers.add();
-        if (!availableTeachers.isEmpty()) {
-
-            for (User teacher : availableTeachers) {
-                // envoyer un email de confirmation
-                SimpleMailMessage message = new SimpleMailMessage();
-                message.setFrom("bacem.mallek999@gmail.com");
-                message.setTo(teacher.getEmail());
-
-                message.setSubject("Confirmation de rendez-vous");
-                message.setText("Votre rendez-vous a été confirmé pour le " + appointment.getDate_reservation());
-                javaMailSender.send(message);
-            }
-
-        }
-    }
-*/
 
 
 }

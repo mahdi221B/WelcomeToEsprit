@@ -95,7 +95,7 @@ public class ApplicationFormController {
 
 
 /////--////////////////////////////-/////////////////////////////////////////////////////
-    @GetMapping("/classified")
+  /*  @GetMapping("/classified")
     public List<ApplicationForm> getClassifiedApplicationForms() {
 
         try {
@@ -107,7 +107,7 @@ public class ApplicationFormController {
             // Gérer l'exception ici
             return null;
         }
-    }
+    }*/
     ///////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -122,6 +122,13 @@ public class ApplicationFormController {
     public List<ApplicationForm> getCandidats(@RequestParam("keyword") String keyword) {
         return applicationFormRepository.findByMotivationLetterContainingOrderByMotivationRelevanceDesc(keyword);
     }
+//------------------------------------------------------------------------------------------------------//
 
+    @GetMapping("/classifiedd")
+    public ResponseEntity<List<ApplicationForm>> getClassifiedCandidates() {
+        List<ApplicationForm> classifiedCandidates = appservice.classifyCandidates();
+        return new ResponseEntity<>(classifiedCandidates, HttpStatus.OK);
+
+    }
 
 }
