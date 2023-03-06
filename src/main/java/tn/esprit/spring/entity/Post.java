@@ -7,6 +7,8 @@ import net.minidev.json.annotate.JsonIgnore;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDateTime;

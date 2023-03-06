@@ -4,8 +4,10 @@ import edu.stanford.nlp.simple.Document;
 import edu.stanford.nlp.simple.Sentence;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import tn.esprit.spring.entity.Post;
@@ -16,9 +18,13 @@ import java.util.Properties;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.Properties;
+import java.util.stream.Collectors;
+
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.util.CoreMap;
+
+import javax.validation.Valid;
 
 @RestController
 @Slf4j
@@ -69,12 +75,20 @@ public class PostController {
         return iServicePost.getPostByUser(id);
     }
     @PostMapping("/add/{id}")
-    public void add(@RequestBody Post post,@PathVariable("id") Integer id){
+    public ResponseEntity<?> add(@RequestBody Post post,@PathVariable("id") Integer id,BindingResult result){
+        if (result.hasErrors()) {
+            List<String> errors = result.getAllErrors()
+                    .stream()
+                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                    .collect(Collectors.toList());
+            return ResponseEntity.badRequest().body(errors);
+        }
         iServicePost.simpleAdd(post,id);
+        return ResponseEntity.badRequest().body(post);
     }
     @PostMapping(value = "/complexAdd/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE} )
-    public ResponseEntity<String> uploadSingleFileExample1(@PathVariable("id") Integer id,@RequestPart("post") String post,@RequestPart("files") List<MultipartFile> files ) throws IOException {
+    public ResponseEntity<String> uploadSingleFileExample1(@PathVariable("id") Integer id, @Valid @RequestPart("post") String post, @RequestPart("files") List<MultipartFile> files ) throws IOException {
         iServicePost.complexAdd(id,post,files);
-        return ResponseEntity.ok("Success and the code is :" );
+        return ResponseEntity.ok(post);
     }
 }

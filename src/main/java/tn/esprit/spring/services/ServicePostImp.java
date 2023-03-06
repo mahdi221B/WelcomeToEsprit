@@ -75,17 +75,19 @@ public class ServicePostImp implements IServicePost{
         postJSON.setSentimentScore(getSentimentScore(annotation));
         postJSON.setCreatedAt(LocalDateTime.now());
         simpleAdd(postJSON,id);
-        List<PostMedia> medias = new ArrayList<>();
-        for (MultipartFile m:files) {
-            PostMedia media = new PostMedia();
-            media.setOriginalFilename(m.getOriginalFilename());
-            media.setName(m.getName());
-            media.setContentType(m.getContentType());
-            media.setSize(m.getBytes());
-            media.setPost(postJSON);
-            medias.add(media);
-            mediaRepository.save(media);
-            iServiceFilesStorage.save(m.getOriginalFilename(), m);
+        if(files!=null){
+            List<PostMedia> medias = new ArrayList<>();
+            for (MultipartFile m:files) {
+                PostMedia media = new PostMedia();
+                media.setOriginalFilename(m.getOriginalFilename());
+                media.setName(m.getName());
+                media.setContentType(m.getContentType());
+                media.setSize(m.getBytes());
+                media.setPost(postJSON);
+                medias.add(media);
+                mediaRepository.save(media);
+                iServiceFilesStorage.save(m.getOriginalFilename(), m);
+            }
         }
     }
 }
