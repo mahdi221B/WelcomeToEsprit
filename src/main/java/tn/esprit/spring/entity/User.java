@@ -23,6 +23,7 @@ public class User implements Serializable {
     private Long id;
     private String nom;
     private String email;
+    private String num_tel;
     private String motDePasse;
 
 
