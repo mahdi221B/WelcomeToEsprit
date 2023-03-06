@@ -3,7 +3,10 @@ package tn.esprit.spring.controllers;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.spring.entity.AppEvent;
+import tn.esprit.spring.entity.Team;
+import tn.esprit.spring.entity.User;
 import tn.esprit.spring.services.AppEventService;
+import tn.esprit.spring.services.IServiceUserManager;
 
 import java.util.List;
 
@@ -12,6 +15,8 @@ import java.util.List;
 @RequestMapping("/AppEvent")
 public class AppEventController {
     private final AppEventService appEventService;
+    private final IServiceUserManager  iServiceUserManager;
+
     @PostMapping("/add")
     @ResponseBody
     public AppEvent addAppEvent(@RequestBody AppEvent appEvent){
@@ -37,4 +42,11 @@ public class AppEventController {
     public List<AppEvent> getAllAppEvent(){
         return appEventService.RetrieveAllAppEvent();
     }
+    @GetMapping("teamlist")
+    @ResponseBody
+    public   void  affectuserstoteam(){
+           appEventService.affectuserstoteam();
+    }
+
+
 }

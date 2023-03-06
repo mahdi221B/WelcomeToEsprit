@@ -12,4 +12,5 @@ public interface TeamService {
     public Team RetrieveTeamById(Long id);
     public Team AddTeam(Team team);
     public Team UpdateTeam(Team team,Long id);
+    public Double  calculnote (Long id);
 }

@@ -14,7 +14,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
 @ToString
 @Table(name = "users")
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -46,5 +45,16 @@ public class User extends AbstractEntity{
     @OneToMany(cascade = CascadeType.ALL)
     @JsonIgnore
     List<React> reacts;
+
+
+
+    @OneToOne
+    @JsonIgnore
+
+    Profil  profil ;
+
+    @ManyToOne
+
+    private Team team ;
 
 }

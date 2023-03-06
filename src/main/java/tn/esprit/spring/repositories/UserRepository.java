@@ -10,4 +10,4 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, Integer> {
     User findByFirstNameContainsAndLastNameContains(String firstname,String lastname);
     List<User> findAllByRolesRoleNameContains(String roleName);
-}
+}   

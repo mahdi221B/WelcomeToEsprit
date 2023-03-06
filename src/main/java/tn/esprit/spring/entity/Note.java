@@ -1,5 +1,6 @@
 package tn.esprit.spring.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.ToString;
 
@@ -14,10 +15,11 @@ public class Note implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private int SoftSkils;
-    private int HardSkils;
+    private double SoftSkils;
+    private double HardSkils;
     private String Comment;
 
     @ManyToOne
+        @JsonIgnore
     Project project;
 }
