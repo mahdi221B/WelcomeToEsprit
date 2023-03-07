@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,6 +16,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.io.IOException;
+
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
 
 
 @Slf4j
@@ -32,8 +40,8 @@ public class ServiceFilesStorageImp implements IServiceFilesStorage{
         }
     }
     public String save(String name, MultipartFile multipartFile) throws IOException,RuntimeException {
-        //String fileCode = RandomStringUtils.randomAlphanumeric(8);
-        Path filePath = this.root.resolve(name);//Files.copy(inputStream, filePath);
+        String fileCode = RandomStringUtils.randomAlphanumeric(8);
+        Path filePath = this.root.resolve(fileCode+"-"+name);//Files.copy(inputStream, filePath);
         Files.copy(multipartFile.getInputStream(), filePath);
         return name;
     }
@@ -47,7 +55,6 @@ public class ServiceFilesStorageImp implements IServiceFilesStorage{
         }
         return null;
     }
-
     @Override
     public void deleteAll() {
         FileSystemUtils.deleteRecursively(root.toFile());

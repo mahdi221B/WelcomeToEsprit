@@ -40,6 +40,7 @@ public class ServiceCommentImp implements IServiceComment{
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
     private final PostRepository postRepository;
+    private EmailService emailService;
     @Override
     public List<Comment> retrieveAllComments() {
         return commentRepository.findAll();
@@ -63,10 +64,9 @@ public class ServiceCommentImp implements IServiceComment{
     }
     @Transactional
     public Comment assignCommentToPost(Comment comment, Integer idPost,Integer idUser) throws IOException {
-       System.out.println(comment.getContent());
         Post post = postRepository.findById(idPost).get();
+        User user = userRepository.findById(idUser).get();
         if (filterText(comment.getContent()).equals(comment.getContent()) && post !=null) {
-            User user = userRepository.findById(idUser).get();
             comment.setUser(user);
             comment.setPost(post);
             comment.setCreatedAt(LocalDateTime.now());
@@ -74,6 +74,21 @@ public class ServiceCommentImp implements IServiceComment{
             comment.setSentiment(getSentimentScore(annotation));
             return commentRepository.save(comment);
         }
+        emailService.sendEmail(
+                user.getEmailAddress(),
+                "Warning for Inappropriate Behavior on Forum",
+                "Dear "+user.getFirstName()+",\n" +
+                        "\n" +
+                        "We are writing to inform you that your recent comment '"+comment.getContent()+"' on our forum has been flagged for inappropriate language. Please note that such behavior is not tolerated on our platform and goes against our community guidelines.\n" +
+                        "\n" +
+                        "We kindly remind you to be respectful and considerate when engaging in discussions on our forum. Failure to adhere to our guidelines may result in a temporary or permanent ban.\n" +
+                        "\n" +
+                        "We appreciate your cooperation in ensuring a positive and safe environment for all members of our community.\n" +
+                        "\n" +
+                        "Best regards,\n" +
+                        "\n" +
+                        "ESPRIT UNIVERSITY"
+                );
         return null;
     }
     public static Annotation getSentimentAnalysis(String text) {
@@ -129,11 +144,11 @@ public class ServiceCommentImp implements IServiceComment{
         LocalDateTime oldestAllowedDate = LocalDateTime.now().minus(timeFilter);
 
         if (avgSentimentScore < 2) {
-            similarPosts = postRepository.findBySentimentScoreBetweenAndCreatedAtAfter(0, 2);
+            similarPosts = postRepository.findBySentimentScoreBetweenAndCreatedAtAfter(0,1,2);
         } else if (avgSentimentScore == 2) {
-            similarPosts = postRepository.findBySentimentScoreBetweenAndCreatedAtAfter(2, 2);
+            similarPosts = postRepository.findBySentimentScoreBetweenAndCreatedAtAfter(1,2,3);
         } else {
-            similarPosts = postRepository.findBySentimentScoreBetweenAndCreatedAtAfter(2, 4);
+            similarPosts = postRepository.findBySentimentScoreBetweenAndCreatedAtAfter(2,3,4);
         }
         for (Post post : similarPosts) {
             if (!userPosts.contains(post) && !userComments.contains(post)) {

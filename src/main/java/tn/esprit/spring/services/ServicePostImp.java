@@ -31,6 +31,7 @@ public class ServicePostImp implements IServicePost{
     private final UserRepository userRepository;
     private final PostMediaRepository mediaRepository;
     private final IServiceFilesStorage iServiceFilesStorage;
+    private ServiceHashtagImp hashtagService;
     ObjectMapper objectMapper;
 
     @Override
@@ -65,16 +66,23 @@ public class ServicePostImp implements IServicePost{
 
     @Transactional
     public void simpleAdd(Post post, Integer id) {
-        post.setUser(userRepository.findById(id).get());
+        User user = userRepository.findById(id).get();
+        post.setUser(user);
+        Annotation annotation = getSentimentAnalysis(post.getContent());
+        post.setSentimentScore(getSentimentScore(annotation));
+        post.setCreatedAt(LocalDateTime.now());
+        hashtagService.updateHashtags(post.getTags());
         postRepository.save(post);
     }
     @Transactional
     public void complexAdd(Integer id,String post,List<MultipartFile> files ) throws IOException {
         Post postJSON = objectMapper.readValue(post, Post.class);
+        User user = userRepository.findById(id).get();
+        postJSON.setUser(user);
         Annotation annotation = getSentimentAnalysis(postJSON.getContent());
         postJSON.setSentimentScore(getSentimentScore(annotation));
         postJSON.setCreatedAt(LocalDateTime.now());
-        simpleAdd(postJSON,id);
+        postRepository.save(postJSON);
         if(files!=null){
             List<PostMedia> medias = new ArrayList<>();
             for (MultipartFile m:files) {

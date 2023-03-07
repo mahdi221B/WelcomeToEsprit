@@ -10,20 +10,34 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import tn.esprit.spring.entity.Hashtag;
 import tn.esprit.spring.entity.Post;
+import tn.esprit.spring.services.IServiceHashtag;
 import tn.esprit.spring.services.IServicePost;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import java.util.Properties;
-import java.util.stream.Collectors;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
-import edu.stanford.nlp.pipeline.Annotation;
-import edu.stanford.nlp.pipeline.StanfordCoreNLP;
-import edu.stanford.nlp.util.CoreMap;
+import java.io.FileNotFoundException;
+import java.net.MalformedURLException;
+import java.util.Set;
 
+import tn.esprit.spring.services.IServiceFilesStorage;
+
+
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 
 @RestController
@@ -32,6 +46,8 @@ import javax.validation.Valid;
 @RequestMapping("/post")
 public class PostController {
     private final IServicePost iServicePost;
+    private final IServiceFilesStorage iServiceFilesStorage;
+    private final IServiceHashtag iServiceHashtag;
 
     @DeleteMapping("/delete/{id}")
     public void deletePost(@PathVariable("id") Integer id){
@@ -52,18 +68,7 @@ public class PostController {
     public Post getPostById(@PathVariable("id") Integer id){
         return iServicePost.retrievePostById(id);
     }
-    @GetMapping("/corenlp")
-    @ResponseBody
-    public void getkoko(){
-        String text = "This is a test sentence.";
-        Document doc = new Document(text);
-        String classpath = System.getProperty("java.class.path");
-        System.out.println("Classpath: " + classpath);
-        for (Sentence sent : doc.sentences()) {
-            System.out.println(sent);
-            System.out.println("Tokens: " + sent.tokens());
-        }
-    }
+
     @GetMapping("/getall")
     @ResponseBody
     public List<Post> getAllPost(){
@@ -75,20 +80,31 @@ public class PostController {
         return iServicePost.getPostByUser(id);
     }
     @PostMapping("/add/{id}")
-    public ResponseEntity<?> add(@RequestBody Post post,@PathVariable("id") Integer id,BindingResult result){
-        if (result.hasErrors()) {
-            List<String> errors = result.getAllErrors()
-                    .stream()
-                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                    .collect(Collectors.toList());
-            return ResponseEntity.badRequest().body(errors);
-        }
+    public ResponseEntity<?> add(@Valid @RequestBody Post post,@PathVariable("id") Integer id) throws IOException {
         iServicePost.simpleAdd(post,id);
-        return ResponseEntity.badRequest().body(post);
+        return ResponseEntity.ok(post);
     }
-    @PostMapping(value = "/complexAdd/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE} )
-    public ResponseEntity<String> uploadSingleFileExample1(@PathVariable("id") Integer id, @Valid @RequestPart("post") String post, @RequestPart("files") List<MultipartFile> files ) throws IOException {
+    @PostMapping(value = "/addWFiles/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE} )
+    public ResponseEntity<String> addWFiles(@PathVariable("id") Integer id, @Valid @RequestPart("post") String post, @RequestPart("files") List<MultipartFile> files ) throws IOException {
         iServicePost.complexAdd(id,post,files);
         return ResponseEntity.ok(post);
+    }
+    @GetMapping("/files/{fileName:.+}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName) throws MalformedURLException {
+        Resource resource = iServiceFilesStorage.load(fileName);
+        if (resource != null) {
+            //The HttpHeaders in the ResponseEntity specify that the file should be downloaded as an
+            //attachment, rather than displayed in the browser.
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                    .body(resource);
+        } else {
+            return null;
+        }
+    }
+
+    @GetMapping("/top")
+    public List<Hashtag> getTopHashtags(@RequestParam(defaultValue = "10") int limit) {
+        return iServiceHashtag.getTopHashtags(limit);
     }
 }

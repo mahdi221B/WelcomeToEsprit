@@ -6,6 +6,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -27,6 +28,7 @@ import javax.annotation.Resources;
 @ComponentScan(basePackages = {"tn.esprit.spring.controllers","tn.esprit.spring.services","tn.esprit.spring.configuration"})
 @EnableJpaRepositories(basePackages = {"tn.esprit.spring.repositories"})
 @EnableAspectJAutoProxy
+@EnableCaching
 public class WelcomeToEspritApplication implements CommandLineRunner  {
     @Resource
     IServiceFilesStorage iServiceFilesStorage;
