@@ -24,6 +24,7 @@ public class Team   implements Serializable{
     @ManyToOne
     private AppEvent event ;
     @OneToMany( mappedBy="team")
+    @JsonIgnore
     private List<User> users ;
 
 }

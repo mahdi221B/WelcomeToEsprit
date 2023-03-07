@@ -5,13 +5,14 @@ import org.springframework.stereotype.Service;
 import tn.esprit.spring.entity.Note;
 import tn.esprit.spring.entity.Project;
 import tn.esprit.spring.entity.Team;
+import tn.esprit.spring.repositories.AppEventRepository;
 import tn.esprit.spring.repositories.ProjectRepository;
-import tn.esprit.spring.repositories.TeamRepository;
 import tn.esprit.spring.repositories.TeamRepository;
 import com.vader.sentiment.analyzer.SentimentAnalyzer;
 import com.vader.sentiment.analyzer.SentimentPolarities;
 
-import java.util.ArrayList;
+import javax.lang.model.type.NullType;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,7 +23,8 @@ public class TeamServiceImp implements  TeamService {
     TeamRepository teamRepository;
     @Autowired
     ProjectRepository projectRepository;
-
+    @Autowired
+    AppEventRepository appEventRepository;
     @Override
     public List<Team> RetrieveAllTeam() {
         return teamRepository.findAll() ;
@@ -57,7 +59,12 @@ public class TeamServiceImp implements  TeamService {
     public Double calculnote(Long id) {
         Double nhskils ;
         Double nskils ;
-        Double noteteam;
+        Double noteteam=0.0;
+        if ((new Date().before(appEventRepository.findAll().get(0).getEndDate())))
+        {System.out.println ("event didn't finish yet");}
+
+        else {
+
 
         Team t = teamRepository.findById(id).get();
         Project p  = projectRepository.findById(id).get();
@@ -90,8 +97,15 @@ public class TeamServiceImp implements  TeamService {
         }
 
         noteteam=  ((ncoment/ n.size()) *20 *.2) + (nhskils*.6) + (nskils*.2);
+
         p.getTeam().setNoteTeam(noteteam);
-    return ((ncoment/ n.size()) *20 *.2) + (nhskils*.6) + (nskils*.2) ;
+        teamRepository.save(t);}
+
+
+
+
+
+    return noteteam;
     }
 
 

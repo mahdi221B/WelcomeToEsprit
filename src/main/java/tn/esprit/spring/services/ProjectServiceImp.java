@@ -64,7 +64,7 @@ public class ProjectServiceImp implements  ProjectService {
         Project p = new Project();
             p.setVideo(t.getName() +" " +new Date()   );
             p.setDescription(desc);
-            p.setPresentation(file.getResource().toString());
+            //p.setPresentation(file.getResource().toString());
         fileSystemRepository.save(file);
             p.setSubmitDate(new Date());
             projectRepository.save(p);

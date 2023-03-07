@@ -17,8 +17,8 @@ public class NoteController {
 
     @PostMapping("/add")
     @ResponseBody
-    public Note addNote(@RequestBody Note note) {
-        return noteService.AddNote(note);
+    public void addNote(@RequestBody Note note) {
+         noteService.AddNote(note);
     }
 
     @PutMapping("/update/{id}")
@@ -46,13 +46,14 @@ public class NoteController {
     }
 
     @PutMapping("/givemarktoproject/{id}")
-    public Note givemarktoproject(@RequestBody Note n, @PathVariable("id") Long id) {
-        return noteService.affectnote(n, id);
+    public void givemarktoproject(@RequestBody Note n, @PathVariable("id") Long id) {
+         noteService.affectnote(n, id);
 
     }
     @GetMapping("/qr")
     @ResponseBody
     public byte[] getNoteById() throws IOException, WriterException {
+        noteService.sendSmsvalide();
         return noteService.genrerateqr()  ;
     }
 }
