@@ -28,4 +28,8 @@ public class MessageController {
     public void add(@RequestBody Message message, @PathVariable("id") Integer id){
         iServiceMessage.simpleAdd(message,id);
     }
+    @PostMapping("/createOrGetConversation/{user1Id}/{user2Id}")
+    public void createOrGetConversation(@PathVariable("user1Id") Integer user1Id, @PathVariable("user2Id") Integer user2Id){
+        iServiceMessage.createOrGetConversation(user1Id,user2Id);
+    }
 }

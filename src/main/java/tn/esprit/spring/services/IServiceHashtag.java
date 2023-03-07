@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface IServiceHashtag {
     public void updateHashtags(String content);
-    public List<Hashtag> getTopHashtags(int limit);
+    public Hashtag getTopHashtags();
 }

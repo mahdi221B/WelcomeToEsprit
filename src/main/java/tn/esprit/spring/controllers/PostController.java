@@ -104,7 +104,7 @@ public class PostController {
     }
 
     @GetMapping("/top")
-    public List<Hashtag> getTopHashtags(@RequestParam(defaultValue = "10") int limit) {
-        return iServiceHashtag.getTopHashtags(limit);
+    public Hashtag getTopHashtags() {
+        return iServiceHashtag.getTopHashtags();
     }
 }

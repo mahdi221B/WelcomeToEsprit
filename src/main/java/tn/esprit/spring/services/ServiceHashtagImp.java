@@ -29,7 +29,7 @@ public class ServiceHashtagImp implements IServiceHashtag {
     }
 
     @Override
-    public List<Hashtag> getTopHashtags(int limit) {
-        return hashtagRepository.findTopByCount(limit);
+    public Hashtag getTopHashtags() {
+        return hashtagRepository.findTopByCount().get(0);
     }
 }
