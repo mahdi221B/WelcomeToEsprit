@@ -45,16 +45,16 @@ public class NoteController {
         return noteService.RetrieveAllNote();
     }
 
-    @PutMapping("/givemarktoproject/{id}")
-    public void givemarktoproject(@RequestBody Note n, @PathVariable("id") Long id) {
-         noteService.affectnote(n, id);
+    @PutMapping("/givemarktoproject/{id}/{iduser}")
+    public String  givemarktoproject(@RequestBody Note n, @PathVariable("id") Long id, @PathVariable("iduser") int iduser) {
+         return  noteService.affectnote(n, id,iduser);
 
     }
-    @GetMapping("/qr")
+    @GetMapping("/qrit")
     @ResponseBody
     public byte[] getNoteById() throws IOException, WriterException {
-        noteService.sendSmsvalide();
-        return noteService.genrerateqr()  ;
+        //  noteService.sendSmsvalide();
+        return noteService.genrerateqrit()  ;
     }
 }
 

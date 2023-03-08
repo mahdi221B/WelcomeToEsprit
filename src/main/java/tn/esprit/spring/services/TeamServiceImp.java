@@ -88,13 +88,13 @@ public class TeamServiceImp implements  TeamService {
 
         nhskils = sum1/num1;
         nskils = sum2/num2;
-
+// chaine de  carae ,  0 1      /
         for (Note n1:n) {
          SentimentPolarities sentimentPolarities = SentimentAnalyzer.getScoresFor(n1.getComment());
-        //System.out.println("la resulatt est "+sentimentPolarities.getPositivePolarity());
              ncoment =  ncoment +  sentimentPolarities.getPositivePolarity();
             System.out.println(ncoment);
         }
+
 
         noteteam=  ((ncoment/ n.size()) *20 *.2) + (nhskils*.6) + (nskils*.2);
 
@@ -109,5 +109,5 @@ public class TeamServiceImp implements  TeamService {
     }
 
 
-
+    
 }

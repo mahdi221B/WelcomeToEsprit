@@ -15,9 +15,12 @@ public interface NoteService {
     public Note UpdateNote(Note note,Long id);
 
 
-    public void affectnote(Note n, Long id);
+
+    String affectnote(Note n, Long id, int iduser);
 
     void sendSmsvalide();
 
-    public byte[] genrerateqr() throws IOException, WriterException;
+    public byte[] genrerateqrit() throws IOException, WriterException;
+
+    byte[] genrerateqrmeca() throws IOException, WriterException;
 }

@@ -4,19 +4,14 @@ import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tn.esprit.spring.entity.Note;
-import tn.esprit.spring.entity.Project;
-import tn.esprit.spring.entity.Team;
-import tn.esprit.spring.repositories.AppEventRepository;
-import tn.esprit.spring.repositories.NoteRepository;
-import tn.esprit.spring.repositories.ProjectRepository;
+import tn.esprit.spring.entity.*;
+import tn.esprit.spring.repositories.*;
 import com.google.zxing.WriterException;
-import tn.esprit.spring.repositories.TeamRepository;
 import com.twilio.Twilio;
 
 
-
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -37,6 +32,8 @@ public class NoteServiceImp implements  NoteService {
 
     @Autowired
     TeamRepository teamRepository;
+    @Autowired
+    UserRepository userRepository ;
 
     @Override
     public List<Note> RetrieveAllNote() {
@@ -70,20 +67,42 @@ public class NoteServiceImp implements  NoteService {
     }
 
     @Override
-    public void affectnote(Note n, Long id)  {
-        if (new Date().before(appEventRepository.findAll().get(0).getStartDate()) || (new Date().after(appEventRepository.findAll().get(0).getEndDate()) ))
-        {System.out.println ("you can't asign a  mark now ");}
+    public String affectnote(Note n, Long id, int iduser) {
+        List<User> u = userRepository.findAll();
+        User prof = userRepository.findById(iduser).get();
+String msg = null;
+        if (new Date().before(appEventRepository.findAll().get(0).getStartDate()) || (new Date().after(appEventRepository.findAll().get(0).getEndDate()))) {
+            System.out.println("you can't asign a  mark now ");
+        } else  if (u.contains(prof))
+        { Project ptest =projectRepository.findById(id).get();
 
-        else {
-        Project p = projectRepository.findById(id).get();
-        p.getNotes().add(n);
-        n.setProject(p);
-        noteRepository.save(n);
-        projectRepository.save(p);
-        }
+            for (Note note :ptest.getNotes())
+            {
+                if (note.getUser().getId()==iduser){
+                    msg = "this user has already assigned a note to the project";
+                    return  msg;
+                }
+            }
+
+                Project p = projectRepository.findById(id).get();
+                p.getNotes().add(n);
+                n.setUser(userRepository.findById(iduser).get());
+                n.setProject(p);
+                noteRepository.save(n);
+                projectRepository.save(p);
+                msg = "note asgined with sucess ";
+
+
+            }
+        else  msg =  "you are not allowed  to give a  mark ,  only jury can asign marks";
+        return msg ;
     }
 
-    @Override
+
+
+
+
+
 
     public void sendSmsvalide() {
          String ACCOUNT_SID = "ACff096b193c1c973816cf724a9c445180";
@@ -95,9 +114,17 @@ public class NoteServiceImp implements  NoteService {
 
     }
     @Override
-    public byte[] genrerateqr() throws IOException, WriterException {
-       List<Team> t =teamRepository.findAll().stream().sorted(Comparator.comparing(Team::getNoteTeam , Comparator.reverseOrder())) .collect(Collectors.toList());
-       Team t1 = t.get(0);
+    public byte[] genrerateqrit() throws IOException, WriterException {
+       List<Team> it =teamRepository.findAll().stream().filter(u->u.getDepartment().equals(Department.it)).sorted(Comparator.comparing(Team::getNoteTeam , Comparator.reverseOrder())) .collect(Collectors.toList());
+       Team t1 = it.get(0);
+
+
+        return qrCodeGenerator. generateQRCodeImage( "congrats  for  "+ t1.getName()+" for being the best team with NOTE : "+ t1.getNoteTeam()+"" ,255,255);
+    }
+    @Override
+    public byte[] genrerateqrmeca() throws IOException, WriterException {
+        List<Team> meca =teamRepository.findAll().stream().filter(u->u.getDepartment().equals(Department.mecanic)).sorted(Comparator.comparing(Team::getNoteTeam , Comparator.reverseOrder())) .collect(Collectors.toList());
+        Team t1 = meca.get(0);
 
 
         return qrCodeGenerator. generateQRCodeImage( "congrats  for  "+ t1.getName()+" for being the best team with NOTE : "+ t1.getNoteTeam()+"" ,255,255);

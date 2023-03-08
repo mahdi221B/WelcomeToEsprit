@@ -7,6 +7,7 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @ToString
@@ -15,11 +16,15 @@ public class Note implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private double SoftSkils;
+    private double   SoftSkils;
     private double HardSkils;
     private String Comment;
 
     @ManyToOne
         @JsonIgnore
     Project project;
+
+    @ManyToOne
+    private User user;
+
 }

@@ -11,5 +11,7 @@ public interface AppEventService  {
     public AppEvent RetrieveAppEventById(Long id);
     public AppEvent AddAppEvent(AppEvent appEvent);
     public AppEvent UpdateAppEvent(AppEvent appEvent,Long id);
+
+
     public void affectuserstoteam();
 }

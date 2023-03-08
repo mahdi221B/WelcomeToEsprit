@@ -18,7 +18,8 @@ public class Team   implements Serializable{
     private String certificate;
     private Double  budget ;
     private  double NoteTeam;
-
+    @Enumerated(EnumType.STRING)
+    private Department  department;
 
 
     @ManyToOne
