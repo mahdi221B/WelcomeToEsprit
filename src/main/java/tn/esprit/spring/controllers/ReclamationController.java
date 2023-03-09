@@ -35,7 +35,15 @@ public class ReclamationController {
     }
     @GetMapping("/getall")
     @ResponseBody
+
     public List<Reclamation> getAllReclamation(){
         return iReclamationService.retrieveAllReclamations();
     }
+
+
+
+
+
+
 }
+

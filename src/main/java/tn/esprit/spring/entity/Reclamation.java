@@ -16,12 +16,9 @@ import java.util.Date;
 @ToString
 @Builder
 @Entity
+@EqualsAndHashCode(callSuper = true)
+public class Reclamation extends  AbstractEntity{
 
-public class Reclamation implements Serializable {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
     @Temporal(TemporalType.DATE)
     @Column(name = "creationDate",nullable = true)
 

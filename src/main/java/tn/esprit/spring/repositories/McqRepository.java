@@ -1,10 +1,10 @@
 package tn.esprit.spring.repositories;
 
-import tn.esprit.spring.entity.Mcreponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
+import tn.esprit.spring.entity.Mcq;
+import tn.esprit.spring.entity.Reclamation;
 
 @Repository
-public interface McreponseRepository extends JpaRepository<Mcreponse, Integer> {
+public interface McqRepository extends JpaRepository<Mcq, Integer> {
 }
