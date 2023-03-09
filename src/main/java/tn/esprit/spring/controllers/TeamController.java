@@ -47,7 +47,7 @@ public class TeamController {
     }
 
     @GetMapping("/noteteam/{id}")
-    public double hardskils(@PathVariable("id") Long id) {
+    public String hardskils(@PathVariable("id") Long id) {
         return    teamService.calculnote(id);
     }
 }

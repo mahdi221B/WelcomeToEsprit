@@ -35,6 +35,8 @@ public class NoteServiceImp implements  NoteService {
     @Autowired
     UserRepository userRepository ;
 
+
+
     @Override
     public List<Note> RetrieveAllNote() {
         return noteRepository.findAll()  ;
@@ -66,13 +68,16 @@ public class NoteServiceImp implements  NoteService {
         return noteRepository.save(note);
     }
 
+
+
     @Override
     public String affectnote(Note n, Long id, int iduser) {
         List<User> u = userRepository.findAll();
         User prof = userRepository.findById(iduser).get();
 String msg = null;
         if (new Date().before(appEventRepository.findAll().get(0).getStartDate()) || (new Date().after(appEventRepository.findAll().get(0).getEndDate()))) {
-            System.out.println("you can't asign a  mark now ");
+          msg=("you can't asign a  mark now ");
+
         } else  if (u.contains(prof))
         { Project ptest =projectRepository.findById(id).get();
 
@@ -100,35 +105,31 @@ String msg = null;
 
 
 
-
-
-
-
     public void sendSmsvalide() {
          String ACCOUNT_SID = "ACff096b193c1c973816cf724a9c445180";
           String AUTH_TOKEN = "1a05dcecbf89f071055d9ea6131946c7";
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
         List<Team> t =teamRepository.findAll().stream().sorted(Comparator.comparing(Team::getNoteTeam , Comparator.reverseOrder())) .collect(Collectors.toList());
+
         Team t1 = t.get(0);
         Message msg = Message.creator(new PhoneNumber("+21654583665"),new PhoneNumber("+18654247150"),("congrats  for  "+ t1.getName()+" for being the best team with NOTE : "+ t1.getNoteTeam()+"" )).create();
 
     }
     @Override
     public byte[] genrerateqrit() throws IOException, WriterException {
-       List<Team> it =teamRepository.findAll().stream().filter(u->u.getDepartment().equals(Department.it)).sorted(Comparator.comparing(Team::getNoteTeam , Comparator.reverseOrder())) .collect(Collectors.toList());
-       Team t1 = it.get(0);
-
-
-        return qrCodeGenerator. generateQRCodeImage( "congrats  for  "+ t1.getName()+" for being the best team with NOTE : "+ t1.getNoteTeam()+"" ,255,255);
-    }
-    @Override
-    public byte[] genrerateqrmeca() throws IOException, WriterException {
+        List<Team> it =teamRepository.findAll().stream().filter(u->u.getDepartment().equals(Department.it)).sorted(Comparator.comparing(Team::getNoteTeam , Comparator.reverseOrder())) .collect(Collectors.toList());
         List<Team> meca =teamRepository.findAll().stream().filter(u->u.getDepartment().equals(Department.mecanic)).sorted(Comparator.comparing(Team::getNoteTeam , Comparator.reverseOrder())) .collect(Collectors.toList());
-        Team t1 = meca.get(0);
+        List<Team> elec =teamRepository.findAll().stream().filter(u->u.getDepartment().equals(Department.electric)).sorted(Comparator.comparing(Team::getNoteTeam , Comparator.reverseOrder())) .collect(Collectors.toList());
+        List<Team> multi =teamRepository.findAll().stream().filter(u->u.getDepartment().equals(Department.multimedia)).sorted(Comparator.comparing(Team::getNoteTeam , Comparator.reverseOrder())) .collect(Collectors.toList());
 
+        Team t1 = it.get(0);
+        Team t2 = meca.get(0);
+        Team t3 = elec.get(0);
+        Team t4 = multi.get(0);
 
-        return qrCodeGenerator. generateQRCodeImage( "congrats  for  "+ t1.getName()+" for being the best team with NOTE : "+ t1.getNoteTeam()+"" ,255,255);
+        return qrCodeGenerator. generateQRCodeImage( "congrats  to  teams "+ t1.getName() +" "+ t2.getName() + " for being the best team with NOTE : "+ t1.getNoteTeam() +" "+ t2.getNoteTeam() +"" ,255,255);
     }
+
 
 // cond team .proejt = null => creat null project, note 0
 

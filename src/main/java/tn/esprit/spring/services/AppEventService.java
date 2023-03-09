@@ -13,5 +13,7 @@ public interface AppEventService  {
     public AppEvent UpdateAppEvent(AppEvent appEvent,Long id);
 
 
+    String assignteacheertojury(int id);
+
     public void affectuserstoteam();
 }

@@ -12,7 +12,11 @@ import com.vader.sentiment.analyzer.SentimentAnalyzer;
 import com.vader.sentiment.analyzer.SentimentPolarities;
 
 import javax.lang.model.type.NullType;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Date;
+import java.util.Formatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -54,18 +58,17 @@ public class TeamServiceImp implements  TeamService {
         team.setId(id);
         return teamRepository.save(team);
     }
-
     @Override
-    public Double calculnote(Long id) {
+    public String calculnote(Long id) {
+        String msg;
         Double nhskils ;
         Double nskils ;
         Double noteteam=0.0;
-        if ((new Date().before(appEventRepository.findAll().get(0).getEndDate())))
-        {System.out.println ("event didn't finish yet");}
+        if ((new Date().before(appEventRepository.findAll().get(0).getEndDate()))) {
+            msg = "event didn't finish yet";
 
+        }
         else {
-
-
         Team t = teamRepository.findById(id).get();
         Project p  = projectRepository.findById(id).get();
         List<Note> n = p.getNotes();
@@ -74,40 +77,28 @@ public class TeamServiceImp implements  TeamService {
         Integer num2 = 0;
         Double sum2  = Double.valueOf(0);
         Double ncoment =  Double.valueOf(0);
-
         for (Note n1:n) {
             sum1+= n1.getHardSkils();
             num1++;
         }
-
         for (Note n1:n) {
-
             sum2+= n1.getSoftSkils();
             num2++;
         }
-
         nhskils = sum1/num1;
         nskils = sum2/num2;
-// chaine de  carae ,  0 1      /
         for (Note n1:n) {
          SentimentPolarities sentimentPolarities = SentimentAnalyzer.getScoresFor(n1.getComment());
              ncoment =  ncoment +  sentimentPolarities.getPositivePolarity();
-            System.out.println(ncoment);
         }
 
+        noteteam =  ((ncoment/ n.size()) *20 *.2) + (nhskils*.6) + (nskils*.2);
 
-        noteteam=  ((ncoment/ n.size()) *20 *.2) + (nhskils*.6) + (nskils*.2);
 
-        p.getTeam().setNoteTeam(noteteam);
+            p.getTeam().setNoteTeam( noteteam ) ;
         teamRepository.save(t);}
-
-
-
-
-
-    return noteteam;
+        msg =" the team  "+ teamRepository.findById(id).get().getName() + " had "+  noteteam+"" ;
+        return msg;
     }
 
-
-    
 }

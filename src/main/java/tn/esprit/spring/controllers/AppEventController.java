@@ -3,8 +3,6 @@ package tn.esprit.spring.controllers;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.spring.entity.AppEvent;
-import tn.esprit.spring.entity.Team;
-import tn.esprit.spring.entity.User;
 import tn.esprit.spring.services.AppEventService;
 import tn.esprit.spring.services.IServiceUserManager;
 
@@ -48,5 +46,10 @@ public class AppEventController {
            appEventService.affectuserstoteam();
     }
 
+    @GetMapping("teachertojury/{id}")
+    @ResponseBody
+    public String teachertojury(@PathVariable("id") int id){
+        return appEventService.assignteacheertojury(id);
+    }
 
 }

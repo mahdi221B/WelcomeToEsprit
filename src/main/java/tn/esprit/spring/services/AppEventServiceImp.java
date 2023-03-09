@@ -53,6 +53,29 @@ public class AppEventServiceImp implements  AppEventService {
         return appEventRepository.save(appEvent);
     }
 
+@Override
+public String assignteacheertojury(int id) {
+        String msg;
+        User u =userRepository.findById(id).get() ;
+    List<Role>  userrole = u.getRoles().stream().filter(r->r.getRoleName().equals("teacher")).collect(Collectors.toList());
+        if (userrole.isEmpty() )
+    {
+            msg="only teacher can be a jury member ";
+        }
+        else{
+            Role jury = new Role();
+                    jury.setRoleName("jury");
+            u.getRoles().add(jury);
+            userRepository.save(u);
+            msg =" teacher  become a jury member ";
+        }
+
+
+    return msg;
+}
+
+
+
 
     @Override
     public void affectuserstoteam() {

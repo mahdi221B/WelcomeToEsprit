@@ -22,5 +22,4 @@ public interface NoteService {
 
     public byte[] genrerateqrit() throws IOException, WriterException;
 
-    byte[] genrerateqrmeca() throws IOException, WriterException;
 }
