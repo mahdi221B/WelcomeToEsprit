@@ -34,6 +34,9 @@ public class Post extends AbstractEntity {
     String tags;
     int sentimentScore;
     LocalDateTime createdAt;
+    String locationName;
+    @Embedded
+    GeoPoint location;
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     List<Comment> comments = new ArrayList<>();
@@ -45,5 +48,5 @@ public class Post extends AbstractEntity {
     User user;
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
-    private List<PostMedia> media = new ArrayList<>();
+    List<PostMedia> media = new ArrayList<>();
 }
