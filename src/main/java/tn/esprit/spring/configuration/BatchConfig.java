@@ -7,6 +7,8 @@ import org.springframework.batch.core.configuration.annotation.EnableBatchProces
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
+import org.springframework.batch.item.ExecutionContext;
+import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.database.JpaItemWriter;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
@@ -17,7 +19,10 @@ import org.springframework.context.annotation.Bean;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
 import tn.esprit.spring.entity.CsvQuestion;
+import tn.esprit.spring.entity.Question;
+import tn.esprit.spring.entity.QuestionDto;
 import tn.esprit.spring.services.JobCompletionNotificationListener;
 import tn.esprit.spring.services.QuestionItemProcessor;
 
@@ -38,59 +43,66 @@ public class BatchConfig {
     @Autowired
     private EntityManagerFactory entityManagerFactory;
 
-
-
     @Bean
-    public FlatFileItemReader<CsvQuestion> questionItemReader() {
-        FlatFileItemReader<CsvQuestion> reader = new FlatFileItemReader<>();
-        reader.setResource(new ClassPathResource("C:\\Users\\ThinkPad\\Desktop\\questions.csv"));
-        reader.setLineMapper(new DefaultLineMapper<CsvQuestion>() {{
+    public FlatFileItemReader<QuestionDto> reader() {
+        FlatFileItemReader<QuestionDto> reader = new FlatFileItemReader<>();
+        reader.setResource(new FileSystemResource("C:\\Users\\ThinkPad\\Desktop\\questions.csv"));
+        reader.setLineMapper(new DefaultLineMapper<QuestionDto>() {{
             setLineTokenizer(new DelimitedLineTokenizer() {{
-                setNames(new String[]{"enonce", "option1", "option2", "option3", "correctAnswer"});
+                setNames("enonce", "option1", "option2", "option3", "correctAnswer");
             }});
-            setFieldSetMapper(new BeanWrapperFieldSetMapper<CsvQuestion>() {{
-                setTargetType(CsvQuestion.class);
+            setFieldSetMapper(new BeanWrapperFieldSetMapper<QuestionDto>() {{
+                setTargetType(QuestionDto.class);
             }});
         }});
         return reader;
     }
 
     @Bean
-    public QuestionItemProcessor questionItemProcessor() {
-        return new QuestionItemProcessor();
-    }
-
-    @Bean
-    public JobCompletionNotificationListener listener() {
-        return new JobCompletionNotificationListener();
-    }
-
-    @Bean
-    public JpaItemWriter<CsvQuestion> questionItemWriter() {
-        JpaItemWriter<CsvQuestion> writer = new JpaItemWriter<>();
+    public JpaItemWriter<Question> writer() {
+        JpaItemWriter<Question> writer = new JpaItemWriter<>();
         writer.setEntityManagerFactory(entityManagerFactory);
         return writer;
     }
 
     @Bean
-    public Job importQuestionsJob(JobCompletionNotificationListener listener, Step step1) {
-        return jobBuilderFactory.get("importQuestionsJob")
+    public Step step1(JpaItemWriter<Question> writer) {
+        return stepBuilderFactory.get("step1")
+                .<QuestionDto, Question>chunk(10)
+                .reader(reader())
+                .processor(new ItemProcessor<QuestionDto, Question>() {
+                    @Override
+                    public Question process(QuestionDto questionDto) throws Exception {
+                        Question question = new Question();
+                        question.setEnonce(questionDto.getEnonce());
+                        question.setOption1(questionDto.getOption1());
+                        question.setOption2(questionDto.getOption2());
+                        question.setOption3(questionDto.getOption3());
+                        question.setCorrectAnswer(questionDto.getCorrectAnswer());
+                        return question;
+                    }
+                })
+                .writer(writer)
+                .build();
+    }
+
+    @Bean
+    public Job importUserJob(JobCompletionNotificationListener listener, Step step1) {
+        return jobBuilderFactory.get("importUserJob")
                 .incrementer(new RunIdIncrementer())
                 .listener(listener)
                 .flow(step1)
                 .end()
                 .build();
     }
-
-    @Bean
-    public Step step1(JpaItemWriter<CsvQuestion> writer) {
-        return stepBuilderFactory.get("step1")
-                .<CsvQuestion, CsvQuestion>chunk(10)
-                .reader(questionItemReader())
-                .processor((Function<? super CsvQuestion, ? extends CsvQuestion>) questionItemProcessor())
-                .writer(writer)
-                .build();
-    }
-
 }
+
+
+
+
+
+
+
+
+
 

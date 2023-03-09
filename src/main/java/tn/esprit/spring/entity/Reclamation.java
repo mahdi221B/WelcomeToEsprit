@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -25,6 +26,8 @@ public class Reclamation extends  AbstractEntity{
     Date creationDate;
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    @Size(min = 6, max = 20, message = "Desciption must be between 20 and 300 characters")
     private String Description;
     @Enumerated(EnumType.STRING)
     private Type type;

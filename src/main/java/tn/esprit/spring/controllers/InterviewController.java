@@ -1,9 +1,12 @@
 package tn.esprit.spring.controllers;
 
 import com.google.zxing.WriterException;
+import org.json.simple.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import tn.esprit.spring.entity.CandidatType;
 import tn.esprit.spring.repositories.InterviewRepository;
 import tn.esprit.spring.services.IInterviewService;
@@ -14,6 +17,7 @@ import tn.esprit.spring.services.InterviewServiceImp;
 
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.*;
 
@@ -83,18 +87,16 @@ public class InterviewController {
     }
 
 
-    @PostMapping("/interviews")
-    public ResponseEntity<?> add(@RequestBody Interview interview) {
+    @PostMapping("/interviews/add")
+    public ResponseEntity<?> addInterview(@Valid @RequestBody Interview interview, BindingResult bindingResult) throws MethodArgumentNotValidException {
+        if(bindingResult.hasErrors()){
+            throw new MethodArgumentNotValidException(null, bindingResult);
+        }
         if (iInterviewService.containsBadWords(interview.getFeedback())) {
             return ResponseEntity.badRequest().body("Feedback contains bad words");
-        } else {
-            try {
-                iInterviewService.addInterview(interview);
-                return ResponseEntity.ok("Interview added successfully");
-            } catch (InterviewServiceImp.BadWordsFoundException e) {
-                return ResponseEntity.badRequest().body(e.getMessage());
-            }
         }
+        iInterviewService.addInterview(interview);
+        return ResponseEntity.ok("Interview added successfully");
     }
 
 
@@ -126,6 +128,21 @@ public class InterviewController {
             return ResponseEntity.ok("Email sent to interviewee with max score.");
         } catch (MessagingException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error sending email: " + e.getMessage());
+        }
+    }
+
+
+    @GetMapping("/selected-interviewees")
+    public ResponseEntity<String> getSelectedInterviewees() {
+        List<String> selected = interviewRepository.getSelectedInterviewees();
+        List<String> notSelected = iInterviewService.getNotSelectedInterviewees();
+
+        if (selected.isEmpty()) {
+            return ResponseEntity.ok("No interviewees were selected.");
+        } else {
+            String message = "Congratulations to the following interviewees: " + selected.toString() +
+                    ". Unfortunately, the following interviewees did not get the job: " + notSelected.toString() + ".";
+            return ResponseEntity.ok(message);
         }
     }
 }

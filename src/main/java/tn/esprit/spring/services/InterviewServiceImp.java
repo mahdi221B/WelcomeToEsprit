@@ -15,31 +15,12 @@ import tn.esprit.spring.repositories.InterviewRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.PostConstruct;
 import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import javax.persistence.EntityNotFoundException;
-import javax.sql.DataSource;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
-import weka.classifiers.Classifier;
-import weka.classifiers.Evaluation;
-import weka.classifiers.trees.J48;
-
-import weka.core.DenseInstance;
-import weka.core.Instance;
-import weka.core.Instances;
-import weka.core.SerializationHelper;
-import weka.core.converters.CSVLoader;
 
 @Slf4j
 @Service
@@ -48,6 +29,7 @@ public class InterviewServiceImp implements IInterviewService {
 
 
     private final InterviewRepository interviewRepository;
+
 private final EmailService emailService;
 
     public class BadWordsFoundException extends RuntimeException {
@@ -164,6 +146,19 @@ private final EmailService emailService;
     public Interview getInterviewById(Integer id) {
         return interviewRepository.findById(id).orElse(null);
     }
+
+
+
+    public List<String> getNotSelectedInterviewees() {
+        List<String> allInterviewees = interviewRepository.getAllInterviewees();
+        List<String> selectedInterviewees = interviewRepository.getSelectedInterviewees();
+        allInterviewees.removeAll(selectedInterviewees);
+        return allInterviewees;
+    }
+    public List<Interview> getAllInterviewees() {
+        return interviewRepository.findAll();
+    }
+
 }
 
 

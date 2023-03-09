@@ -42,4 +42,11 @@ public interface IInterviewService {
 
 
 
+    public List<String> getNotSelectedInterviewees();
+
+    public List<Interview> getAllInterviewees();
+
+
+
+
 }

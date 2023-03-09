@@ -32,6 +32,13 @@ public interface InterviewRepository extends JpaRepository<Interview, Integer> {
     Interview findBestInterviewee();
 
     List<Interview> findAllByOrderByScoreDesc();
+
+    @Query("SELECT i.interviewee FROM Interview i")
+    List<String> getAllInterviewees();
+
+
+    @Query("SELECT i.interviewee FROM Interview i WHERE i.score > 16.0 AND i.score < 20.0")
+    List<String> getSelectedInterviewees();
 }
 
 
