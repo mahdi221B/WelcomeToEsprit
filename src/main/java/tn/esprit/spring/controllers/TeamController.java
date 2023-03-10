@@ -46,7 +46,7 @@ public class TeamController {
         return teamService.RetrieveAllTeam();
     }
 
-    @GetMapping("/noteteam/{id}")
+    @PostMapping("/noteteam/{id}")
     public String hardskils(@PathVariable("id") Long id) {
         return    teamService.calculnote(id);
     }

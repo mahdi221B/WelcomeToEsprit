@@ -66,7 +66,6 @@ public class TeamServiceImp implements  TeamService {
         Double noteteam=0.0;
             if ((new Date().before(appEventRepository.findAll().get(0).getEndDate()))) {
             msg = "event didn't finish yet";
-
         }
         else {
         Team t = teamRepository.findById(id).get();

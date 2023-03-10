@@ -15,5 +15,5 @@ public interface AppEventService  {
 
     String assignteacheertojury(int id);
 
-    public void affectuserstoteam();
+    public String affectuserstoteam();
 }

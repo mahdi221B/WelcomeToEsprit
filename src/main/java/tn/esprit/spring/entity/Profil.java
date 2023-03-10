@@ -21,10 +21,7 @@ public class Profil extends AbstractEntity{
     private boolean teamcaptain;
     @Enumerated(EnumType.STRING)
     private Intrest  intrest;
-
-
     @OneToOne(mappedBy="profil")
     @JsonIgnore
-
     User user;
 }

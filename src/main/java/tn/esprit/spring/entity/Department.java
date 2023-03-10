@@ -1,5 +1,5 @@
 package tn.esprit.spring.entity;
 
 public enum Department {
-    it,mecanic,electric,multimedia,innovation
+    it,mecanic,electric,multimedia
 }

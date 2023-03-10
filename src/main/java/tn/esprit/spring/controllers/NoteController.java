@@ -3,6 +3,7 @@ package tn.esprit.spring.controllers;
 import com.google.zxing.WriterException;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import tn.esprit.spring.entity.Department;
 import tn.esprit.spring.entity.Note;
 import tn.esprit.spring.services.NoteService;
 
@@ -50,16 +51,16 @@ public class NoteController {
          return  noteService.affectnote(n, id,iduser);
 
     }
-    @GetMapping("/qrit")
+    @GetMapping("/qr")
     @ResponseBody
     public byte[] getNoteById() throws IOException, WriterException {
         //  noteService.sendSmsvalide();
         return noteService.genrerateqrit()  ;
     }
 
-    @GetMapping("/avrageit/{filter}")
-    public String  statit( @PathVariable("filter") int filter) {
-        return noteService.statistics(filter)  ;
+    @GetMapping("/avrage/{filter}/{dept}")
+    public String  statit(@PathVariable("filter") int filter , @PathVariable("dept")Department dept) {
+        return noteService.statistics(filter,dept)  ;
     }
 }
 

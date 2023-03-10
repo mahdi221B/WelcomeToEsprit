@@ -40,13 +40,14 @@ public class AppEventController {
     public List<AppEvent> getAllAppEvent(){
         return appEventService.RetrieveAllAppEvent();
     }
-    @GetMapping("teamlist")
+    @PostMapping("createteams")
     @ResponseBody
-    public   void  affectuserstoteam(){
-           appEventService.affectuserstoteam();
+    public   String  affectuserstoteam(){
+          return     appEventService.affectuserstoteam();
+
     }
 
-    @GetMapping("teachertojury/{id}")
+    @PutMapping("teachertojury/{id}")
     @ResponseBody
     public String teachertojury(@PathVariable("id") int id){
         return appEventService.assignteacheertojury(id);

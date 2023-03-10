@@ -1,6 +1,7 @@
 package tn.esprit.spring.services;
 
 import com.google.zxing.WriterException;
+import tn.esprit.spring.entity.Department;
 import tn.esprit.spring.entity.Note;
 
 import java.io.IOException;
@@ -23,5 +24,6 @@ public interface NoteService {
     public byte[] genrerateqrit() throws IOException, WriterException;
 
 
-    String statistics(int filter);
+
+    public String statistics(int filter, Department dept);
 }

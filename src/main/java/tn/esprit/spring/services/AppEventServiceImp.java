@@ -64,7 +64,7 @@ public String assignteacheertojury(int id) {
     List<Role>  userrole = u.getRoles().stream().filter(r->r.getRoleName().equals("teacher")).collect(Collectors.toList());
         if (userrole.isEmpty() )
     {
-            msg="only teacher can be a jury member ";
+            msg="only teachers can be a jury member ";
         }
         else{
             Role jury = roleRepository.findRoleByRoleNameContains("jury");
@@ -81,14 +81,14 @@ public String assignteacheertojury(int id) {
 
 
     @Override
-    public void affectuserstoteam() {
+    public String affectuserstoteam() {
+        String msg = null;
         if ((new Date().before(appEventRepository.findAll().get(0).getStartDate())))
-        {System.out.println ("event didn't started yet");}
-
+        {
+            msg = "event didn't started yet";
+        }
         else {
-
             List<User> allusers = userRepository.findAllByRolesRoleNameContains("student");
-
             List<User> listit = new ArrayList<>();
             List<User> listmeca = new ArrayList<>();
             List<User> listelec = new ArrayList<>();
@@ -96,9 +96,8 @@ public String assignteacheertojury(int id) {
             listit = allusers.stream().filter(u -> u.getProfil().getIntrest().equals(Intrest.it)).collect(Collectors.toList());
             listmeca = allusers.stream().filter(u -> u.getProfil().getIntrest().equals(Intrest.mecanic)).collect(Collectors.toList());
             listelec = allusers.stream().filter(u -> u.getProfil().getIntrest().equals(Intrest.electric)).collect(Collectors.toList());
-                listmulti = allusers.stream().filter(u -> u.getProfil().getIntrest().equals(Intrest.multimedia)).collect(Collectors.toList());
+            listmulti = allusers.stream().filter(u -> u.getProfil().getIntrest().equals(Intrest.multimedia)).collect(Collectors.toList());
             List<Team> listeamit = new ArrayList<>();
-
             int it = 0;
             if (listit.size() % 4 == 0) {
                 for (int i = 0; i < (listit.size()) / 4; i++) {
@@ -198,8 +197,6 @@ public String assignteacheertojury(int id) {
                 t.setEvent(appEventRepository.findAll().get(0));
                 teamRepository.save(t);
             }
-
-
             List<Team> listeammeca = new ArrayList<>();
             int meca = 0;
             if (listmeca.size() % 4 == 0) {
@@ -302,7 +299,6 @@ public String assignteacheertojury(int id) {
                 t.setEvent(appEventRepository.findAll().get(0));
                 teamRepository.save(t);
             }
-
             List<Team> listteamelec= new ArrayList<>();
             int elec = 0;
             if (listelec.size() % 4 == 0) {
@@ -406,7 +402,6 @@ public String assignteacheertojury(int id) {
                 teamRepository.save(t);
             }
             List<Team> listeammulti = new ArrayList<>();
-
             int multi = 0;
             if (listmulti.size() % 4 == 0) {
                 for (int i = 0; i < (listmulti.size()) / 4; i++) {
@@ -506,11 +501,12 @@ public String assignteacheertojury(int id) {
                 t.setEvent(appEventRepository.findAll().get(0));
                 teamRepository.save(t);
             }
-
-
+    msg= "teams crated  ";
         }
 
+        return msg;
     }
+
 
 }
 
