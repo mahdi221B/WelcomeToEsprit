@@ -27,6 +27,8 @@ public class ProjectServiceImp implements  ProjectService {
 
     @Autowired
     NoteRepository noteRepository;
+    @Autowired
+    AppEventRepository appEventRepository;
 
     @Override
     public List<Project> RetrieveAllProject() {
@@ -59,20 +61,28 @@ public class ProjectServiceImp implements  ProjectService {
     }
 
     @Override
-    public void  addvideoproject(MultipartFile file,String desc , Long id ) throws Exception {
-        Team t = teamRepository.findById(id).get();
-        Project p = new Project();
-            p.setVideo(t.getName() +" " +new Date()   );
+    public String addvideoproject(MultipartFile file, String desc , Long id ) throws Exception {
+
+        String msg = null;
+        if (new Date().before(appEventRepository.findAll().get(0).getStartDate()) || (new Date().after(appEventRepository.findAll().get(0).getEndDate()))) {
+            msg=("you can't upload a video now  ");
+
+        } else {
+            Team t = teamRepository.findById(id).get();
+            Project p = new Project();
+            p.setVideo(t.getName() + " " + new Date());
             p.setDescription(desc);
             //p.setPresentation(file.getResource().toString());
-        fileSystemRepository.save(file);
+            fileSystemRepository.save(file);
             p.setSubmitDate(new Date());
             projectRepository.save(p);
-            p.setTeam (t);
+            p.setTeam(t);
             teamRepository.save(t);
-
+            msg=("project added successfully ");
+        }
             // find video by id
 
+        return msg;
     }
 
 }

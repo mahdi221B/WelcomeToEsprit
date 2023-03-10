@@ -43,8 +43,8 @@ public class ProjectController {
 
     @PostMapping("/addvideo/{id}")
     @ResponseBody
-    public void  createProject(@RequestParam("file") MultipartFile project ,@RequestParam("desc") String desc ,@PathVariable("id") Long id  ) throws Exception {
-        projectservice.addvideoproject(project,desc, id);
+    public String  createProject(@RequestParam("file") MultipartFile project ,@RequestParam("desc") String desc ,@PathVariable("id") Long id  ) throws Exception {
+        return projectservice.addvideoproject(project,desc, id);
     }
 
 

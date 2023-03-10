@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.esprit.spring.entity.*;
 import tn.esprit.spring.repositories.AppEventRepository;
+import tn.esprit.spring.repositories.RoleRepository;
 import tn.esprit.spring.repositories.TeamRepository;
 import tn.esprit.spring.repositories.UserRepository;
 
@@ -23,6 +24,9 @@ public class AppEventServiceImp implements  AppEventService {
 
     @Autowired
     TeamRepository teamRepository;
+
+    @Autowired
+    RoleRepository roleRepository;
 
 
     @Override
@@ -63,8 +67,7 @@ public String assignteacheertojury(int id) {
             msg="only teacher can be a jury member ";
         }
         else{
-            Role jury = new Role();
-                    jury.setRoleName("jury");
+            Role jury = roleRepository.findRoleByRoleNameContains("jury");
             u.getRoles().add(jury);
             userRepository.save(u);
             msg =" teacher  become a jury member ";

@@ -35,7 +35,8 @@ public class NoteServiceImp implements  NoteService {
     @Autowired
     UserRepository userRepository ;
 
-
+    @Autowired
+    RoleRepository roleRepository ;
 
     @Override
     public List<Note> RetrieveAllNote() {
@@ -72,14 +73,15 @@ public class NoteServiceImp implements  NoteService {
 
     @Override
     public String affectnote(Note n, Long id, int iduser) {
-        List<User> u = userRepository.findAll();
         User prof = userRepository.findById(iduser).get();
+
+        List<Role>  userrole = prof.getRoles().stream().filter(r->r.getRoleName().equals("jury")).collect(Collectors.toList());
 String msg = null;
         if (new Date().before(appEventRepository.findAll().get(0).getStartDate()) || (new Date().after(appEventRepository.findAll().get(0).getEndDate()))) {
           msg=("you can't asign a  mark now ");
-
-        } else  if (u.contains(prof))
-        { Project ptest =projectRepository.findById(id).get();
+        } else  if (userrole.isEmpty() ) {msg =  "you are not allowed  to give a  mark ,  only jury can asign marks";}
+        else  {
+             Project ptest =projectRepository.findById(id).get();
 
             for (Note note :ptest.getNotes())
             {
@@ -88,7 +90,6 @@ String msg = null;
                     return  msg;
                 }
             }
-
                 Project p = projectRepository.findById(id).get();
                 p.getNotes().add(n);
                 n.setUser(userRepository.findById(iduser).get());
@@ -96,10 +97,7 @@ String msg = null;
                 noteRepository.save(n);
                 projectRepository.save(p);
                 msg = "note asgined with sucess ";
-
-
             }
-        else  msg =  "you are not allowed  to give a  mark ,  only jury can asign marks";
         return msg ;
     }
 
