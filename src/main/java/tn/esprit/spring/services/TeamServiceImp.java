@@ -64,7 +64,7 @@ public class TeamServiceImp implements  TeamService {
         Double nhskils ;
         Double nskils ;
         Double noteteam=0.0;
-        if ((new Date().before(appEventRepository.findAll().get(0).getEndDate()))) {
+            if ((new Date().before(appEventRepository.findAll().get(0).getEndDate()))) {
             msg = "event didn't finish yet";
 
         }
@@ -96,8 +96,10 @@ public class TeamServiceImp implements  TeamService {
 
 
             p.getTeam().setNoteTeam( noteteam ) ;
-        teamRepository.save(t);}
-        msg =" the team  "+ teamRepository.findById(id).get().getName() + " had "+  noteteam+"" ;
+        teamRepository.save(t);
+            msg =" the team  "+ teamRepository.findById(id).get().getName() + " had "+  noteteam+"" ;
+
+        }
         return msg;
     }
 

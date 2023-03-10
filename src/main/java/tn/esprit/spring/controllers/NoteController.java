@@ -56,6 +56,11 @@ public class NoteController {
         //  noteService.sendSmsvalide();
         return noteService.genrerateqrit()  ;
     }
+
+    @GetMapping("/avrageit/{filter}")
+    public String  statit( @PathVariable("filter") int filter) {
+        return noteService.statistics(filter)  ;
+    }
 }
 
 

@@ -11,7 +11,6 @@ import com.twilio.Twilio;
 
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -127,6 +126,36 @@ String msg = null;
 
         return qrCodeGenerator. generateQRCodeImage( "congrats  to  teams "+ t1.getName() +" "+ t2.getName() + " for being the best team with NOTE : "+ t1.getNoteTeam() +" "+ t2.getNoteTeam() +"" ,255,255);
     }
+
+    @Override
+    public String statistics(int filter, String dept) {
+
+        List<Team> it =teamRepository.findAll().stream().filter(u->u.getDepartment().equals(Department.it)).sorted(Comparator.comparing(Team::getNoteTeam , Comparator.reverseOrder())) .collect(Collectors.toList());
+        List<Team> meca =teamRepository.findAll().stream().filter(u->u.getDepartment().equals(Department.mecanic)).sorted(Comparator.comparing(Team::getNoteTeam , Comparator.reverseOrder())) .collect(Collectors.toList());
+        List<Team> elec =teamRepository.findAll().stream().filter(u->u.getDepartment().equals(Department.electric)).sorted(Comparator.comparing(Team::getNoteTeam , Comparator.reverseOrder())) .collect(Collectors.toList());
+        List<Team> multi =teamRepository.findAll().stream().filter(u->u.getDepartment().equals(Department.multimedia)).sorted(Comparator.comparing(Team::getNoteTeam , Comparator.reverseOrder())) .collect(Collectors.toList());
+
+        Double avrageit =     it.stream(). mapToDouble(Team::getNoteTeam).average().getAsDouble();
+        Double avrageemca =   meca.stream(). mapToDouble(Team::getNoteTeam).average().getAsDouble();
+        Double avrageelec =   elec.stream(). mapToDouble(Team::getNoteTeam).average().getAsDouble();
+        Double avragemulti =   multi.stream(). mapToDouble(Team::getNoteTeam).average().getAsDouble();
+        int countit = (int)   it.stream().filter(u->u.getNoteTeam() > filter).count();
+
+
+
+
+        String msg1 =  "the avrage of it teams marks is "+ avrageit + "\r" ;
+        String msg2 =  "the avrage of meca teams marks is "+ avrageemca + "\r" ;
+        String msg3 =  "the avrage of elec teams marks is "+ avrageelec + "\r" ;
+        String msg4 =  "the avrage of multi teams marks is "+ avragemulti + "\r" ;
+        String msg5 =  "the number of it  teams  which marks is  grater than " + filter +" is  "+ countit + "\r" ;
+
+        return msg1 + msg2 + msg3+ msg4+ msg5;
+    }
+
+
+
+
 
 
 // cond team .proejt = null => creat null project, note 0

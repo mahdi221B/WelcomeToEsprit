@@ -22,4 +22,6 @@ public interface NoteService {
 
     public byte[] genrerateqrit() throws IOException, WriterException;
 
+
+    String statistics(int filter);
 }
