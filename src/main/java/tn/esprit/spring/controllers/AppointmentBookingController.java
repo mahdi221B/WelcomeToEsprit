@@ -22,7 +22,7 @@ public class AppointmentBookingController {
 
     @PostMapping
     public AppointmentBooking create(@RequestBody AppointmentBooking reservation) {
-       // reservationService.sendConfirmationEmail(reservation);
+
         return reservationService.create(reservation);
     }
 
@@ -56,9 +56,9 @@ public class AppointmentBookingController {
 
 
 
-    @PostMapping("/send")
-    public void sendmail(@RequestBody AppointmentBooking reservation) {
-        reservationService.sendConfirmationEmail(reservation);
+    @PostMapping("/send/{id}")
+    public void sendmail(@RequestBody AppointmentBooking reservation,@PathVariable("id") Long id) {
+        reservationService.sendConfirmationEmail(reservation,id);
 
     }
 

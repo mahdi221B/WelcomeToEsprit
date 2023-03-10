@@ -232,7 +232,7 @@ public class ApplicationFormImp implements IApplicationForm {
         List<ApplicationForm> classifiedCandidates = new ArrayList<>();
 
         // mots-clés positifs
-        List<String> positiveKeywords = Arrays.asList("test", "positif");
+        List<String> positiveKeywords = Arrays.asList("motivation", "créativité","Proactivité","java","softskills");
 
         for (ApplicationForm candidate : candidates) {
             int experience = candidate.getExperience();

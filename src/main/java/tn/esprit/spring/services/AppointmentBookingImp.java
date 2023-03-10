@@ -82,7 +82,7 @@ public class AppointmentBookingImp implements IAppointmentBooking {
 */
 
 
-    public void sendConfirmationEmail(AppointmentBooking appointment  ) {
+    public void sendConfirmationEmail(AppointmentBooking appointment , Long id ) {
 
         Date Day = appointment.getDate_reservation();
       //  User candidate = candidate.getApplicationForm();
@@ -117,31 +117,20 @@ public class AppointmentBookingImp implements IAppointmentBooking {
 
 
 
+
             // envoyer un SMS de confirmation
             Twilio.init("ACa05f2dc3a10a59a8b08c10df99c9ef45", "16072b9b5ba3dff0a7ccf3fe6a407f16");
             Message.creator(
-                            new PhoneNumber("+21627501097"), // numéro de téléphone du destinataire
+                            new PhoneNumber(bestTeacher.getNum_tel()), // numéro de téléphone du destinataire
                             new PhoneNumber("+15673343207"), // numéro de téléphone Twilio
                             "Votre rendez-vous a été confirmé pour le : " + appointment.getDate_reservation())
                     .create();
 
-
         }
-
-      /*  public void sendSMS(String phoneNumber, String message) {
-            // Use an SMS API to send the message to the phone number
-            // Here's an example of how to send an SMS using the Twilio API
-            Twilio.init("AC3061431a78b36297bf3893b414d3947e", "e1fcc3243ae9f568724bf5fc50f64502");
-            com.twilio.rest.api.v2010.account.Message.creator(
-                    new com.twilio.type.PhoneNumber(phoneNumber),
-                    new com.twilio.type.PhoneNumber("+15674122294"),
-                    message).create();
-        }// hedhi f service wel 7ajet eli bin "" mta3 l compte mte3i zid mta3ek*/
-
+        User user = userRepository.findById(id).get();
+        appointment.setUser(user);
+        reservationRepository.save(appointment);
     }
-
-
-
 
 
 
