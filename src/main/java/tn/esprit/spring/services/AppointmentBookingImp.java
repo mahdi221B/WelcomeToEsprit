@@ -17,10 +17,7 @@ import tn.esprit.spring.repositories.UserRepository;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @AllArgsConstructor
 @Service
@@ -119,17 +116,52 @@ public class AppointmentBookingImp implements IAppointmentBooking {
 
 
             // envoyer un SMS de confirmation
-            Twilio.init("ACa05f2dc3a10a59a8b08c10df99c9ef45", "16072b9b5ba3dff0a7ccf3fe6a407f16");
+          /*  Twilio.init("ACa05f2dc3a10a59a8b08c10df99c9ef45", "16072b9b5ba3dff0a7ccf3fe6a407f16");
             Message.creator(
                             new PhoneNumber(bestTeacher.getNum_tel()), // numéro de téléphone du destinataire
                             new PhoneNumber("+15673343207"), // numéro de téléphone Twilio
                             "Votre rendez-vous a été confirmé pour le : " + appointment.getDate_reservation())
-                    .create();
+                    .create();*/
 
         }
         User user = userRepository.findById(id).get();
         appointment.setUser(user);
         reservationRepository.save(appointment);
+    }
+
+
+    //-------------------------------------------------------------------------------------------------------//
+
+    public List<String> getSortedAppointmentsWithTeachers() {
+        List<AppointmentBooking> appointments = reservationRepository.findAll();
+        List<String> result = new ArrayList<>();
+
+        for (AppointmentBooking appointment : appointments) {
+            Date day = appointment.getDate_reservation();
+            List<User> availableTeachers = new ArrayList<>();
+            User bestTeacher = null;
+            long maxMargin = 0;
+
+            for (User u : userRepository.findTeachersdisponibilty()) {
+                for (AvailablityDay availablityDay : u.getAvailablities()) {
+                    if (availablityDay.getDate_fin_diso().after(day) && availablityDay.getDate_debut_diso().before(day)) {
+                        long margin = availablityDay.getDate_fin_diso().getTime() - availablityDay.getDate_debut_diso().getTime();
+                        if (margin > maxMargin) {
+                            bestTeacher = u;
+                            maxMargin = margin;
+                        }
+                    }
+                }
+            }
+
+            if (bestTeacher != null) {
+                String appointmentInfo = "Candidat : " + appointment.getUser().getNom() + ", Teacher : " + bestTeacher.getNom() + ", Date de rendez-vous : " + appointment.getDate_reservation();
+                result.add(appointmentInfo);
+            }
+        }
+
+        Collections.sort(result);
+        return result;
     }
 
 
