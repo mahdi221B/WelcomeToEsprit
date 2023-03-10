@@ -105,10 +105,18 @@ String msg = null;
          String ACCOUNT_SID = "ACff096b193c1c973816cf724a9c445180";
           String AUTH_TOKEN = "1a05dcecbf89f071055d9ea6131946c7";
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
-        List<Team> t =teamRepository.findAll().stream().sorted(Comparator.comparing(Team::getNoteTeam , Comparator.reverseOrder())) .collect(Collectors.toList());
 
-        Team t1 = t.get(0);
-        Message msg = Message.creator(new PhoneNumber("+21654583665"),new PhoneNumber("+18654247150"),("congrats  for  "+ t1.getName()+" for being the best team with NOTE : "+ t1.getNoteTeam()+"" )).create();
+        List<Team> it = teamRepository.findAll().stream().filter(u -> u.getDepartment().equals(Department.it)).sorted(Comparator.comparing(Team::getNoteTeam, Comparator.reverseOrder())).collect(Collectors.toList());
+        List<Team> meca = teamRepository.findAll().stream().filter(u -> u.getDepartment().equals(Department.mecanic)).sorted(Comparator.comparing(Team::getNoteTeam, Comparator.reverseOrder())).collect(Collectors.toList());
+        List<Team> elec = teamRepository.findAll().stream().filter(u -> u.getDepartment().equals(Department.electric)).sorted(Comparator.comparing(Team::getNoteTeam, Comparator.reverseOrder())).collect(Collectors.toList());
+        List<Team> multi = teamRepository.findAll().stream().filter(u -> u.getDepartment().equals(Department.multimedia)).sorted(Comparator.comparing(Team::getNoteTeam, Comparator.reverseOrder())).collect(Collectors.toList());
+
+        Team t1 = it.get(0);
+        Team t2 = meca.get(0);
+        Team t3 = elec.get(0);
+        Team t4 = multi.get(0);
+
+        Message msg = Message.creator(new PhoneNumber("+21654583665"),new PhoneNumber("+18654247150"),("congrats  to  teams "+ t1.getName() +" "+ t2.getName() + " "+  t3.getName() +" "+ t4.getName()  + " for being the best team with NOTE : "+ t1.getNoteTeam() +" "+ t2.getNoteTeam()  +" "+ t3.getNoteTeam()  +" "+ t4.getNoteTeam()   +"")).create();
 
     }
     @Override

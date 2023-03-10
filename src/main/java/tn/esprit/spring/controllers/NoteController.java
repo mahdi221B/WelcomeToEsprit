@@ -54,7 +54,7 @@ public class NoteController {
     @GetMapping("/qr")
     @ResponseBody
     public byte[] getNoteById() throws IOException, WriterException {
-        //  noteService.sendSmsvalide();
+         noteService.sendSmsvalide();
         return noteService.genrerateqrit()  ;
     }
 

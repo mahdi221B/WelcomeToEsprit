@@ -73,7 +73,6 @@ public String assignteacheertojury(int id) {
             msg =" teacher  become a jury member ";
         }
 
-
     return msg;
 }
 

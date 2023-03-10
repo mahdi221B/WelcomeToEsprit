@@ -35,7 +35,7 @@ public class AppEventController {
     public AppEvent getAppEventById(@PathVariable("id") Long id){
         return appEventService.RetrieveAppEventById(id);
     }
-    @GetMapping("/getall")
+        @GetMapping("/getall")
     @ResponseBody
     public List<AppEvent> getAllAppEvent(){
         return appEventService.RetrieveAllAppEvent();
