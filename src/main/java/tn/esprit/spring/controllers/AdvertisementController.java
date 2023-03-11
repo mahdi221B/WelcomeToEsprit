@@ -1,10 +1,12 @@
 package tn.esprit.spring.controllers;
 
+import com.google.ads.googleads.v13.resources.Campaign;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.spring.entity.Advertisement;
 import tn.esprit.spring.services.IServiceAdvertisement;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @AllArgsConstructor
@@ -35,5 +37,10 @@ public class AdvertisementController {
     @ResponseBody
     public List<Advertisement> getAllAdvertisement(){
         return iServiceAdvertisement.retrieveAllAdvertisements();
+    }
+    @GetMapping("/getCampaigns")
+    @ResponseBody
+    public Map<String,String> getCampaigns() {
+        return iServiceAdvertisement.getCampaigns();
     }
 }

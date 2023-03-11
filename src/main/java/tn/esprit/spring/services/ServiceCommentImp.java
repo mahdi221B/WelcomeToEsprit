@@ -74,21 +74,7 @@ public class ServiceCommentImp implements IServiceComment{
             comment.setSentiment(getSentimentScore(annotation));
             return commentRepository.save(comment);
         }
-        emailService.sendEmail(
-                user.getEmailAddress(),
-                "Warning for Inappropriate Behavior on Forum",
-                "Dear "+user.getFirstName()+",\n" +
-                        "\n" +
-                        "We are writing to inform you that your recent comment '"+comment.getContent()+"' on our forum has been flagged for inappropriate language. Please note that such behavior is not tolerated on our platform and goes against our community guidelines.\n" +
-                        "\n" +
-                        "We kindly remind you to be respectful and considerate when engaging in discussions on our forum. Failure to adhere to our guidelines may result in a temporary or permanent ban.\n" +
-                        "\n" +
-                        "We appreciate your cooperation in ensuring a positive and safe environment for all members of our community.\n" +
-                        "\n" +
-                        "Best regards,\n" +
-                        "\n" +
-                        "ESPRIT UNIVERSITY"
-                );
+        emailService.sendEmail( user.getEmailAddress(),"test1 " ,"test1");
         return null;
     }
     public static Annotation getSentimentAnalysis(String text) {
