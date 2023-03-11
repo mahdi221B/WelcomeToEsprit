@@ -1,6 +1,7 @@
 package tn.esprit.spring.services;
 
 import com.google.ads.googleads.lib.GoogleAdsClient;
+import com.google.ads.googleads.v13.enums.CampaignStatusEnum;
 import com.google.ads.googleads.v13.resources.Campaign;
 import com.google.ads.googleads.v13.services.GoogleAdsRow;
 import com.google.ads.googleads.v13.services.GoogleAdsServiceClient;
@@ -32,7 +33,7 @@ public class ServiceAdvertisementImp implements IServiceAdvertisement, Serializa
 
         try (GoogleAdsServiceClient googleAdsServiceClient =
                      googleAdsClient.getLatestVersion().createGoogleAdsServiceClient()) {
-            String query = "SELECT campaign.id, campaign.name FROM campaign ORDER BY campaign.id";
+            String query = "SELECT campaign.id, campaign.name, campaign.status, campaign.start_date, campaign.end_date FROM campaign ORDER BY campaign.id";
             // Constructs the SearchGoogleAdsStreamRequest.
             SearchGoogleAdsStreamRequest request =
                     SearchGoogleAdsStreamRequest.newBuilder()
@@ -46,10 +47,14 @@ public class ServiceAdvertisementImp implements IServiceAdvertisement, Serializa
             // Iterates through and adds all of the campaigns to the list.
             for (SearchGoogleAdsStreamResponse response : stream) {
                 for (GoogleAdsRow googleAdsRow : response.getResultsList()) {
-                    campaigns.put(String.valueOf(googleAdsRow.getCampaign().getId()), googleAdsRow.getCampaign().getName());
-                    System.out.printf(
-                            "Campaign with ID %d and name '%s' was found.%n",
-                            googleAdsRow.getCampaign().getId(), googleAdsRow.getCampaign().getName());
+                    String campaignInfo = String.format("Campaign with ID %s and name '%s' is %s and runs from %s to %s",
+                            googleAdsRow.getCampaign().getId(),
+                            googleAdsRow.getCampaign().getName(),
+                            googleAdsRow.getCampaign().getStatus(),
+                            googleAdsRow.getCampaign().getStartDate(),
+                            googleAdsRow.getCampaign().getEndDate());
+                    campaigns.put(String.valueOf(googleAdsRow.getCampaign().getId()), campaignInfo);
+
                 }
             }
         return campaigns;
