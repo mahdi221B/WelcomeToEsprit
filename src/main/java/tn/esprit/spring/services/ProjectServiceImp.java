@@ -8,6 +8,7 @@ import tn.esprit.spring.repositories.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProjectServiceImp implements  ProjectService {
@@ -64,25 +65,25 @@ public class ProjectServiceImp implements  ProjectService {
     public String addvideoproject(MultipartFile file, String desc , Long id ) throws Exception {
 
         String msg = null;
-        if (new Date().before(appEventRepository.findAll().get(0).getStartDate()) || (new Date().after(appEventRepository.findAll().get(0).getEndDate()))) {
-            msg=("you can't upload a video now  ");
+        List<Project> projects = projectRepository.findAll();
+        for (Project project : projects) {
+            if (project.getTeam().getId().equals(id)) {
+                return "A project already exists for this team.";
+            }}
+            if (new Date().before(appEventRepository.findAll().get(0).getStartDate()) || (new Date().after(appEventRepository.findAll().get(0).getEndDate()))) {
+                msg = ("you can't upload a video now  ");
+            } else {
+                Team t = teamRepository.findById(id).get();
+                Project p = new Project();
+                p.setVideo(t.getName() + " " + new Date());
+                p.setDescription(desc);
+                fileSystemRepository.save(file);
+                p.setSubmitDate(new Date());
+                projectRepository.save(p);
+                p.setTeam(t);
+                teamRepository.save(t);
+                msg = ("project added successfully ");
+            }
+            return msg;
+        }}
 
-        } else {
-            Team t = teamRepository.findById(id).get();
-            Project p = new Project();
-            p.setVideo(t.getName() + " " + new Date());
-            p.setDescription(desc);
-            //p.setPresentation(file.getResource().toString());
-            fileSystemRepository.save(file);
-            p.setSubmitDate(new Date());
-            projectRepository.save(p);
-            p.setTeam(t);
-            teamRepository.save(t);
-            msg=("project added successfully ");
-        }
-            // find video by id
-
-        return msg;
-    }
-
-}
