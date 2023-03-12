@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
 import tn.esprit.spring.entity.Status;
 import tn.esprit.spring.entity.Type;
 import tn.esprit.spring.repositories.ReclamationRepository;
-import weka.classifiers.Classifier;
-import weka.core.*;
 
 import java.util.ArrayList;
 import java.util.List;

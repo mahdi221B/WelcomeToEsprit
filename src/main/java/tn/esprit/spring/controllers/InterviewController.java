@@ -1,7 +1,6 @@
 package tn.esprit.spring.controllers;
 
 import com.google.zxing.WriterException;
-import org.json.simple.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

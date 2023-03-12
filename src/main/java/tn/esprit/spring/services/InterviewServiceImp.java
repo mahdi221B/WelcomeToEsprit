@@ -108,7 +108,6 @@ private final EmailService emailService;
         Interview interview = interviewRepository.findById(interviewId).orElseThrow(() -> new EntityNotFoundException("Interview not found with id: " + interviewId));
         int totalScore = interview.getCommunicationScore() + interview.getTechnicalScore() + interview.getProfessionalismScore();
         interview.setScore(totalScore);
-        interview.setFeedback("Score updated to " + totalScore);
         interviewRepository.save(interview);
     }
 

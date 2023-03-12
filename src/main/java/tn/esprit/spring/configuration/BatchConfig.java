@@ -46,7 +46,7 @@ public class BatchConfig {
     @Bean
     public FlatFileItemReader<QuestionDto> reader() {
         FlatFileItemReader<QuestionDto> reader = new FlatFileItemReader<>();
-        reader.setResource(new FileSystemResource("C:\\Users\\ThinkPad\\Desktop\\questions.csv"));
+        reader.setResource(new FileSystemResource("C:\\Users\\mahdi\\OneDrive\\Bureau\\questions.csv"));
         reader.setLineMapper(new DefaultLineMapper<QuestionDto>() {{
             setLineTokenizer(new DelimitedLineTokenizer() {{
                 setNames("enonce", "option1", "option2", "option3", "correctAnswer");
