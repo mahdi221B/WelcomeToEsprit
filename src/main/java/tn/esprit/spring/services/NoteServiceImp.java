@@ -72,7 +72,6 @@ public class NoteServiceImp implements  NoteService {
     @Override
     public String affectnote(Note n, Long id, int iduser) {
         User prof = userRepository.findById(iduser).get();
-
         List<Role>  userrole = prof.getRoles().stream().filter(r->r.getRoleName().equals("jury")).collect(Collectors.toList());
 String msg = null;
         if (new Date().before(appEventRepository.findAll().get(0).getStartDate()) || (new Date().after(appEventRepository.findAll().get(0).getEndDate()))) {
@@ -140,9 +139,10 @@ String msg = null;
     public String statistics(int filter, Department dept) {
 
         String msg = null;
-        if (new Date().before(appEventRepository.findAll().get(0).getStartDate()) || (new Date().after(appEventRepository.findAll().get(0).getEndDate()))) {
-            msg=("");
-        } else {
+      //  if (new Date().before(appEventRepository.findAll().get(0).getStartDate()) || (new Date().after(appEventRepository.findAll().get(0).getEndDate()))) {
+        //    msg=("you can" );
+        //}
+        //else {
 
             List<Team> liste = teamRepository.findAll().stream()
                     .filter(u -> u.getDepartment().equals(dept))
@@ -151,7 +151,7 @@ String msg = null;
             int count = (int) liste.stream().filter(u -> u.getNoteTeam() > filter).count();
             msg = "The average of " + dept + " teams marks is " + avrageit + "\r" +
                     "The number of " + dept + " teams which marks is greater than " + filter + " is " + count + "";
-        }
+       // }
 
             return msg;
     }

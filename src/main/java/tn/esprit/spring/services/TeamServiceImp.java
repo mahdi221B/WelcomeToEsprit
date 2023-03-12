@@ -1,6 +1,7 @@
 package tn.esprit.spring.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.expression.spel.ast.Literal;
 import org.springframework.stereotype.Service;
 import tn.esprit.spring.entity.Note;
 import tn.esprit.spring.entity.Project;
@@ -64,6 +65,9 @@ public class TeamServiceImp implements  TeamService {
         Double nhskils ;
         Double nskils ;
         Double noteteam=0.0;
+        List<Project> projects = projectRepository.findAll();
+        List<Team> teams= teamRepository.findAll();
+
             if ((new Date().before(appEventRepository.findAll().get(0).getEndDate()))) {
             msg = "event didn't finish yet";
         }

@@ -62,10 +62,19 @@ public class ProjectServiceImp implements  ProjectService {
     }
 
     @Override
-    public String addvideoproject(MultipartFile file, String desc , Long id ) throws Exception {
+    public String addvideoproject(MultipartFile file, String desc , Long id ,int  iduser) throws Exception {
 
         String msg = null;
         List<Project> projects = projectRepository.findAll();
+        User u = userRepository.findById(iduser).get();
+        //Team t = teamRepository.findById(id).get();
+
+        if (!u.getProfil().isTeamcaptain()){
+            msg ="only team captain  can upload a video";
+        }
+
+        else
+        {
         for (Project project : projects) {
             if (project.getTeam().getId().equals(id)) {
                 return "A project already exists for this team.";
@@ -83,7 +92,7 @@ public class ProjectServiceImp implements  ProjectService {
                 p.setTeam(t);
                 teamRepository.save(t);
                 msg = ("project added successfully ");
-            }
+            }}
             return msg;
         }}
 

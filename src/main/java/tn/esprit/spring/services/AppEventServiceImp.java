@@ -192,10 +192,36 @@ public String assignteacheertojury(int id) {
                     userRepository.save(u);
                 }
             }
+            else if (listit.size() % 4 == 2) {
+                for (int j = 0; j < (listit.size() - 2) / 4; j++) {
+                    Team t = new Team();
+                    t.setName("teamit" + (j + 1));
+                    t.setBudget(500.0);
+                    t.setDepartment(Department.it);
+
+                    teamRepository.save(t);
+                    listeamit.add(t);
+                    it++;
+                    for (int x = 0; x < 4; x++) {
+                        User u = listit.get(j * 4 + x);
+                        u.setTeam(listeamit.get(j));
+                        userRepository.save(u);
+                        listit.get(j * 4).getProfil().setTeamcaptain(true);
+                    }
+                }
+                List<User> listwithoutteam = listit.subList(listit.size() - 2, listit.size());
+                for (int i = 0; i < 1; i++) {
+                    User u = listwithoutteam.get(i);
+                    u.setTeam(listeamit.get(i));
+                    userRepository.save(u);
+                }
+            }
+
+            if(listeamit.size()!=0){
             for (Team t : listeamit) {
                 t.setEvent(appEventRepository.findAll().get(0));
                 teamRepository.save(t);
-            }
+            }}
             List<Team> listeammeca = new ArrayList<>();
             int meca = 0;
             if (listmeca.size() % 4 == 0) {
@@ -294,9 +320,34 @@ public String assignteacheertojury(int id) {
                     userRepository.save(u);
                 }
             }
+            else if (listmeca.size() % 4 == 2) {
+                for (int j = 0; j < (listmeca.size() - 2) / 4; j++) {
+                    Team t = new Team();
+                    t.setName("teammeca" + (j + 1));
+                    t.setBudget(500.0);
+                    t.setDepartment(Department.mecanic);
+
+                    teamRepository.save(t);
+                    listeammeca.add(t);
+                    meca++;
+                    for (int x = 0; x < 4; x++) {
+                        User u = listmeca.get(j * 4 + x);
+                        u.setTeam(listeammeca.get(j));
+                        userRepository.save(u);
+                        listmeca.get(j * 4).getProfil().setTeamcaptain(true);
+                    }
+                }
+                List<User> listwithoutteam = listmeca.subList(listmeca.size() - 2, listmeca.size());
+                for (int i = 0; i < 2; i++) {
+                    User u = listwithoutteam.get(i);
+                    u.setTeam(listeammeca.get(i));
+                    userRepository.save(u);
+                }
+            }
+            if(listeammeca.size()!=0){
             for (Team t : listeammeca) {
                 t.setEvent(appEventRepository.findAll().get(0));
-                teamRepository.save(t);
+                teamRepository.save(t);}
             }
             List<Team> listteamelec= new ArrayList<>();
             int elec = 0;
@@ -396,10 +447,36 @@ public String assignteacheertojury(int id) {
                     userRepository.save(u);
                 }
             }
+            else if (listelec.size() % 4 == 2) {
+                for (int j = 0; j < (listelec.size() - 2) / 4; j++) {
+                    Team t = new Team();
+                    t.setName("teamelec" + (j + 1));
+                    t.setBudget(500.0);
+                    t.setDepartment(Department.electric);
+
+                    teamRepository.save(t);
+                    listteamelec.add(t);
+                    meca++;
+                    for (int x = 0; x < 4; x++) {
+                        User u = listelec.get(j * 4 + x);
+                        u.setTeam(listteamelec.get(j));
+                        userRepository.save(u);
+                        listelec.get(j * 4).getProfil().setTeamcaptain(true);
+                    }
+                }
+                List<User> listwithoutteam = listelec.subList(listelec.size() - 2, listelec.size());
+                for (int i = 0; i < 1; i++) {
+                    User u = listwithoutteam.get(i);
+                    u.setTeam(listteamelec.get(i));
+                    userRepository.save(u);
+                }
+            }
+
+            if(listteamelec.size()!=0){
             for (Team t : listteamelec ) {
                 t.setEvent(appEventRepository.findAll().get(0));
                 teamRepository.save(t);
-            }
+            }}
             List<Team> listeammulti = new ArrayList<>();
             int multi = 0;
             if (listmulti.size() % 4 == 0) {
@@ -496,10 +573,37 @@ public String assignteacheertojury(int id) {
                     userRepository.save(u);
                 }
             }
-            for (Team t : listeammulti) {
+            else if (listmulti.size() % 4 == 2) {
+                for (int j = 0; j < (listmulti.size() - 2) / 4; j++) {
+                    Team t = new Team();
+                    t.setName("teammulti" + (j + 1));
+                    t.setBudget(500.0);
+                    t.setDepartment(Department.multimedia);
+
+                    teamRepository.save(t);
+                    listeammulti.add(t);
+                    multi++;
+                    for (int x = 0; x < 4; x++) {
+                        User u = listmulti.get(j * 4 + x);
+                        u.setTeam(listeammulti.get(j));
+                        userRepository.save(u);
+                        listmulti.get(j * 4).getProfil().setTeamcaptain(true);
+                    }
+                }
+                List<User> listwmultihoutteam = listmulti.subList(listmulti.size() - 2, listmulti.size());
+                for (int i = 0; i < 1; i++) {
+                    User u = listwmultihoutteam.get(i);
+                    u.setTeam(listeammulti.get(i));
+                    userRepository.save(u);
+                }
+            }
+
+            if(listeammulti.size()!=0){
+
+                for (Team t : listeammulti) {
                 t.setEvent(appEventRepository.findAll().get(0));
                 teamRepository.save(t);
-            }
+            }}
     msg= "teams crated  ";
         }
 

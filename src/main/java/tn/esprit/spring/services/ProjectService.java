@@ -14,5 +14,5 @@ public interface ProjectService {
     public Project UpdateProject(Project project,Long id);
 
 
-    public String addvideoproject(MultipartFile file , String desc, Long id) throws Exception;
+    public String addvideoproject(MultipartFile file , String desc,Long id,int iduser) throws Exception;
 }
