@@ -1,5 +1,6 @@
 package tn.esprit.spring.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -22,6 +23,9 @@ public class Profil {
     private StudentLevel studentLevel;
     @Enumerated(EnumType.STRING)
     private Interest interest;
-
+    private boolean teamCaptain;
+    @OneToOne(mappedBy="profil")
+    @JsonIgnore
+    User user;
 
 }

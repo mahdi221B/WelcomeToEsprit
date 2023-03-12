@@ -38,5 +38,7 @@ public class User extends AbstractEntity{
     List<Role> roles;
     @Enumerated(EnumType.STRING)
     Availability availability;
+    @OneToOne
+    private Profil profil;
 
 }
