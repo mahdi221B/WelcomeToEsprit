@@ -30,8 +30,6 @@ public class JobOfferImp implements IJobOffer {
 
         public JobOffer createJobOffer(JobOffer jobOffer) {
 
-        //    redisTemplate.opsForValue().set("JobOffer:" + jobOffer.getIdOffre(), jobOffer);
-          //  return repository.save(jobOffer);//
             return repository.save(jobOffer);
         }
 
@@ -41,7 +39,6 @@ public class JobOfferImp implements IJobOffer {
        // @Transactional
         public List<JobOffer> getAllJobOffers() {
             return repository.findAll();
-
 
         }
 

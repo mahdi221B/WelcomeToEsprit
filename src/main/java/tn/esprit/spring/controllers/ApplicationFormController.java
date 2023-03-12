@@ -15,7 +15,7 @@ import tn.esprit.spring.services.ClassifierMotivationLetter;
 import tn.esprit.spring.services.IApplicationForm;
 import tn.esprit.spring.services.TextClassificationImp;
 
-import java.io.IOException;
+
 import java.util.List;
 
 @RestController
@@ -77,51 +77,7 @@ public class ApplicationFormController {
     }
 
 
-/////////////////////////////////////////////////////////////////////////////////////////
-    //----keyword------------
-    @GetMapping("/applications")
-    public List<ApplicationForm> getApplications(@RequestParam("keyword") String keyword) {
-        List<ApplicationForm> applications = appservice.findApplicationsByMotivationLetter(keyword);
-        return applications;
-    }
-/////////////////-makthar-//////////////////////////////////////////////////////////////////////////////
 
-
-
-
-   /* public ApplicationFormController(ApplicationFormImp applicationFormService) {
-        this.applicationFormService = applicationFormService;
-    }*/
-
-
-/////--////////////////////////////-/////////////////////////////////////////////////////
-  /*  @GetMapping("/classified")
-    public List<ApplicationForm> getClassifiedApplicationForms() {
-
-        try {
-            List<ApplicationForm> applicationForms = appservice.getAllApplicationForms();
-            //System.out.println(applicationForms);
-            return appservice.classifyMotivationLetters(applicationForms);
-
-        } catch (Exception e) {
-            // Gérer l'exception ici
-            return null;
-        }
-    }*/
-    ///////////////////////////////////////////////////////////////////////////////////////
-
-
-    @GetMapping("/candidats")
-  /*  public List<ApplicationForm> getCandidats() {
-        // Récupérer la liste des candidats depuis la base de données
-        List<ApplicationForm> candidats = applicationFormRepository.findAll();
-
-        // Classifier les candidats
-        return classifierMotivationLetter.classify(candidats);
-    }*/
-    public List<ApplicationForm> getCandidats(@RequestParam("keyword") String keyword) {
-        return applicationFormRepository.findByMotivationLetterContainingOrderByMotivationRelevanceDesc(keyword);
-    }
 //------------------------------------------------------------------------------------------------------//
 
     @GetMapping("/classifiedd")

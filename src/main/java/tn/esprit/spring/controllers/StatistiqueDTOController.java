@@ -13,18 +13,10 @@ import tn.esprit.spring.services.IJobOffer;
 import tn.esprit.spring.services.StatistiqueDTOImp;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/statistiques")
 public class StatistiqueDTOController {
-
-
-    @Autowired
-    private IJobOffer jobOfferService;
-    private IApplicationForm applicationFormService;
-    private ApplicationFormRepository applicationFormRepository;
-    private ApplicationFormImp applicationFormImp;
 
 
 

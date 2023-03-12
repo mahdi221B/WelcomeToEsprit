@@ -3,7 +3,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import tn.esprit.spring.entity.AvailablityDay;
-import tn.esprit.spring.entity.AvailablityTime;
+
 import tn.esprit.spring.entity.User;
 import tn.esprit.spring.repositories.AvailablityDayRepository;
 import tn.esprit.spring.repositories.AvailablityTimeRepository;
@@ -19,12 +19,7 @@ public class AvailablityServiceImp implements  IAvailablity{
     private final AvailablityTimeRepository availablityTimeRepository ;
     private final UserRepository userRepository ;
 
-  /*  @Override
-    public AvailablityTime createAvailablityTime(AvailablityTime availablityTime, Integer id) {
-        AvailablityDay availablityDay = availablityDayRepository.findById(id).get();
-        availablityTime.setAvailablityDays(availablityDay);
-        return availablityTimeRepository.save(availablityTime);
-    }*/
+
     @Override
     public AvailablityDay createAvailablityDay(AvailablityDay availablityDate, Long id){
         User user = userRepository.findById(id).get();

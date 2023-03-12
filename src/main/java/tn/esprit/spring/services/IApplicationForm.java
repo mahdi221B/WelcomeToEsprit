@@ -2,6 +2,7 @@ package tn.esprit.spring.services;
 
 
 
+import org.springframework.web.multipart.MultipartFile;
 import tn.esprit.spring.entity.ApplicationForm;
 
 import java.util.List;
@@ -15,6 +16,7 @@ public interface IApplicationForm {
     List<ApplicationForm> getAllApplicationForms();
     void deleteApplicationFormById(Long id);
     ApplicationForm updateApplicationForm(ApplicationForm applicationForm, Long id);
+
 
 
 

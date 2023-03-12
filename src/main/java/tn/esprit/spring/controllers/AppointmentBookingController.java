@@ -5,15 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import tn.esprit.spring.entity.Appointment;
+
 import tn.esprit.spring.entity.AppointmentBooking;
 
 
-import tn.esprit.spring.entity.User;
 import tn.esprit.spring.services.AppointmentBookingImp;
 
-import java.util.ArrayList;
-import java.util.Collections;
+
 import java.util.List;
 
 
@@ -72,10 +70,6 @@ public class AppointmentBookingController {
         return reservationService.getSortedAppointmentsWithTeachers();
     }
 
-   /*
-    @PutMapping
-    public AppointmentBooking update(@RequestBody AppointmentBooking reservation) {
-        return reservationService.update(reservation);
-    }*/
+
 
 }

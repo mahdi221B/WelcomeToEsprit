@@ -4,7 +4,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import tn.esprit.spring.entity.ApplicationForm;
 import tn.esprit.spring.entity.JobOffer;
 
@@ -14,6 +17,7 @@ import tn.esprit.spring.services.ApplicationFormImp;
 import tn.esprit.spring.services.IJobOffer;
 
 import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
 import java.util.Collections;
 import java.util.List;
 
@@ -44,7 +48,11 @@ public class JobOfferController {
 
 
     @PostMapping
-    public JobOffer createJobOffer(@RequestBody JobOffer JobOffer) {
+    public JobOffer createJobOffer(@Valid @RequestBody JobOffer JobOffer ,BindingResult bindingResult) throws MethodArgumentNotValidException {
+        if(bindingResult.hasErrors()){
+            throw new MethodArgumentNotValidException(null, bindingResult);
+        }
+
         return service.createJobOffer(JobOffer);
     }
 
@@ -84,7 +92,9 @@ public class JobOfferController {
 ///////////////---------------------------------------------------------------------///////////////
 
     @PostMapping("/job-offers/{jobOfferId}/application-forms")
-    public ResponseEntity<ApplicationForm> createApplicationFormAndAssignToJobOffer(@RequestBody ApplicationForm applicationForm, @PathVariable Long jobOfferId) {
+
+    public ResponseEntity<ApplicationForm> createApplicationFormAndAssignToJobOffer(@Valid @RequestBody ApplicationForm applicationForm, @PathVariable Long jobOfferId, BindingResult bindingResult) throws MethodArgumentNotValidException {
+
         try {
             JobOffer jobOffer = jobOfferRepository.findById(jobOfferId)
                     .orElseThrow(() -> new EntityNotFoundException("JobOffer not found with id " + jobOfferId));
@@ -101,9 +111,12 @@ public class JobOfferController {
             return ResponseEntity.notFound().build();
         }
     }
-
-
-
-
+//***********************************************************************///////////
+/*
+@PostMapping("/addvideo/{id}")
+@ResponseBody
+public void   createProject(@RequestParam  ApplicationForm applicationForm ,@PathVariable Long jobOfferId,@RequestParam("file") MultipartFile cv , @RequestParam("name") String name , @RequestParam("experience") int experience , @RequestParam("salary") double salary , @RequestParam("motivationLetter") String motivationLetter , @RequestParam("email") String email , @RequestParam("note") String note   ) throws Exception {
+    applicationFormService.assignApplicationFormToJobOffer2(applicationForm,jobOfferId,cv,name,experience,salary,motivationLetter,email,note);
+}*/
 
 }
