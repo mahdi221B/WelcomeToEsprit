@@ -3,9 +3,7 @@ package tn.esprit.spring.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
 import javax.persistence.*;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -47,4 +45,6 @@ public class User extends AbstractEntity{
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     @JsonIgnore
     List<React> reacts = new ArrayList<>();
+    @OneToMany(mappedBy = "user")
+    private List<Interview> interviewList;
 }

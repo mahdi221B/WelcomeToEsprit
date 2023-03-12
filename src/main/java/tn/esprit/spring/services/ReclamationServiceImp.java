@@ -1,17 +1,23 @@
 package tn.esprit.spring.services;
 
+import org.springframework.scheduling.annotation.Scheduled;
 import tn.esprit.spring.entity.Reclamation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import tn.esprit.spring.entity.Status;
+import tn.esprit.spring.entity.Type;
 import tn.esprit.spring.repositories.ReclamationRepository;
+import weka.classifiers.Classifier;
+import weka.core.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
 @Service
 @AllArgsConstructor
-public class ReclamationServiceImp implements IReclamationService{
+public class ReclamationServiceImp implements IReclamationService {
 
 
     private final ReclamationRepository reclamationRepository;
@@ -41,4 +47,13 @@ public class ReclamationServiceImp implements IReclamationService{
         reclamation.setId(id);
         return reclamationRepository.save(reclamation);
     }
+
+    @Override
+
+    public void NumberOfReclamationsPerStatus() {
+        log.info("--- Number of complaints :" + reclamationRepository.NombreReclamationByType(Type.complaints));
+        log.info("--- NUmber of warranty : " + reclamationRepository.NombreReclamationByType(Type.warranty_requests));
+        log.info("--- Number of returns : " + reclamationRepository.NombreReclamationByType(Type.returns));
+    }
+
 }

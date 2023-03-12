@@ -12,4 +12,6 @@ public interface IReclamationService {
     public Reclamation addReclamation(Reclamation reclamation);
     public Reclamation updateReclamation(Reclamation comment,Integer id);
 
+
+    public void NumberOfReclamationsPerStatus();
 }

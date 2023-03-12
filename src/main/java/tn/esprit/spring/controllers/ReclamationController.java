@@ -1,11 +1,15 @@
 package tn.esprit.spring.controllers;
 
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import tn.esprit.spring.entity.Reclamation;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.spring.services.IReclamationService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -14,9 +18,12 @@ import java.util.List;
 public class ReclamationController {
     private final IReclamationService iReclamationService;
     @PostMapping("/add")
-    @ResponseBody
-    public Reclamation addReclamation(@RequestBody Reclamation reclamation){
-        return iReclamationService.addReclamation(reclamation);
+    public ResponseEntity<Reclamation> addReclamation(@Valid @RequestBody Reclamation reclamation, BindingResult bindingResult) throws MethodArgumentNotValidException {
+        if(bindingResult.hasErrors()){
+            throw new MethodArgumentNotValidException(null, bindingResult);
+        }
+        Reclamation createdReclamation = iReclamationService.addReclamation(reclamation);
+        return ResponseEntity.ok(createdReclamation);
     }
     @PutMapping("/update/{id}")
     @ResponseBody
@@ -35,7 +42,15 @@ public class ReclamationController {
     }
     @GetMapping("/getall")
     @ResponseBody
+
     public List<Reclamation> getAllReclamation(){
         return iReclamationService.retrieveAllReclamations();
     }
+
+
+
+
+
+
 }
+
