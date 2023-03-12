@@ -4,7 +4,9 @@ import net.sourceforge.tess4j.TesseractException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import tn.esprit.spring.entity.Interest;
 import tn.esprit.spring.entity.Profil;
+import tn.esprit.spring.entity.StudentLevel;
 import tn.esprit.spring.repositories.ProfilRepository;
 
 import java.io.IOException;
@@ -27,6 +29,8 @@ public class ServiceProfil implements IServiceProfil{
 
     @Override
     public List<Profil> displayProfil() {return profilRepository.findAll();}
+
+
     public void assignDiplomeToProfile(Integer idProfil, MultipartFile multipartFile){
         Profil p=profilRepository.findById(idProfil).orElse(null);
         try {
@@ -47,6 +51,18 @@ public class ServiceProfil implements IServiceProfil{
             if(diplomaReader.toLowerCase().contains("busines")){
                 p.setEducation("Business");
             }
+            if(p.getInterest().equals(Interest.IT)){
+                if(diplomaReader.toLowerCase().contains("bac")){
+                    p.setStudentLevel(StudentLevel.A1);
+                }
+                else if(diplomaReader.toLowerCase().contains("licence info")){
+                    p.setStudentLevel(StudentLevel.A3);
+                }
+                else{
+                    p.setStudentLevel(StudentLevel.B3);
+                }
+            }
+
             profilRepository.save(p);
         } catch (IOException e) {
             throw new RuntimeException(e);

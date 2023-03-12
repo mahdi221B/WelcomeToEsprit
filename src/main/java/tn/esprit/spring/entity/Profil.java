@@ -19,8 +19,9 @@ public class Profil {
     private String certification;
     private String workExperience;
     @Enumerated(EnumType.STRING)
+    private StudentLevel studentLevel;
+    @Enumerated(EnumType.STRING)
     private Interest interest;
-    private Double note;
-    private Double finalNote;
+
 
 }
