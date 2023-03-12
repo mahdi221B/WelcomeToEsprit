@@ -30,14 +30,6 @@ public class ApplicationFormController {
    private ApplicationFormRepository applicationFormRepository;
    private ClassifierMotivationLetter classifierMotivationLetter;
    private final TextClassificationImp textClassificationService;
-    @GetMapping("/clasify")
-    public ResponseEntity<ApplicationForm> classify(@RequestBody ApplicationForm applicationForm) {
-       // textClassificationService.classifyCandidates(applicationForm);
-        return ResponseEntity.ok(applicationForm);
-    }
-
-
-
 
 
 
