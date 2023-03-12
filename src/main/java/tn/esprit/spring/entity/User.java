@@ -31,6 +31,8 @@ public class User extends AbstractEntity{
     String password;
     @Embedded
     Address address;
+    String num_tel;
+
     @Column(name = "picture")
     String picture;
     @ManyToMany(cascade = CascadeType.ALL)
@@ -47,4 +49,13 @@ public class User extends AbstractEntity{
     List<React> reacts = new ArrayList<>();
     @OneToMany(mappedBy = "user")
     private List<Interview> interviewList;
+    @OneToMany(mappedBy = "user")
+    private List<AppointmentBooking> appointmentBookings;
+    // Relation one-to-one avec Formulaire candidature
+    @OneToOne(mappedBy = "user")
+    private ApplicationForm applicationForm;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<AvailablityDay> availablities = new ArrayList<>();
 }

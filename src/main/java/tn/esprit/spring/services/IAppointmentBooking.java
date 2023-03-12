@@ -7,4 +7,5 @@ public interface IAppointmentBooking {
 
     public AppointmentBooking updateAppointmentBooking(AppointmentBooking appointmentBooking, Long id);
 
+
 }

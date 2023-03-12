@@ -53,12 +53,6 @@ public class AppointmentController {
 
 
 
-/*
-    @PutMapping("/{id}")
-    public Appointment update(@RequestBody Appointment rendezVous, @PathVariable Long id) {
-        rendezVous.setId(id);
-        return rendezVousService.update(rendezVous);
-    }*/
 
     }
 }

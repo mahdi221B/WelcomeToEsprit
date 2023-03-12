@@ -5,10 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import tn.esprit.spring.entity.AppointmentBooking;
 
 
 import tn.esprit.spring.services.AppointmentBookingImp;
+
 
 import java.util.List;
 
@@ -22,8 +24,10 @@ public class AppointmentBookingController {
 
     @PostMapping
     public AppointmentBooking create(@RequestBody AppointmentBooking reservation) {
+
         return reservationService.create(reservation);
     }
+
 
     @GetMapping("/{id}")
     public AppointmentBooking getById(@PathVariable Long id) {
@@ -41,10 +45,6 @@ public class AppointmentBookingController {
     }
 
 
-
-
-
-
     @PutMapping("/{id}")
     public ResponseEntity<AppointmentBooking> updateAppointmentBooking(@RequestBody AppointmentBooking appointmentBooking, @PathVariable Long id) {
         AppointmentBooking updatedAppointmentBooking = reservationService.updateAppointmentBooking(appointmentBooking, id);
@@ -58,11 +58,18 @@ public class AppointmentBookingController {
 
 
 
+    @PostMapping("/send/{id}")
+    public void sendmail(@RequestBody AppointmentBooking reservation,@PathVariable("id") Integer id) {
+        reservationService.sendConfirmationEmail(reservation,id);
 
-   /*
-    @PutMapping
-    public AppointmentBooking update(@RequestBody AppointmentBooking reservation) {
-        return reservationService.update(reservation);
-    }*/
+    }
+//-------------------------------------------------------------------------------------------------//
+
+    @GetMapping("/Sorted")
+    public List<String> getSortedAppointmentsWithTeachers() {
+        return reservationService.getSortedAppointmentsWithTeachers();
+    }
+
+
 
 }
