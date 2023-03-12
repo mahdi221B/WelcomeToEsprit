@@ -1,12 +1,10 @@
 package tn.esprit.spring.services;
 
-import org.springframework.stereotype.Service;
 import tn.esprit.spring.entity.Role;
 import tn.esprit.spring.entity.User;
 
 import java.util.List;
 
-@Service
 public interface IServiceUserManager {
     public User addUser(User user);
     public List<User> retrieveAllUsers();

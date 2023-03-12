@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Aspect
 public class LoggingAspect {
-    @AfterReturning("execution(* tn.esprit.spring.services.*.MontantApayerParClient(..))")
+    //@AfterReturning("execution(* tn.esprit.spring.services.*.MontantApayerParClient(..))")
     public void logMethodEntry(JoinPoint joinPoint) {
         String name = joinPoint.getSignature().getName();
         log.info("montant facture calculé ");

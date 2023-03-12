@@ -2,7 +2,12 @@ package tn.esprit.spring.controllers;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.spring.entity.Comment;
+import tn.esprit.spring.entity.Post;
+import tn.esprit.spring.entity.User;
 import tn.esprit.spring.services.IServiceComment;
+
+import java.io.IOException;
+import java.time.Duration;
 import java.util.List;
 
 @RestController
@@ -10,11 +15,6 @@ import java.util.List;
 @RequestMapping("/comment")
 public class CommentController {
     private final IServiceComment iserviceComment;
-    @PostMapping("/add")
-    @ResponseBody
-    public Comment addComment(@RequestBody Comment comment){
-        return iserviceComment.addComment(comment);
-    }
     @PutMapping("/update/{id}")
     @ResponseBody
     public Comment updateComment(@RequestBody Comment post, @PathVariable("id") Integer id){
@@ -25,19 +25,31 @@ public class CommentController {
     public void deleteComment(@PathVariable("id") Integer id){
         iserviceComment.deleteComment(id);
     }
+    @GetMapping("/retrieveCommentsByUserId/{idUser}")
+    @ResponseBody
+    public List<Comment> retrieveCommentsByUserId(@PathVariable("idUser") Integer idUser){
+        return iserviceComment.retrieveCommentsByUserId(idUser);
+    }
     @GetMapping("/get/{id}")
     @ResponseBody
     public Comment getCommentById(@PathVariable("id") Integer id){
         return iserviceComment.retrieveCommentById(id);
     }
+    @GetMapping("/getRecommendedPosts/{userId}/{timeFilter}")
+    @ResponseBody
+    public List<Post> getRecommendedPosts(@PathVariable("userId") Integer userId, @PathVariable("timeFilter") String timeFilter) {
+        Duration duration = Duration.parse(timeFilter);
+        return iserviceComment.getRecommendedPosts(userId, duration);
+    }
+
     @GetMapping("/getall")
     @ResponseBody
     public List<Comment> getAllComment(){
         return iserviceComment.retrieveAllComments();
     }
-    @PutMapping("/assignCommentToPost/{id}")
+    @PutMapping("/assignCommentToPost/{idPost}/{idUser}")
     @ResponseBody
-    public void assignCommentToPost(@RequestBody Comment comment, @PathVariable("id") Integer id){
-        iserviceComment.assignCommentToPost(comment,id);
+    public Comment assignCommentToPost(@RequestBody Comment comment, @PathVariable("idPost") Integer idPost, @PathVariable("idUser") Integer idUser) throws IOException {
+        return iserviceComment.assignCommentToPost(comment,idPost,idUser);
     }
 }

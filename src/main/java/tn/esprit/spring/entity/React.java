@@ -1,6 +1,9 @@
 package tn.esprit.spring.entity;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -18,7 +21,9 @@ public class React extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     ReactType reaction;
     @ManyToOne
+    @JsonBackReference
     Post post;
+
     @ManyToOne
     Comment comment;
     @ManyToOne

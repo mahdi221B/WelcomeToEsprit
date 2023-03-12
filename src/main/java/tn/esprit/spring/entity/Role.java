@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,5 +22,5 @@ public class Role extends AbstractEntity{
     String roleName;
     @ManyToMany(mappedBy ="roles", cascade = CascadeType.ALL)
     @JsonIgnore
-    List<User> users;
+    List<User> users =  new ArrayList<>();;
 }

@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -36,15 +37,14 @@ public class User extends AbstractEntity{
     String picture;
     @ManyToMany(cascade = CascadeType.ALL)
     @JsonIgnore
-    List<Role> roles;
-    @OneToMany(cascade = CascadeType.ALL)
+    List<Role> roles = new ArrayList<>();
+    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JsonIgnore
-    List<Comment> comments;
-    @OneToMany(cascade = CascadeType.ALL)
+    List<Comment> comments = new ArrayList<>();
+    @OneToMany(mappedBy = "user",cascade = CascadeType.REMOVE)
     @JsonIgnore
-    List<Post> posts;
-    @OneToMany(cascade = CascadeType.ALL)
+    List<Post> posts  = new ArrayList<>();
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     @JsonIgnore
-    List<React> reacts;
-
+    List<React> reacts = new ArrayList<>();
 }
