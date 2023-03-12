@@ -18,9 +18,10 @@ public class Profil extends AbstractEntity{
     private String diplomas;
     private String certification;
     private String workExperience;
-    private boolean teamcaptain;
     @Enumerated(EnumType.STRING)
     private Intrest  intrest;
+    private boolean teamcaptain;
+
     @OneToOne(mappedBy="profil")
     @JsonIgnore
     User user;
