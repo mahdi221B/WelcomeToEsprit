@@ -7,5 +7,5 @@ import tn.esprit.spring.entity.Project;
 
 @Repository
 
-public interface ProjectRepository extends JpaRepository<Project, Long> {
+public interface ProjectRepository extends JpaRepository<Project,Long> {
 }

@@ -20,6 +20,9 @@ public class Project    implements Serializable {
     private String description;
     private Date submitDate;
 
+    @OneToOne
+    private Team  team;
+
     @OneToMany(mappedBy = "project")
     List<Note> notes;
 

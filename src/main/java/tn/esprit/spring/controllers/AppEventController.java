@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.spring.entity.AppEvent;
 import tn.esprit.spring.services.AppEventService;
+import tn.esprit.spring.services.IServiceUserManager;
 
 import java.util.List;
 
@@ -12,6 +13,8 @@ import java.util.List;
 @RequestMapping("/AppEvent")
 public class AppEventController {
     private final AppEventService appEventService;
+    private final IServiceUserManager  iServiceUserManager;
+
     @PostMapping("/add")
     @ResponseBody
     public AppEvent addAppEvent(@RequestBody AppEvent appEvent){
@@ -32,9 +35,22 @@ public class AppEventController {
     public AppEvent getAppEventById(@PathVariable("id") Long id){
         return appEventService.RetrieveAppEventById(id);
     }
-    @GetMapping("/getall")
+        @GetMapping("/getall")
     @ResponseBody
     public List<AppEvent> getAllAppEvent(){
         return appEventService.RetrieveAllAppEvent();
     }
+    @PostMapping("createteams")
+    @ResponseBody
+    public   String  affectuserstoteam(){
+          return     appEventService.affectuserstoteam();
+
+    }
+
+    @PutMapping("teachertojury/{id}")
+    @ResponseBody
+    public String teachertojury(@PathVariable("id") int id){
+        return appEventService.assignteacheertojury(id);
+    }
+
 }

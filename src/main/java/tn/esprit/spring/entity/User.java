@@ -13,7 +13,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
 @ToString
 @Table(name = "users")
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -54,8 +53,13 @@ public class User extends AbstractEntity{
     // Relation one-to-one avec Formulaire candidature
     @OneToOne(mappedBy = "user")
     private ApplicationForm applicationForm;
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<AvailablityDay> availablities = new ArrayList<>();
+    @OneToOne
+    @JsonIgnore
+    Profil  profil ;
+    @ManyToOne
+    private Team team ;
+
 }

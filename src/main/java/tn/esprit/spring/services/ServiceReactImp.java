@@ -58,6 +58,7 @@ public class ServiceReactImp implements IServiceReact{
     }
     @Transactional
     public void assignReactToComment(React react, Integer id) {
+        react.setComment(commentRepository.findById(id).orElse(null));
         reactRepository.save(react);
         react.setComment(commentRepository.findById(id).get());
     }

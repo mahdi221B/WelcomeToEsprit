@@ -1,25 +1,31 @@
-package tn.esprit.spring.entity;
-import lombok.Data;
-import lombok.ToString;
+    package tn.esprit.spring.entity;
+    import com.fasterxml.jackson.annotation.JsonIgnore;
+    import lombok.Data;
+    import lombok.ToString;
 
-import javax.persistence.*;
-import java.io.Serializable;
-@Data
-@ToString
-@Entity
-public class Team   implements Serializable{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String name;
-    private String certificate;
-    private Double  budget ;
+    import javax.persistence.*;
+    import java.io.Serializable;
+    import java.util.List;
+
+    @Data
+    @ToString
+    @Entity
+    public class Team   implements Serializable{
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
+        private String name;
+        private String certificate;
+        private Double  budget ;
+        private  double NoteTeam;
+        @Enumerated(EnumType.STRING)
+        private Department  department;
 
 
-    @OneToOne
-    private Project project;
+        @ManyToOne
+        private AppEvent event ;
+        @OneToMany( mappedBy="team")
+        @JsonIgnore
+        private List<User> users ;
 
-    @ManyToOne
-    private AppEvent event ;
-
-}
+    }

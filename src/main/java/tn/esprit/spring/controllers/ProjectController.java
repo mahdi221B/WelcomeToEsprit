@@ -2,6 +2,7 @@ package tn.esprit.spring.controllers;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import tn.esprit.spring.entity.Project;
 import tn.esprit.spring.services.ProjectService;
 import tn.esprit.spring.services.ProjectService;
@@ -38,4 +39,17 @@ public class ProjectController {
     public List<Project> getAllProject(){
         return projectservice.RetrieveAllProject();
     }
+
+
+    @PostMapping("/addvideo/{id}/{iduser}")
+    @ResponseBody
+    public String  createProject(@RequestParam("file") MultipartFile project ,@RequestParam("desc") String desc ,@PathVariable("id") Long id ,@PathVariable("iduser") int iduser  ) throws Exception {
+        return projectservice.addvideoproject(project,desc, id,iduser);
+    }
+
+
+
+
+
+
 }

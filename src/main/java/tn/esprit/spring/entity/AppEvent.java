@@ -1,4 +1,5 @@
 package tn.esprit.spring.entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.ToString;
 
@@ -25,10 +26,8 @@ public class AppEvent implements Serializable  {
     private Date ceremonyStartDate;
     @Temporal(TemporalType.DATE)
     private Date ceremonyEndDate;
-    @Enumerated(EnumType.STRING)
-
-    private Status Status;
 
     @OneToMany(mappedBy = "event")
+    @JsonIgnore
     List<Team> teams ;
 }
