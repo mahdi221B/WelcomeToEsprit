@@ -14,11 +14,12 @@ import java.util.Date;
 @AllArgsConstructor
 @ToString
 @MappedSuperclass
-@FieldDefaults(level= AccessLevel .PRIVATE)
+
+@FieldDefaults(level= AccessLevel.PRIVATE)
 @EntityListeners(AuditingEntityListener.class)
-public class AbstractEntity  implements Serializable {
+public class AbstractEntity implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     Integer id;
     @Temporal(TemporalType.DATE)
     @Column(name = "creationDate",nullable = true)

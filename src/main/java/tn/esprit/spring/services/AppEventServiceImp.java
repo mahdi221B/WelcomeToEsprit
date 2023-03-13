@@ -92,10 +92,10 @@ public String assignteacheertojury(int id) {
             List<User> listmeca = new ArrayList<>();
             List<User> listelec = new ArrayList<>();
             List<User> listmulti = new ArrayList<>();
-            listit = allusers.stream().filter(u -> u.getProfil().getIntrest().equals(Intrest.it)).collect(Collectors.toList());
-            listmeca = allusers.stream().filter(u -> u.getProfil().getIntrest().equals(Intrest.mecanic)).collect(Collectors.toList());
-            listelec = allusers.stream().filter(u -> u.getProfil().getIntrest().equals(Intrest.electric)).collect(Collectors.toList());
-            listmulti = allusers.stream().filter(u -> u.getProfil().getIntrest().equals(Intrest.multimedia)).collect(Collectors.toList());
+            listit = allusers.stream().filter(u -> u.getProfil().getInterest().equals(Intrest.it)).collect(Collectors.toList());
+            listmeca = allusers.stream().filter(u -> u.getProfil().getInterest().equals(Intrest.mecanic)).collect(Collectors.toList());
+            listelec = allusers.stream().filter(u -> u.getProfil().getInterest().equals(Intrest.electric)).collect(Collectors.toList());
+            listmulti = allusers.stream().filter(u -> u.getProfil().getInterest().equals(Intrest.multimedia)).collect(Collectors.toList());
             List<Team> listeamit = new ArrayList<>();
             int it = 0;
             if (listit.size() % 4 == 0) {
@@ -112,7 +112,7 @@ public String assignteacheertojury(int id) {
                         //u.setTeam(t;
                         u.setTeam(listeamit.get(i));
                         userRepository.save(u);
-                        listit.get(i * 4).getProfil().setTeamcaptain(true);
+                        listit.get(i * 4).getProfil().setTeamCaptain(true);
                     }
                 }
 
@@ -132,7 +132,7 @@ public String assignteacheertojury(int id) {
                         u.setTeam(listeamit.get(j));
 
                         userRepository.save(u);
-                        listit.get(j * 4).getProfil().setTeamcaptain(true);
+                        listit.get(j * 4).getProfil().setTeamCaptain(true);
                     }
                 }
                 Team t = new Team();
@@ -163,7 +163,7 @@ public String assignteacheertojury(int id) {
                         User u = listit.get(i * 3 + j);
                         u.setTeam(listeamit.get(i));
                         userRepository.save(u);
-                        //listit.get(i * 4).getProfil().setTeamcaptain(true);
+                        //listit.get(i * 4).getProfil().setTeamCaptain(true);
                     }
                 }
 
@@ -182,7 +182,7 @@ public String assignteacheertojury(int id) {
                         User u = listit.get(j * 4 + x);
                         u.setTeam(listeamit.get(j));
                         userRepository.save(u);
-                        listit.get(j * 4).getProfil().setTeamcaptain(true);
+                        listit.get(j * 4).getProfil().setTeamCaptain(true);
                     }
                 }
                 List<User> listwithoutteam = listit.subList(listit.size() - 1, listit.size());
@@ -206,7 +206,7 @@ public String assignteacheertojury(int id) {
                         User u = listit.get(j * 4 + x);
                         u.setTeam(listeamit.get(j));
                         userRepository.save(u);
-                        listit.get(j * 4).getProfil().setTeamcaptain(true);
+                        listit.get(j * 4).getProfil().setTeamCaptain(true);
                     }
                 }
                 List<User> listwithoutteam = listit.subList(listit.size() - 2, listit.size());
@@ -238,7 +238,7 @@ public String assignteacheertojury(int id) {
                         //u.setTeam(t;
                         u.setTeam(listeammeca.get(i));
                         userRepository.save(u);
-                        listmeca.get(i * 4).getProfil().setTeamcaptain(true);
+                        listmeca.get(i * 4).getProfil().setTeamCaptain(true);
                     }
                 }
 
@@ -258,7 +258,7 @@ public String assignteacheertojury(int id) {
                         u.setTeam(listeammeca.get(j));
 
                         userRepository.save(u);
-                        listmeca.get(j * 4).getProfil().setTeamcaptain(true);
+                        listmeca.get(j * 4).getProfil().setTeamCaptain(true);
                     }
                 }
                 Team t = new Team();
@@ -291,7 +291,7 @@ public String assignteacheertojury(int id) {
                         User u = listmeca.get(i * 3 + j);
                         u.setTeam(listeammeca.get(i));
                         userRepository.save(u);
-                        //listit.get(i * 4).getProfil().setTeamcaptain(true);
+                        //listit.get(i * 4).getProfil().setTeamCaptain(true);
                     }
                 }
 
@@ -310,7 +310,7 @@ public String assignteacheertojury(int id) {
                         User u = listmeca.get(j * 4 + x);
                         u.setTeam(listeammeca.get(j));
                         userRepository.save(u);
-                        listmeca.get(j * 4).getProfil().setTeamcaptain(true);
+                        listmeca.get(j * 4).getProfil().setTeamCaptain(true);
                     }
                 }
                 List<User> listwithoutteam = listmeca.subList(listmeca.size() - 1, listmeca.size());
@@ -334,7 +334,7 @@ public String assignteacheertojury(int id) {
                         User u = listmeca.get(j * 4 + x);
                         u.setTeam(listeammeca.get(j));
                         userRepository.save(u);
-                        listmeca.get(j * 4).getProfil().setTeamcaptain(true);
+                        listmeca.get(j * 4).getProfil().setTeamCaptain(true);
                     }
                 }
                 List<User> listwithoutteam = listmeca.subList(listmeca.size() - 2, listmeca.size());
@@ -365,7 +365,7 @@ public String assignteacheertojury(int id) {
                         //u.setTeam(t;
                         u.setTeam(listteamelec.get(i));
                         userRepository.save(u);
-                        listelec.get(i * 4).getProfil().setTeamcaptain(true);
+                        listelec.get(i * 4).getProfil().setTeamCaptain(true);
                     }
                 }
 
@@ -385,7 +385,7 @@ public String assignteacheertojury(int id) {
                         u.setTeam(listteamelec.get(j));
 
                         userRepository.save(u);
-                        listelec.get(j * 4).getProfil().setTeamcaptain(true);
+                        listelec.get(j * 4).getProfil().setTeamCaptain(true);
                     }
                 }
                 Team t = new Team();
@@ -418,7 +418,7 @@ public String assignteacheertojury(int id) {
                         User u = listelec.get(i * 3 + j);
                         u.setTeam(listteamelec.get(i));
                         userRepository.save(u);
-                        //listit.get(i * 4).getProfil().setTeamcaptain(true);
+                        //listit.get(i * 4).getProfil().setTeamCaptain(true);
                     }
                 }
 
@@ -437,7 +437,7 @@ public String assignteacheertojury(int id) {
                         User u = listelec.get(j * 4 + x);
                         u.setTeam(listteamelec.get(j));
                         userRepository.save(u);
-                        listelec.get(j * 4).getProfil().setTeamcaptain(true);
+                        listelec.get(j * 4).getProfil().setTeamCaptain(true);
                     }
                 }
                 List<User> listwithoutteam = listelec.subList(listelec.size() - 1, listelec.size());
@@ -461,7 +461,7 @@ public String assignteacheertojury(int id) {
                         User u = listelec.get(j * 4 + x);
                         u.setTeam(listteamelec.get(j));
                         userRepository.save(u);
-                        listelec.get(j * 4).getProfil().setTeamcaptain(true);
+                        listelec.get(j * 4).getProfil().setTeamCaptain(true);
                     }
                 }
                 List<User> listwithoutteam = listelec.subList(listelec.size() - 2, listelec.size());
@@ -493,7 +493,7 @@ public String assignteacheertojury(int id) {
                         //u.setTeam(t;
                         u.setTeam(listeammulti.get(i));
                         userRepository.save(u);
-                        listmulti.get(i * 4).getProfil().setTeamcaptain(true);
+                        listmulti.get(i * 4).getProfil().setTeamCaptain(true);
                     }
                 }
 
@@ -513,7 +513,7 @@ public String assignteacheertojury(int id) {
                         u.setTeam(listeammulti.get(j));
 
                         userRepository.save(u);
-                        listmulti.get(j * 4).getProfil().setTeamcaptain(true);
+                        listmulti.get(j * 4).getProfil().setTeamCaptain(true);
                     }
                 }
                 Team t = new Team();
@@ -544,7 +544,7 @@ public String assignteacheertojury(int id) {
                         User u = listmulti.get(i * 3 + j);
                         u.setTeam(listeammulti.get(i));
                         userRepository.save(u);
-                        //listmulti.get(i * 4).getProfil().setTeamcaptain(true);
+                        //listmulti.get(i * 4).getProfil().setTeamCaptain(true);
                     }
                 }
 
@@ -563,7 +563,7 @@ public String assignteacheertojury(int id) {
                         User u = listmulti.get(j * 4 + x);
                         u.setTeam(listeammulti.get(j));
                         userRepository.save(u);
-                        listmulti.get(j * 4).getProfil().setTeamcaptain(true);
+                        listmulti.get(j * 4).getProfil().setTeamCaptain(true);
                     }
                 }
                 List<User> listwmultihoutteam = listmulti.subList(listmulti.size() - 1, listmulti.size());
@@ -587,7 +587,7 @@ public String assignteacheertojury(int id) {
                         User u = listmulti.get(j * 4 + x);
                         u.setTeam(listeammulti.get(j));
                         userRepository.save(u);
-                        listmulti.get(j * 4).getProfil().setTeamcaptain(true);
+                        listmulti.get(j * 4).getProfil().setTeamCaptain(true);
                     }
                 }
                 List<User> listwmultihoutteam = listmulti.subList(listmulti.size() - 2, listmulti.size());

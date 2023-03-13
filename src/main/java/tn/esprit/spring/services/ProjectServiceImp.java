@@ -69,7 +69,7 @@ public class ProjectServiceImp implements  ProjectService {
         User u = userRepository.findById(iduser).get();
         //Team t = teamRepository.findById(id).get();
 
-        if (!u.getProfil().isTeamcaptain()){
+        if (!u.getProfil().isTeamCaptain()){
             msg ="only team captain  can upload a video";
         }
 

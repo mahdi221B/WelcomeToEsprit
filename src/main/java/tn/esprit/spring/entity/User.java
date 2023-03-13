@@ -1,5 +1,4 @@
 package tn.esprit.spring.entity;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -7,7 +6,6 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 @Entity
 @Getter
 @Setter
@@ -31,9 +29,10 @@ public class User extends AbstractEntity{
     @Embedded
     Address address;
     String num_tel;
-
     @Column(name = "picture")
     String picture;
+    @Enumerated(EnumType.STRING)
+    Availability availability;
     @ManyToMany(cascade = CascadeType.ALL)
     @JsonIgnore
     List<Role> roles = new ArrayList<>();

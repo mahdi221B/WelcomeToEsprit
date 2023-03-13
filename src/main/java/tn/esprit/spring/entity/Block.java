@@ -8,18 +8,15 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@ToString
-@FieldDefaults(level = AccessLevel.PRIVATE)
-@EqualsAndHashCode(callSuper = true)
-@AllArgsConstructor
-@NoArgsConstructor
-public class Block extends AbstractEntity{
-    String name;
-    String location;
-    String description;
-    int numberOfFloor;
+public class Block {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    private String name;
+    private String location;
+    private String description;
+    private int numberOfFloor;
     @OneToMany(mappedBy = "block",cascade = CascadeType.ALL)
     @JsonIgnore
     List<Classroom> classrooms;
-
 }

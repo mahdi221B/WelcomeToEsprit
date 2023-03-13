@@ -3,7 +3,6 @@ package tn.esprit.spring.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
