@@ -5,9 +5,11 @@ import org.springframework.stereotype.Repository;
 import tn.esprit.spring.entity.User;
 
 import java.util.List;
+import java.util.Optional;
 
-@Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
-    User findByFirstNameContainsAndLastNameContains(String firstname,String lastname);
+   Optional<User> findByFirstNameContainsAndLastNameContains(String firstname, String lastname);
     List<User> findAllByRolesRoleNameContains(String roleName);
+    User findUserByIdentifierContains(String identifier);
+     Optional<User> findUserByEmailAddressContains(String email);
 }
