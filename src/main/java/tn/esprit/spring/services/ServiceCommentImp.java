@@ -59,10 +59,11 @@ public class ServiceCommentImp implements IServiceComment{
     }
     @Override
     public Comment updateComment(Comment comment, Integer id) {
-        comment.setId(id);
+        Comment existingComment = commentRepository.findById(id).get();
         Annotation annotation = getSentimentAnalysis(comment.getContent());
-        comment.setSentiment(getSentimentScore(annotation));
-        return commentRepository.save(comment);
+        existingComment.setSentiment(getSentimentScore(annotation));
+        existingComment.setContent(comment.getContent());
+        return commentRepository.save(existingComment);
     }
     @Transactional
     public Comment assignCommentToPost(Comment comment, Integer idPost,Integer idUser) throws IOException {
