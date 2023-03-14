@@ -113,6 +113,7 @@ public class ServicePostImp implements IServicePost{
         if(postJSON.getLocationName()!=null){
             postJSON.setLocation(getPostLocation(postJSON.getLocationName()));
         }
+        hashtagService.updateHashtags(postJSON.getTags());
         postRepository.save(postJSON);
         if(files!=null){
             List<PostMedia> medias = new ArrayList<>();

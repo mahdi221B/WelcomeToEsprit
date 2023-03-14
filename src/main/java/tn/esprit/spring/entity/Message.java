@@ -1,4 +1,5 @@
 package tn.esprit.spring.entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -20,6 +21,7 @@ public class Message extends AbstractEntity{
     Date createdAt = new Date();
     boolean deleted = false;
     @ManyToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
     Conversation conversation;
     @ManyToOne(cascade = CascadeType.ALL)
     User sender;

@@ -64,10 +64,12 @@ public class ServiceMessageImp implements IServiceMessage{
         conversationRepository.save(conversation);
     }
     @Transactional
-    public void sendMessageToConversatiob(Message message, Integer conversationId){
+    public void sendMessageToConversatiob(Message message, Integer conversationId,Integer userId){
         Conversation conversation = conversationRepository.findById(conversationId).get();
-        conversation.getMessages().add(message);
-        conversationRepository.save(conversation);
+        User user = userRepository.findById(userId).get();
+        message.setSender(user);
+        message.setConversation(conversation);
+        messageRepository.save(message);
     }
     public List<Message> getMessagesByUserAndConversationId(Integer userId, Integer conversationId){
         Conversation conversation = conversationRepository.findById(conversationId).orElseThrow(() -> new RuntimeException("Conversation not found"));

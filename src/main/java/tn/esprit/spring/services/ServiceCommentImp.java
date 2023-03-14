@@ -60,6 +60,8 @@ public class ServiceCommentImp implements IServiceComment{
     @Override
     public Comment updateComment(Comment comment, Integer id) {
         comment.setId(id);
+        Annotation annotation = getSentimentAnalysis(comment.getContent());
+        comment.setSentiment(getSentimentScore(annotation));
         return commentRepository.save(comment);
     }
     @Transactional
