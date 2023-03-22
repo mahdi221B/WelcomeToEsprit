@@ -37,6 +37,7 @@ public class User extends AbstractEntity{
     @Column(name = "emailAddress")
     String emailAddress;
     @Column(name = "identifier")
+    @JsonIgnore
     String identifier;
     @Column(name = "identityCardNumber")
     String nci;
@@ -48,16 +49,17 @@ public class User extends AbstractEntity{
 
     @Embedded
     Address address;
-    @Column(name = "picture")
-    String picture;
     @Column(name = "active")
+    @JsonIgnore
     boolean active;
     @ToString.Exclude
     @ManyToMany(cascade = CascadeType.ALL)
-    List<Role> roles;
-    @Column(name = "qrcode", length = 65555)
     @JsonIgnore
-    String Qrcode;
+    List<Role> roles;
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @JsonIgnore
+    List<Picture> picture;
+
     @PrePersist
     void generateIdentifier(){
         identifier=firstName.substring(0,1).toUpperCase() + lastName.substring(0,2).toLowerCase() + nci;

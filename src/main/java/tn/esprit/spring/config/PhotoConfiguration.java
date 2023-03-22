@@ -1,6 +1,6 @@
 package tn.esprit.spring.config;
 
-import com.flickr4java.flickr.Flickr;
+/**import com.flickr4java.flickr.Flickr;
 import com.flickr4java.flickr.FlickrException;
 import com.flickr4java.flickr.REST;
 import com.flickr4java.flickr.RequestContext;
@@ -15,24 +15,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Component;*/
 
 import java.io.IOException;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
-@Configuration
+//@Configuration
 public class PhotoConfiguration {
 
-    @Value("${flickr.apiKey}")
+    /**@Value("${flickr.apiKey}")
     private String apiKey;
     @Value("${flickr.apiSecret}")
     private String apiSecret;
     @Value("${flickr.appKey}")
     private String appKey;
     @Value("${flickr.appSecret}")
-    private String appSecret;
+    private String appSecret;*/
 
-    /**@Bean
+   /** @Bean
     public Flickr getFlickr() throws  InterruptedException,IOException, ExecutionException, FlickrException {
         Flickr flickr = new Flickr(apiKey, apiSecret, new REST());
 
@@ -63,7 +63,7 @@ public class PhotoConfiguration {
         System.out.println(auth.getTokenSecret());
         return flickr;
     }*/
-    @Bean
+  /** @Bean
     public Flickr getFlickr(){
         Flickr flickr=new Flickr(apiKey,apiSecret,new REST());
 
@@ -77,5 +77,5 @@ public class PhotoConfiguration {
         requestContext.setAuth(auth);
         flickr.setAuth(auth);
         return flickr;
-    }
+    }*/
 }

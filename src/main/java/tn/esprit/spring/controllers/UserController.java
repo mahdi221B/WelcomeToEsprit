@@ -5,7 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 import tn.esprit.spring.controllers.api.UserApi;
 import tn.esprit.spring.dto.UserDto;
+import tn.esprit.spring.entity.ChangePasswordEntity;
 import tn.esprit.spring.entity.User;
+import tn.esprit.spring.exception.EntityExistException;
+import tn.esprit.spring.exception.ErrorCodes;
+import tn.esprit.spring.exception.InvalidEntityException;
 import tn.esprit.spring.repositories.UserRepository;
 import tn.esprit.spring.services.UserService;
 import tn.esprit.spring.utils.QrcodeGenerated;
@@ -62,6 +66,11 @@ public class UserController implements UserApi {
     @Override
     public List<User> retrieveAllUsersByRoleName(String roleName) {
         return userService.retrieveAllUsersByRoleName(roleName);
+    }
+
+    @Override
+    public User changePassword(ChangePasswordEntity chgPassword) {
+        return userService.changePassword(chgPassword);
     }
 
 }

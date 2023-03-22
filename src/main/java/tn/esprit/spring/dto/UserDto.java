@@ -45,7 +45,7 @@ public class UserDto extends AbstractEntity {
                 .nci(user.getNci())
                 .birthDate(user.getBirthDate())
                 .password(user.getPassword())
-                .picture(user.getPicture())
+                //.picture(user.getPicture())
                 .build();
     }
 
@@ -61,7 +61,7 @@ public class UserDto extends AbstractEntity {
         user.setNci(userDto.getNci());
         user.setBirthDate(userDto.getBirthDate());
         user.setPassword(userDto.getPassword());
-        user.setPicture(userDto.getPicture());
+        //user.setPicture(userDto.getPicture());
 
         return user;
     }
