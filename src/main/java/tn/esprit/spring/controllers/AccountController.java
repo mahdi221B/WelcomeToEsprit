@@ -4,10 +4,7 @@ package tn.esprit.spring.controllers;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import tn.esprit.spring.entity.User;
 import tn.esprit.spring.entity.VerificationToken;
@@ -43,7 +40,7 @@ public class AccountController {
     }
 
     @PostMapping(APP_ROOT + "/register")
-    public  String save(User user, RedirectAttributes ra) throws javax.mail.MessagingException {
+    public  String save(@RequestBody User user, RedirectAttributes ra) throws javax.mail.MessagingException {
         ra.addFlashAttribute("message",
                 "Success! A verification email has been sent to your email address.");
         userService.addUser(user);
@@ -58,17 +55,6 @@ public class AccountController {
             model.addAttribute("message","Your verification token is invalid");
         }else {
             User user=verificationToken.getUser();
-            /**User user=new User();
-            user.setId(verificationToken.getUser().getId());
-            user.setEmailAddress(verificationToken.getUser().getEmailAddress());
-            user.setLastName(verificationToken.getUser().getLastName());
-            user.setFirstName(verificationToken.getUser().getFirstName());
-            user.setNci(verificationToken.getUser().getNci());
-            user.setActive(verificationToken.getUser().isActive());
-            user.setPassword(verificationToken.getUser().getPassword());
-            user.setBirthDate(verificationToken.getUser().getBirthDate());
-            user.setIdentifier(verificationToken.getUser().getIdentifier());
-            user.setAddress(verificationToken.getUser().getAddress());*/
             //if the user account is not actived
             if (!user.isActive()){
                 //get the current timestamp

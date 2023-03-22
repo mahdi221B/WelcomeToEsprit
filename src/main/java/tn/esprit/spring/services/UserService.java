@@ -3,6 +3,7 @@ package tn.esprit.spring.services;
 //import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
 import org.springframework.stereotype.Service;
 import tn.esprit.spring.dto.UserDto;
+import tn.esprit.spring.entity.ChangePasswordEntity;
 import tn.esprit.spring.entity.Role;
 import tn.esprit.spring.entity.User;
 
@@ -17,4 +18,7 @@ public interface UserService {
         public void assignRoleToUser(Integer idRole,Integer idUser);
         public List<User> retrieveAllUsersByRoleName(String roleName);
         public void deleteUser(Integer id);
+
+        public User changePassword(ChangePasswordEntity chgPassword);
+       // public boolean checkEmail(String email);
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import tn.esprit.spring.dto.RoleDto;
 import tn.esprit.spring.entity.Role;
+import tn.esprit.spring.exception.EntityExistException;
 import tn.esprit.spring.exception.EntityNotFoundException;
 import tn.esprit.spring.exception.ErrorCodes;
 import tn.esprit.spring.exception.InvalidEntityException;
@@ -16,6 +17,7 @@ import tn.esprit.spring.validator.RoleValidator;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,7 +37,18 @@ public class RoleServiceImpl implements RoleService {
             log.error("Role is not valid {}",role);
             throw new InvalidEntityException("Role is not valid", ErrorCodes.ROLE_NOT_VALID,errors);
         }
+        if (checkRole(role.getRoleName())){
+            throw new EntityExistException("Role is already exist",ErrorCodes.OPERATION_INVALID);
+        }
         return roleRepository.save(role);
+    }
+
+    private boolean checkRole(String roleName){
+        Optional<Role> role=roleRepository.findRoleByRoleNameContains(roleName);
+        if (role.isPresent()){
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -73,6 +86,9 @@ public class RoleServiceImpl implements RoleService {
         if (!errors.isEmpty()){
             log.error("Role is not valid {}",role);
             throw new InvalidEntityException("Role is not valid", ErrorCodes.ROLE_NOT_VALID,errors);
+        }
+        if (checkRole(role.getRoleName())){
+            throw new EntityExistException("Role is already exist",ErrorCodes.OPERATION_INVALID);
         }
         return roleRepository.save(role);
     }

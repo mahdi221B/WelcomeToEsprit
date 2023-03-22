@@ -1,5 +1,7 @@
 package tn.esprit.spring.services.impl;
 
+import tn.esprit.spring.entity.ChangePasswordEntity;
+import tn.esprit.spring.exception.EntityExistException;
 import tn.esprit.spring.services.UserService;
 //import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
 import lombok.extern.slf4j.Slf4j;
@@ -54,6 +56,10 @@ public class UserServiceImpl implements UserService {
         if (errors.isEmpty()){
             log.error("User is not valid {}",user);
             throw new InvalidEntityException("User is not valid", ErrorCodes.USER_NOT_VALID,errors);
+        }
+        if (checkEmail(user.getEmailAddress())){
+            log.warn("user is already exist");
+            throw new EntityExistException("user is already exist",ErrorCodes.OPERATION_INVALID);
         }
         User user1=new User();
         user1.setActive(false);
@@ -176,82 +182,7 @@ public class UserServiceImpl implements UserService {
 
             user1.setAddress(address);
         }
-        if (!user.getRoles().isEmpty()){
-            List<Role> roleList=new ArrayList<>();
-            user.getRoles().forEach(role -> {
-                Role role1=roleRepository.findRoleByRoleNameContains(role.getRoleName()).orElseThrow(
-                        ()->new EntityNotFoundException("Role with name="+role.getRoleName()+" not found",
-                                ErrorCodes.USER_NOT_FOUND)
-                );
-                if (role1!=null){
-                    roleList.add(role1);
-                }
-            });
-            if (!roleList.isEmpty()){
-                if (user1.getRoles()==null){
-                    List<Role> roles=new ArrayList<>();
-                    roleList.forEach(role -> {
-                        roles.add(role);
-                    });
-                    user1.setRoles(roles);
-                }else {
-                    List<Role> roleList1=new ArrayList<>();
-                    roleList.forEach(role -> {
-                        // Role roleT=role;
-                        user1.getRoles().forEach(role1 -> {
-                            if(role1.getRoleName()!=role.getRoleName()){
-                                roleList1.add(role);
-                            }
-                            /**else {
-                             throw new EntityExistException(
-                             "User has already this role",
-                             ErrorCodes.ROLE_EXIST_ALREADY
-                             );
-                             }*/
-                        });
-                    });
-                    if (!roleList1.isEmpty()){
-                        roleList1.forEach(role -> {
-                            user1.getRoles().add(role);
-                        });
-                    }
-                }
-            }
-        }
-        /**if (user.getRoles()==null){
-         List<Role> roles=new ArrayList<>();
-         roles.add(Role.builder()
-         .roleName("Guest"+ user.getNci())
-         .build());
-         user.setRoles(roles);
-         }*/
 
-        /**List<String> errorsRoles=new ArrayList<>();
-
-         if (user.getRoles()!=null){
-         user.getRoles().forEach(role -> {
-         Role role1=roleRepository.findRoleByRoleNameContains(role.getRoleName()).get();
-         if (role1==null){
-         errorsRoles.add("No Role with this"+role.getRoleName()+"was found in DB");
-         }
-         });
-         }
-         if (!errorsRoles.isEmpty()){
-         log.warn("");
-         throw new InvalidEntityException("Role does not exist in DB",ErrorCodes.ROLE_NOT_VALID,errorsRoles);
-         }
-
-         User savedUser=userRepository.save(user);
-         user.getRoles().forEach(role -> {
-         Role role1=roleRepository.findRoleByRoleNameContains(role.getRoleName()).get();
-         if (role1.getUsers().isEmpty()){
-         List<User> users=new ArrayList<>();
-         users.add(savedUser);
-         role1.setUsers(users);
-         }else {
-         role1.getUsers().add(savedUser);
-         }
-         });*/
         return userRepository.save(user1);
     }
 
@@ -264,6 +195,59 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(id);
 
     }
+
+    @Override
+    public User changePassword(ChangePasswordEntity chgPassword) {
+        validatePassword(chgPassword);
+        User user=userRepository.findById(chgPassword.getId()).orElseThrow(()->
+                new EntityNotFoundException("NoOne User with Id was found in DB",
+                        ErrorCodes.USER_NOT_FOUND
+                )
+        );
+      /**  String currentPasswordEncode= passwordEncoder.encode(chgPassword.getCurrentPassword());
+        if (!user.getPassword().equals(currentPasswordEncode)){
+            log.warn("please verify your current password");
+            throw new InvalidEntityException("your current password is invalid",
+                    ErrorCodes.USER_PASSWORD_MODIFY_FAILED
+            );
+        }*/
+        User user1=user;
+        user1.setPassword(passwordEncoder.encode(chgPassword.getNewPassword()));
+        return userRepository.save(user1);
+    }
+
+    private void validatePassword(ChangePasswordEntity changePassword){
+        if (changePassword.getId()==null){
+            log.warn("please give the ID of user for change the Password");
+            throw new InvalidEntityException("Please fill an ID for Modify Password",
+                    ErrorCodes.USER_PASSWORD_MODIFY_FAILED
+            );
+        }
+        if (!StringUtils.hasLength(changePassword.getNewPassword())||
+                !StringUtils.hasLength(changePassword.getConfirmNewPassword())
+        ){
+            log.warn("please give the current and new password of user for change the Password");
+            throw new InvalidEntityException("Please fill the current and new Password for Modify Password",
+                    ErrorCodes.USER_PASSWORD_MODIFY_FAILED
+            );
+        }
+        if (!changePassword.getNewPassword().equals(changePassword.getConfirmNewPassword())){
+            log.warn("please give the same Password for field newPassword and confirmNewPassword");
+            throw new InvalidEntityException("Please fill the same Password for field newPassword and confirmNewPassword",
+                    ErrorCodes.USER_PASSWORD_MODIFY_FAILED
+            );
+        }
+    }
+
+    private boolean checkEmail(String email) {
+        Optional<User> user=userRepository.findUserByEmailAddressContains(email);
+        if (user.isPresent()){
+            return true;
+        }
+
+        return false;
+    }
+
     @Override
     public List<User> retrieveAllUsersByRoleName(String roleName) {
         if (!StringUtils.hasLength(roleName)){
@@ -294,9 +278,28 @@ public class UserServiceImpl implements UserService {
             roles.add(role);
             user.setRoles(roles);
         } else {
+            if (checkListRole(user,role)){
+                throw new EntityExistException("User has already this role",ErrorCodes.OPERATION_INVALID);
+            }
             user.getRoles().add(role);
         }
         userRepository.save(user);
+    }
+    private boolean checkListRole(User user,Role role){
+        List<Role> roles=roleRepository.findRolesByUsers(user);
+        List<Role> roles1=new ArrayList<>();
+        roles.forEach(r->{
+            Role role1=roleRepository.findRoleByRoleNameContains(r.getRoleName()).orElseThrow(
+                    ()->new EntityNotFoundException("role is not found",ErrorCodes.ROLE_NOT_FOUND)
+            );
+            if (role1==role){
+                roles1.add(role1);
+            }
+        });
+        if (!roles1.isEmpty()){
+            return true;
+        }
+        return false;
     }
 
 }

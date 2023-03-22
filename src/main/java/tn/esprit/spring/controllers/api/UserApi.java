@@ -6,6 +6,7 @@ import org.hibernate.engine.spi.ManagedEntity;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.spring.dto.UserDto;
+import tn.esprit.spring.entity.ChangePasswordEntity;
 import tn.esprit.spring.entity.User;
 
 import javax.servlet.http.HttpServletResponse;
@@ -32,5 +33,7 @@ public interface UserApi {
     public void assignRoleToUser(@PathVariable("idRole") Integer idRole,@PathVariable("idUser") Integer idUser);
     @GetMapping(value =APP_ROOT + "/users/byRoleName/{roleName}",produces = MediaType.APPLICATION_JSON_VALUE)
     public List<User> retrieveAllUsersByRoleName(@PathVariable("roleName") String roleName);
+    @PutMapping(value = APP_ROOT + "/users/changePassword")
+    public User changePassword(@RequestBody ChangePasswordEntity chgPassword);
 
 }

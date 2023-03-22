@@ -8,6 +8,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import tn.esprit.spring.exception.EntityExistException;
 import tn.esprit.spring.exception.EntityNotFoundException;
+import tn.esprit.spring.exception.InvaliOperationException;
 import tn.esprit.spring.exception.InvalidEntityException;
 
 @RestControllerAdvice
@@ -38,6 +39,17 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
     @ExceptionHandler(EntityExistException.class)
     public ResponseEntity<ErrorDto> handlerException(EntityExistException exception, WebRequest webRequest){
+
+        final HttpStatus badRequest= HttpStatus.BAD_REQUEST;
+        final ErrorDto errorDto= ErrorDto.builder()
+                .code(exception.getErrorCodes())
+                .httpCode(badRequest.value())
+                .message(exception.getMessage())
+                .build();
+        return new ResponseEntity<>(errorDto,badRequest);
+    }
+    @ExceptionHandler(InvaliOperationException.class)
+    public ResponseEntity<ErrorDto> handlerException(InvaliOperationException exception, WebRequest webRequest){
 
         final HttpStatus badRequest= HttpStatus.BAD_REQUEST;
         final ErrorDto errorDto= ErrorDto.builder()

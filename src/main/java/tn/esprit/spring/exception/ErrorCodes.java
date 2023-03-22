@@ -3,9 +3,11 @@ package tn.esprit.spring.exception;
 public enum ErrorCodes {
       USER_NOT_FOUND(1000),
       USER_NOT_VALID(1001),
+      USER_PASSWORD_MODIFY_FAILED(1002),
       ROLE_NOT_FOUND(2000),
       ROLE_NOT_VALID(2001),
       ROLE_EXIST_ALREADY(3000),
+      OPERATION_INVALID(4000)
     ;
 
     private int code;
