@@ -1,5 +1,6 @@
 package tn.esprit.spring.controllers;
 
+import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.spring.entity.Mcqqestion;
@@ -12,6 +13,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/mcqqestion")
+@Api
 public class McqqestionController {
     private final IQuestionService iQuestionService;
     @PostMapping("/add")

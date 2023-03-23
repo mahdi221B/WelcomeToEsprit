@@ -1,5 +1,6 @@
 package tn.esprit.spring.controllers;
 
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.spring.entity.Block;
@@ -9,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/block")
+@Api
 public class BlockController {
     @Autowired
     private IServiceBlock serviceBlock;

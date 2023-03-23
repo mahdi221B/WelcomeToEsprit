@@ -1,4 +1,4 @@
-package tn.esprit.spring.configuration;
+package tn.esprit.spring.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;

@@ -17,9 +17,9 @@ import java.util.List;
 public class React extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     ReactType reaction;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     Post post;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     Comment comment;
     @ManyToOne
     @JoinColumn(name = "userId", referencedColumnName = "id")

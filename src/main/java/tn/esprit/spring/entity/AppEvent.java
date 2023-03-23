@@ -27,7 +27,7 @@ public class AppEvent implements Serializable  {
     private Date ceremonyEndDate;
     @Enumerated(EnumType.STRING)
 
-    private status Status;
+    private Status status;
 
     @OneToMany(mappedBy = "event")
     List<Team> teams ;

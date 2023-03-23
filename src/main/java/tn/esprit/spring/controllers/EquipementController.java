@@ -1,5 +1,6 @@
 package tn.esprit.spring.controllers;
 
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.spring.entity.Classroom;
@@ -10,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/equipement")
-
+@Api
 public class EquipementController {
     @Autowired
     private IServiceEquipement serviceEquipement;

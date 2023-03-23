@@ -1,5 +1,6 @@
 package tn.esprit.spring.controllers;
 
+import io.swagger.annotations.Api;
 import tn.esprit.spring.services.IInterviewService;
 import tn.esprit.spring.entity.Interview;
 import lombok.AllArgsConstructor;
@@ -10,6 +11,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/interview")
+@Api
 public class InterviewController {
 
     private final IInterviewService iInterviewService;

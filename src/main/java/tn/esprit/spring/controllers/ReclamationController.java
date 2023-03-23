@@ -1,6 +1,7 @@
 package tn.esprit.spring.controllers;
 
 
+import io.swagger.annotations.Api;
 import tn.esprit.spring.entity.Reclamation;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/reclamation")
+@Api
 public class ReclamationController {
     private final IReclamationService iReclamationService;
     @PostMapping("/add")

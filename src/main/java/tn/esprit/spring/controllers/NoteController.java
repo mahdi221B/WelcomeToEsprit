@@ -1,5 +1,6 @@
 package tn.esprit.spring.controllers;
 
+import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.spring.entity.Note;
@@ -11,6 +12,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/Note")
+@Api
 public class NoteController {
     private final NoteService noteService;
     @PostMapping("/add")

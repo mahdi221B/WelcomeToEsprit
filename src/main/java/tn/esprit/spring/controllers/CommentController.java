@@ -1,4 +1,5 @@
 package tn.esprit.spring.controllers;
+import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.spring.entity.Comment;
@@ -8,6 +9,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/comment")
+@Api
 public class CommentController {
     private final IServiceComment iserviceComment;
     @PostMapping("/add")
