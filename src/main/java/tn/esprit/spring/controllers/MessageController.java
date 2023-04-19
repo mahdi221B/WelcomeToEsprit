@@ -28,8 +28,26 @@ public class MessageController {
     public void add(@RequestBody Message message, @PathVariable("id") Integer id){
         iServiceMessage.simpleAdd(message,id);
     }
-    @PostMapping("/createOrGetConversation/{user1Id}/{user2Id}")
-    public void createOrGetConversation(@PathVariable("user1Id") Integer user1Id, @PathVariable("user2Id") Integer user2Id){
-        iServiceMessage.createOrGetConversation(user1Id,user2Id);
+    @PostMapping("/affectUserToConversation/{userId}/{conversationId}")
+    public void affectUserToConversation(@PathVariable("userId") Integer userId, @PathVariable("conversationId") Integer conversationId){
+        iServiceMessage.affectUserToConversation(userId,conversationId);
     }
+
+    @PostMapping("/affectUsersToConversation/{usersids}/{conversationId}")
+    public void affectUsersToConversation(@PathVariable("usersids")List<Integer> usersids, @PathVariable("conversationId") Integer conversationId) {
+        iServiceMessage.affectUsersToConversation(usersids, conversationId);
+    }
+    @PostMapping("/sendMessageToConversation/{conversationId}/{userId}")
+    public void sendMessageToConversation(@RequestBody Message message, @PathVariable("conversationId") Integer conversationId, @PathVariable("userId") Integer userId) {
+        iServiceMessage.sendMessageToConversatiob(message, conversationId,userId);
+    }
+    @GetMapping("/getMessagesByConversationIdAndUserId/{conversationId}/{userId}")
+    public List<Message> getMessagesByConversationIdAndUserId(@PathVariable Integer conversationId, @PathVariable Integer userId) {
+        return iServiceMessage.getMessagesByUserAndConversationId(conversationId, userId);
+    }
+    @GetMapping("/getMessagesByOtherUsersAndConversationId/{conversationId}/{userId}")
+    public List<Message> getMessagesByOtherUsersAndConversationId(@PathVariable Integer conversationId, @PathVariable Integer userId) {
+        return iServiceMessage.getMessagesByOtherUsersAndConversationId(conversationId, userId);
+    }
+
 }
