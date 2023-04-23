@@ -35,7 +35,7 @@ public class QRCodeController {
     }
 
     @GetMapping(APP_ROOT + "/qrcode")
-    public void generateQrcode(HttpServletResponse response, @RequestParam("data") String identifier) throws IOException, WriterException {
+    public void generateQrcode(HttpServletResponse response, @RequestParam("identifier") String identifier) throws IOException, WriterException {
         response.setContentType("image/png");
         QRCodeWriter qrCodeWriter=new QRCodeWriter();
         User user=userRepository.findUserByIdentifierContains(identifier);

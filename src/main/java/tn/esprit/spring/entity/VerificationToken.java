@@ -19,7 +19,7 @@ public class VerificationToken implements Serializable {
     String token;
     @Column(name = "expiry_date")
     Timestamp expiryDate;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     User user;
 

@@ -10,6 +10,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
@@ -17,9 +18,9 @@ import java.util.List;
 @Table(name = "roles")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Role extends AbstractEntity{
-    @Column(name = "rolename")
+    @Column(name = "roleName")
     String roleName;
-    @ManyToMany(mappedBy ="roles", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy ="roles")
     @JsonIgnore
     List<User> users;
 }

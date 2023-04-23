@@ -1,7 +1,6 @@
 package tn.esprit.spring.validator;
 
 import org.springframework.util.StringUtils;
-import tn.esprit.spring.dto.UserDto;
 import tn.esprit.spring.entity.User;
 
 import java.util.ArrayList;

@@ -24,11 +24,11 @@ public class AbstractEntity implements Serializable {
     @Id
     @GeneratedValue
     Integer id;
-    @Temporal(TemporalType.DATE)
-    @Column(name = "creationDate",nullable = true)
+    @CreatedDate
+    @Column(name = "creationDate",nullable = false,updatable = false)
     @JsonIgnore
     Date creationDate;
-    @Temporal(TemporalType.DATE)
+    @LastModifiedDate
     @Column(name = "lastModifiedDate")
     @JsonIgnore
     Date lastUpdateDate;
