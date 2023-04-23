@@ -2,14 +2,11 @@ package tn.esprit.spring.controllers.api;
 
 //import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
 import io.swagger.annotations.Api;
-import org.hibernate.engine.spi.ManagedEntity;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import tn.esprit.spring.dto.UserDto;
+import tn.esprit.spring.entity.ChangePasswordEntity;
 import tn.esprit.spring.entity.User;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.List;
 
 import static tn.esprit.spring.utils.Constants.APP_ROOT;
@@ -32,5 +29,7 @@ public interface UserApi {
     public void assignRoleToUser(@PathVariable("idRole") Integer idRole,@PathVariable("idUser") Integer idUser);
     @GetMapping(value =APP_ROOT + "/users/byRoleName/{roleName}",produces = MediaType.APPLICATION_JSON_VALUE)
     public List<User> retrieveAllUsersByRoleName(@PathVariable("roleName") String roleName);
+    @PutMapping(value = APP_ROOT + "/users/changePassword")
+    public User changePassword(@RequestBody ChangePasswordEntity chgPassword);
 
 }

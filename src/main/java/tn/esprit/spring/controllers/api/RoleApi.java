@@ -3,7 +3,6 @@ package tn.esprit.spring.controllers.api;
 import io.swagger.annotations.Api;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import tn.esprit.spring.dto.RoleDto;
 import tn.esprit.spring.entity.Role;
 
 import java.util.List;

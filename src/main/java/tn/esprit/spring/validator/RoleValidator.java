@@ -1,7 +1,6 @@
 package tn.esprit.spring.validator;
 
 import org.springframework.util.StringUtils;
-import tn.esprit.spring.dto.RoleDto;
 import tn.esprit.spring.entity.Role;
 
 import java.util.ArrayList;

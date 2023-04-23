@@ -2,7 +2,6 @@ package tn.esprit.spring.controllers;
 
 import org.springframework.web.bind.annotation.RestController;
 import tn.esprit.spring.controllers.api.RoleApi;
-import tn.esprit.spring.dto.RoleDto;
 import tn.esprit.spring.entity.Role;
 import tn.esprit.spring.services.RoleService;
 

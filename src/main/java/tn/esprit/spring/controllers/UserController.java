@@ -4,15 +4,11 @@ package tn.esprit.spring.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 import tn.esprit.spring.controllers.api.UserApi;
-import tn.esprit.spring.dto.UserDto;
+import tn.esprit.spring.entity.ChangePasswordEntity;
 import tn.esprit.spring.entity.User;
-import tn.esprit.spring.repositories.UserRepository;
 import tn.esprit.spring.services.UserService;
-import tn.esprit.spring.utils.QrcodeGenerated;
 
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -62,6 +58,10 @@ public class UserController implements UserApi {
     @Override
     public List<User> retrieveAllUsersByRoleName(String roleName) {
         return userService.retrieveAllUsersByRoleName(roleName);
+    }
+    @Override
+    public User changePassword(ChangePasswordEntity chgPassword) {
+        return userService.changePassword(chgPassword);
     }
 
 }
