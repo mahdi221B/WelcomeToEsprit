@@ -75,10 +75,10 @@ public class ProjectServiceImp implements  ProjectService {
 
         else
         {
-        for (Project project : projects) {
-            if (project.getTeam().getId().equals(id)) {
-                return "A project already exists for this team.";
-            }}
+            for (Project project : projects) {
+                if (project.getTeam().getId().equals(id)) {
+                    return "A project already exists for this team.";
+                }}
             if (new Date().before(appEventRepository.findAll().get(0).getStartDate()) || (new Date().after(appEventRepository.findAll().get(0).getEndDate()))) {
                 msg = ("you can't upload a video now  ");
             } else {
@@ -86,13 +86,13 @@ public class ProjectServiceImp implements  ProjectService {
                 Project p = new Project();
                 p.setVideo(t.getName() + " " + new Date());
                 p.setDescription(desc);
-                fileSystemRepository.save(file);
+
                 p.setSubmitDate(new Date());
+                p.setLocation( fileSystemRepository.save(file));
                 projectRepository.save(p);
                 p.setTeam(t);
                 teamRepository.save(t);
                 msg = ("project added successfully ");
             }}
-            return msg;
-        }}
-
+        return msg;
+    }}

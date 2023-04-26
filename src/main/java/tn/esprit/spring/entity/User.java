@@ -34,7 +34,6 @@ public class User extends AbstractEntity{
     @Column(name = "picture")
     String picture;
     @ManyToMany(cascade = CascadeType.ALL)
-    @JsonIgnore
     List<Role> roles;
     @OneToMany(cascade = CascadeType.ALL)
     @JsonIgnore
@@ -49,7 +48,6 @@ public class User extends AbstractEntity{
 
 
     @OneToOne
-    @JsonIgnore
 
     Profil  profil ;
 

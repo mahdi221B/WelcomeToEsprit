@@ -61,8 +61,15 @@ public class AppEventServiceImp implements  AppEventService {
 public String assignteacheertojury(int id) {
         String msg;
         User u =userRepository.findById(id).get() ;
-    List<Role>  userrole = u.getRoles().stream().filter(r->r.getRoleName().equals("teacher")).collect(Collectors.toList());
+        List<Role>  userrole = u.getRoles().stream().filter(r->r.getRoleName().equals("teacher")).collect(Collectors.toList());
+        List<Role>  userrolejury = u.getRoles().stream().filter(r->r.getRoleName().equals("jury")).collect(Collectors.toList());
+         if (!(userrolejury.isEmpty () )){
+
+             msg="user is already a  jury member ";
+         }
+         else
         if (userrole.isEmpty() )
+        
     {
             msg="only teachers can be a jury member ";
         }
@@ -109,7 +116,6 @@ public String assignteacheertojury(int id) {
                     listeamit.add(t);
                     for (int j = 0; j < 4; j++) {
                         User u = listit.get(i * 4 + j);
-                        //u.setTeam(t;
                         u.setTeam(listeamit.get(i));
                         userRepository.save(u);
                         listit.get(i * 4).getProfil().setTeamcaptain(true);
@@ -130,7 +136,6 @@ public String assignteacheertojury(int id) {
                     for (int x = 0; x < 4; x++) {
                         User u = listit.get(j * 4 + x);
                         u.setTeam(listeamit.get(j));
-
                         userRepository.save(u);
                         listit.get(j * 4).getProfil().setTeamcaptain(true);
                     }
@@ -146,6 +151,7 @@ public String assignteacheertojury(int id) {
                     User u = listwithoutteam.get(i);
                     u.setTeam(listeamit.get(it));
                     userRepository.save(u);
+                    listwithoutteam.get(2).getProfil().setTeamcaptain(true);
                 }
             }
             else if (listit.size() == 6) {
@@ -156,14 +162,11 @@ public String assignteacheertojury(int id) {
                     t.setDepartment(Department.it);
                     teamRepository.save(t);
                     listeamit.add(t);
-                    // i0 1
-                    //j 0 ,1,2
-                    //0,1,2, 3,4,5
                     for (int j = 0; j < 3; j++) {
                         User u = listit.get(i * 3 + j);
                         u.setTeam(listeamit.get(i));
                         userRepository.save(u);
-                        //listit.get(i * 4).getProfil().setTeamcaptain(true);
+                        listit.get(i * 4).getProfil().setTeamcaptain(true);
                     }
                 }
 
@@ -222,6 +225,9 @@ public String assignteacheertojury(int id) {
                 t.setEvent(appEventRepository.findAll().get(0));
                 teamRepository.save(t);
             }}
+
+
+
             List<Team> listeammeca = new ArrayList<>();
             int meca = 0;
             if (listmeca.size() % 4 == 0) {
@@ -235,7 +241,6 @@ public String assignteacheertojury(int id) {
                     listeammeca.add(t);
                     for (int j = 0; j < 4; j++) {
                         User u = listmeca.get(i * 4 + j);
-                        //u.setTeam(t;
                         u.setTeam(listeammeca.get(i));
                         userRepository.save(u);
                         listmeca.get(i * 4).getProfil().setTeamcaptain(true);
@@ -271,6 +276,8 @@ public String assignteacheertojury(int id) {
                 for (int i = 0; i < 3; i++) {
                     User u = listwithoutteam.get(i);
                     u.setTeam(listeammeca.get(meca));
+//                   listmeca.get(j * 4).getProfil().setTeamcaptain(true);
+
                     userRepository.save(u);
                 }
             }

@@ -157,4 +157,10 @@ public class ServiceUserManager implements IServiceUserManager {
         roleRepository.deleteById(id);
     }
 
+    @Override 
+    public List<Object[]>  allfindUserRoles(){
+
+        return userRepository.findUserRolesall();
+    }
+
 }

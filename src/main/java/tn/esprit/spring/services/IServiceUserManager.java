@@ -23,5 +23,6 @@ public interface IServiceUserManager {
     public List<Role> retrieveAllRolesByUserFullName(String firstname,String lastname);
     public Role updateRole(Role role);
     public void deleteRole(Integer id);
+    public List<Object[]>  allfindUserRoles();
 
 }

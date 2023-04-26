@@ -1,9 +1,14 @@
 package tn.esprit.spring.controllers;
 
 import lombok.AllArgsConstructor;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.MediaType;
+import org.springframework.http.MediaTypeFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import tn.esprit.spring.entity.Project;
+import tn.esprit.spring.services.FileSystemRepository;
 import tn.esprit.spring.services.ProjectService;
 import tn.esprit.spring.services.ProjectService;
 
@@ -14,6 +19,8 @@ import java.util.List;
 @RequestMapping("/Project")
 public class ProjectController {
     private final ProjectService projectservice;
+    private final    FileSystemRepository  fileSystemRepository ;
+
     @PostMapping("/add")
     @ResponseBody
     public Project addProject(@RequestBody Project project){
@@ -41,6 +48,7 @@ public class ProjectController {
     }
 
 
+
     @PostMapping("/addvideo/{id}/{iduser}")
     @ResponseBody
     public String  createProject(@RequestParam("file") MultipartFile project ,@RequestParam("desc") String desc ,@PathVariable("id") Long id ,@PathVariable("iduser") int iduser  ) throws Exception {
@@ -48,8 +56,25 @@ public class ProjectController {
     }
 
 
+     @GetMapping("/media/{id}")
+    @ResponseBody
+    public ResponseEntity<FileSystemResource> getmedia (@PathVariable("id") Long id  ){
+         Project p = projectservice.RetrieveProjectById(id);
+
+        if (p!=null){
+            try {
+                FileSystemResource fileSystemResource = fileSystemRepository.findInFileSystem(p.getLocation());
+                MediaType mediaType = MediaTypeFactory.getMediaType(fileSystemResource).orElse(MediaType.APPLICATION_OCTET_STREAM);
+                return ResponseEntity.ok().contentType(mediaType).body(fileSystemResource);
+            } catch (Exception e) {
+                return ResponseEntity.notFound().build();
+            }
+        }
+return ResponseEntity.notFound().build();
+
+     }
+
+    }
 
 
 
-
-}

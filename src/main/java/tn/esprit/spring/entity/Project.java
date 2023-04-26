@@ -19,6 +19,7 @@ public class Project    implements Serializable {
     private String presentation;
     private String description;
     private Date submitDate;
+    private  String location;
 
     @OneToOne
     private Team  team;

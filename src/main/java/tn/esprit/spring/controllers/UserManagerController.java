@@ -81,9 +81,15 @@ public class UserManagerController {
     public List<Role> retrieveRolesByUserFullName(@PathVariable("L_NAME")String lastname,@PathVariable("F_NAME")String firstname){
         return iServiceUserManager.retrieveAllRolesByUserFullName(firstname,lastname);
     }
-    @GetMapping("/get/all/roles")
+    @GetMapping("/get/all/users")
     @ResponseBody
     public List<Role> retrieveAllRoles(){
         return iServiceUserManager.retrieveAllRoles();
-    }
+    }   
+
+     @GetMapping("/get/all/usersandrole")
+    @ResponseBody
+    public List<Object[]>  usersandrole(){
+       return  iServiceUserManager.allfindUserRoles();
+    }   
 }
