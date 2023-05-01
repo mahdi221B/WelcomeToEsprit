@@ -33,6 +33,11 @@ public class ServiceReactImp implements IServiceReact{
     }
 
     @Override
+    public List<React> retrieveAllPostReacts(Integer postId) {
+        return reactRepository.findReactsByPostId(postId);
+    }
+
+    @Override
     public void deleteReact(Integer id) {
         reactRepository.delete(reactRepository.findById(id).get());
     }
@@ -41,6 +46,27 @@ public class ServiceReactImp implements IServiceReact{
     public React retrieveReactById(Integer id) {
         return reactRepository.findById(id).get();
     }
+
+    @Override
+    public React retrieveReactByUserIdAndPostId(Integer userId, Integer postId) {
+        return  reactRepository.findReactsByUserIdAndPostId(userId,postId);
+    }
+
+    @Override
+    public String userReactions(Integer userId, Integer postId) {
+        return retrieveReactByUserIdAndPostId(userId, postId).getReaction().toString();
+    }
+    public React updateReact(React react, Integer id) {
+        react.setId(id);
+        return reactRepository.save(react);
+    }
+
+    @Transactional
+    public void assignReactToPost(React react, Integer id) {
+        reactRepository.save(react);
+        react.setPost(postRepository.findById(id).get());
+    }
+
     public React addOrUpdateAndAssignReactToPost(React reactJSON, Integer idUser, Integer idPost) {
         User user = userRepository.findById(idUser).get();
         Post post = postRepository.findById(idPost).get();

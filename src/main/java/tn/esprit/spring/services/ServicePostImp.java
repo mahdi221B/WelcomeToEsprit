@@ -99,7 +99,9 @@ public class ServicePostImp implements IServicePost{
         Annotation annotation = getSentimentAnalysis(post.getContent());
         post.setSentimentScore(getSentimentScore(annotation));
         post.setCreatedAt(LocalDateTime.now());
-        hashtagService.updateHashtags(post.getTags());
+        if (post.getTags() !=null){
+            hashtagService.updateHashtags(post.getTags());
+        }
         postRepository.save(post);
     }
     @Transactional
@@ -113,7 +115,9 @@ public class ServicePostImp implements IServicePost{
         if(postJSON.getLocationName()!=null){
             postJSON.setLocation(getPostLocation(postJSON.getLocationName()));
         }
-        hashtagService.updateHashtags(postJSON.getTags());
+        if (postJSON.getTags() !=null){
+            hashtagService.updateHashtags(postJSON.getTags());
+        }
         postRepository.save(postJSON);
         if(files!=null){
             List<PostMedia> medias = new ArrayList<>();

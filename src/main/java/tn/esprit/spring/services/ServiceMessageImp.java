@@ -106,6 +106,11 @@ public class ServiceMessageImp implements IServiceMessage{
         return messages;
     }
 
+    public List<Message> getConversationMessages(Integer conversationId){
+        Conversation conversation = conversationRepository.findById(conversationId).orElseThrow(() -> new RuntimeException("Conversation not found"));
+        List<Message> messages = conversation.getMessages();
+        return messages;
+    }
 
 
 

@@ -14,5 +14,7 @@ public interface IServiceMessage {
     public void sendMessageToConversatiob(Message message, Integer conversationId,Integer userId);
     public List<Message> getMessagesByUserAndConversationId(Integer userId, Integer conversationId);
     public List<Message> getMessagesByOtherUsersAndConversationId(Integer userId, Integer conversationId);
+    public List<Message> getConversationMessages(Integer conversationId);
 
-}
+
+    }

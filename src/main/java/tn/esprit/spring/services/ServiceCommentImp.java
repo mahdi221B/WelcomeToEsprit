@@ -29,6 +29,7 @@ import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.sentiment.SentimentCoreAnnotations;
 import edu.stanford.nlp.util.CoreMap;
 import tn.esprit.spring.repositories.UserRepository;
+import tn.esprit.spring.services.impl.EmailService;
 
 import java.util.Properties;
 
@@ -47,7 +48,8 @@ public class ServiceCommentImp implements IServiceComment{
     }
     @Override
     public void deleteComment(Integer id) {
-        commentRepository.delete(commentRepository.findById(id).get());
+        Comment comment = commentRepository.findById(id).get();
+        commentRepository.delete(comment);
     }
     @Override
     public Comment retrieveCommentById(Integer id) {
@@ -56,6 +58,10 @@ public class ServiceCommentImp implements IServiceComment{
     @Override
     public List<Comment> retrieveCommentsByUserId(Integer idUser) {
         return userRepository.findById(idUser).get().getComments();
+    }
+    @Override
+    public List<Comment> retrieveCommentsByPostId(Integer idPost) {
+        return postRepository.findById(idPost).get().getComments();
     }
     @Override
     public Comment updateComment(Comment comment, Integer id) {

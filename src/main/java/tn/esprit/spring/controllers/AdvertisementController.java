@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@CrossOrigin(origins = "*")
 @AllArgsConstructor
 @RequestMapping("/advertisement")
 public class AdvertisementController {
@@ -26,7 +27,7 @@ public class AdvertisementController {
     @DeleteMapping("/delete/{id}")
     @ResponseBody
     public void deleteAdvertisement(@PathVariable("id") Integer id){
-         iServiceAdvertisement.deleteAdvertisement(id);
+        iServiceAdvertisement.deleteAdvertisement(id);
     }
     @GetMapping("/get/{id}")
     @ResponseBody

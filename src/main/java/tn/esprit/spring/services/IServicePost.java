@@ -15,4 +15,4 @@ public interface IServicePost {
     public void simpleAdd(Post post,Integer id);
     public void complexAdd(Integer id,String post,List<MultipartFile> files ) throws IOException;
 
-    }
+}

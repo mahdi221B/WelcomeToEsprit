@@ -42,6 +42,7 @@ import javax.validation.Valid;
 
 @RestController
 @Slf4j
+@CrossOrigin(origins = "*")
 @AllArgsConstructor
 @RequestMapping("/post")
 public class PostController {
@@ -79,13 +80,14 @@ public class PostController {
     public List<Post> getPostByUser(@PathVariable("id") Integer id){
         return iServicePost.getPostByUser(id);
     }
+    // public ResponseEntity<?> add(@Valid @RequestBody Post post,@PathVariable("id") Integer id) throws IOException {
     @PostMapping("/add/{id}")
-    public ResponseEntity<?> add(@Valid @RequestBody Post post,@PathVariable("id") Integer id) throws IOException {
+    public ResponseEntity<?> add(@RequestBody Post post,@PathVariable("id") Integer id) throws IOException {
         iServicePost.simpleAdd(post,id);
         return ResponseEntity.ok(post);
     }
     @PostMapping(value = "/addWFiles/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE} )
-    public ResponseEntity<String> addWFiles(@PathVariable("id") Integer id, @Valid @RequestPart("post") String post, @RequestPart("files") List<MultipartFile> files ) throws IOException {
+    public ResponseEntity<String> addWFiles(@PathVariable("id") Integer id, @RequestPart("post") String post, @RequestPart("files") List<MultipartFile> files ) throws IOException {
         iServicePost.complexAdd(id,post,files);
         return ResponseEntity.ok(post);
     }

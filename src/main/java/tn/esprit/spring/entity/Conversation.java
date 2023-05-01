@@ -14,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Conversation extends AbstractEntity {
+
     @ManyToMany
     @JoinTable(
             name = "conversation_participants",

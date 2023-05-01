@@ -12,6 +12,7 @@ import java.util.List;
 @Slf4j
 @AllArgsConstructor
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/message")
 public class MessageController {
     private final IServiceMessage iServiceMessage;
@@ -48,6 +49,10 @@ public class MessageController {
     @GetMapping("/getMessagesByOtherUsersAndConversationId/{conversationId}/{userId}")
     public List<Message> getMessagesByOtherUsersAndConversationId(@PathVariable Integer conversationId, @PathVariable Integer userId) {
         return iServiceMessage.getMessagesByOtherUsersAndConversationId(conversationId, userId);
+    }
+    @GetMapping("/getConversationMessages/{conversationId}")
+    public List<Message> getConversationMessages(@PathVariable Integer conversationId) {
+        return iServiceMessage.getConversationMessages(conversationId);
     }
 
 }

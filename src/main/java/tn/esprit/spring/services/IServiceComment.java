@@ -15,5 +15,6 @@ public interface IServiceComment {
     public Comment updateComment(Comment comment,Integer id);
     public Comment assignCommentToPost(Comment comment, Integer idPost,Integer idUser) throws IOException;
     public List<Comment> retrieveCommentsByUserId(Integer idUser);
+    public List<Comment> retrieveCommentsByPostId(Integer idPost);
     public List<Post> getRecommendedPosts(Integer userId, Duration timeFilter);
 }

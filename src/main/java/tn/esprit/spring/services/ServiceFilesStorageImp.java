@@ -62,6 +62,6 @@ public class ServiceFilesStorageImp implements IServiceFilesStorage{
 
     @Override
     public Stream<Path> loadAll() throws IOException {
-            return Files.walk(this.root, 1).filter(path -> !path.equals(this.root)).map(this.root::relativize);
+        return Files.walk(this.root, 1).filter(path -> !path.equals(this.root)).map(this.root::relativize);
     }
 }

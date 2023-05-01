@@ -19,7 +19,7 @@ import java.util.Set;
 @Component
 @Aspect
 public class ValidatingAspect {
-
+/*
     @Pointcut("execution(* tn.esprit.spring.controllers.PostController.add*(..)) && args(id, post, files)")
     public void addPostPointcut(Integer id, String post, List<MultipartFile> files) {}
 
@@ -38,5 +38,5 @@ public class ValidatingAspect {
             return ResponseEntity.badRequest().body(validationErrors.toString());
         }
     }
-
+*/
 }

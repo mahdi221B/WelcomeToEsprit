@@ -1,4 +1,5 @@
 package tn.esprit.spring.controllers;
+import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.spring.entity.React;
@@ -9,7 +10,9 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin(origins = "*")
 @RequestMapping("/react")
+@Api
 public class ReactController {
     private final IServiceReact iserviceReact;
     @DeleteMapping("/delete/{id}")
@@ -24,7 +27,6 @@ public class ReactController {
     }
     @GetMapping("/getall")
     @ResponseBody
-
     public List<React> getAllReact(){
         return iserviceReact.retrieveAllReacts();
     }
@@ -32,5 +34,19 @@ public class ReactController {
     @ResponseBody
     public React addOrUpdateAndAssignReactToPost(@RequestBody React react,@PathVariable("idUser") Integer idUser,@PathVariable("idPost") Integer idPost) {
         return iserviceReact.addOrUpdateAndAssignReactToPost(react,idUser,idPost);
+    }
+    @GetMapping("/ReactByUserIdAndPostId/{userId}/{postId}")
+    @ResponseBody
+    public React retrieveReactByUserIdAndPostId(@PathVariable("userId") Integer userId,@PathVariable("postId") Integer postId)
+    {return iserviceReact.retrieveReactByUserIdAndPostId(userId, postId);}
+    @GetMapping("/retrieveAllPostReacts/{postId}")
+    @ResponseBody
+    public List<React> retrieveAllPostReacts(@PathVariable("postId") Integer postId){
+        return iserviceReact.retrieveAllPostReacts(postId);
+    }
+    @GetMapping("/userReactions/{userId}/{postId}")
+    @ResponseBody
+    public String userReactions(@PathVariable("userId") Integer userId,@PathVariable("postId") Integer postId){
+        return iserviceReact.userReactions(userId, postId);
     }
 }

@@ -26,12 +26,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Post extends AbstractEntity {
-    @NotBlank(message = "Title is mandatory")
+    @Column(nullable = true)
     String title;
-    @NotBlank(message = "Content is mandatory")
-    String content;
-    @Pattern(regexp = "^#[A-Za-z0-9_-]+( #[A-Za-z0-9_-]+)*$", message = "This is not a HASHTAG check again\nHint:HASHTAG must start with '#'")
+    @Column(nullable = true)
     String tags;
+    String content;
     int sentimentScore;
     LocalDateTime createdAt;
     String locationName;

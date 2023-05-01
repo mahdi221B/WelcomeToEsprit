@@ -1,4 +1,5 @@
 package tn.esprit.spring.controllers;
+import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.spring.entity.Comment;
@@ -12,23 +13,32 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin(origins = "*")
 @RequestMapping("/comment")
+@Api
 public class CommentController {
     private final IServiceComment iserviceComment;
-    @PutMapping("/update/{id}")
-    @ResponseBody
-    public Comment updateComment(@RequestBody Comment post, @PathVariable("id") Integer id){
-        return iserviceComment.updateComment(post,id);
-    }
+
     @DeleteMapping("/delete/{id}")
     @ResponseBody
     public void deleteComment(@PathVariable("id") Integer id){
         iserviceComment.deleteComment(id);
     }
+    @PutMapping("/update/{id}")
+    @ResponseBody
+    public Comment updateComment(@RequestBody Comment post, @PathVariable("id") Integer id){
+        return iserviceComment.updateComment(post,id);
+    }
+
     @GetMapping("/retrieveCommentsByUserId/{idUser}")
     @ResponseBody
     public List<Comment> retrieveCommentsByUserId(@PathVariable("idUser") Integer idUser){
         return iserviceComment.retrieveCommentsByUserId(idUser);
+    }
+    @GetMapping("/retrieveCommentsByPostId/{idPost}")
+    @ResponseBody
+    public List<Comment> retrieveCommentsByPostId(@PathVariable("idPost") Integer idPost){
+        return iserviceComment.retrieveCommentsByPostId(idPost);
     }
     @GetMapping("/get/{id}")
     @ResponseBody

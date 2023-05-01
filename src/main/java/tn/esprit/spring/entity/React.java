@@ -23,7 +23,6 @@ public class React extends AbstractEntity {
     @ManyToOne
     @JsonBackReference
     Post post;
-
     @ManyToOne
     Comment comment;
     @ManyToOne
