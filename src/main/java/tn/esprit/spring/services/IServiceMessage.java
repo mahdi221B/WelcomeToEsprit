@@ -12,7 +12,7 @@ public interface IServiceMessage {
     public void affectUserToConversation(Integer userId, Integer conversationId);
     public void affectUsersToConversation(List<Integer> usersids,Integer conversationId);
     public void sendMessageToConversatiob(Message message, Integer conversationId,Integer userId);
-    public List<Message> getMessagesByUserAndConversationId(Integer userId, Integer conversationId);
+    public List<Conversation> getMessagesByUserAndConversationId(Integer userId);
     public List<Message> getMessagesByOtherUsersAndConversationId(Integer userId, Integer conversationId);
     public List<Message> getConversationMessages(Integer conversationId);
 

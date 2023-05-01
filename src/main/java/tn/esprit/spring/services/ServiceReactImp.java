@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import tn.esprit.spring.entity.Post;
 import tn.esprit.spring.entity.React;
+import tn.esprit.spring.entity.ReactType;
 import tn.esprit.spring.entity.User;
 import tn.esprit.spring.repositories.CommentRepository;
 import tn.esprit.spring.repositories.PostRepository;
@@ -14,7 +15,9 @@ import tn.esprit.spring.repositories.UserRepository;
 import javax.transaction.Transactional;
 import java.io.DataInput;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -67,9 +70,22 @@ public class ServiceReactImp implements IServiceReact{
         react.setPost(postRepository.findById(id).get());
     }
 
-    public React addOrUpdateAndAssignReactToPost(React reactJSON, Integer idUser, Integer idPost) {
+    public React addOrUpdateAndAssignReactToPost(String reactSTRING, Integer idUser, Integer idPost) {
         User user = userRepository.findById(idUser).get();
         Post post = postRepository.findById(idPost).get();
+
+
+        Map<String, ReactType> reactMap = new HashMap<>();
+        reactMap.put("like", ReactType.like);
+        reactMap.put("love", ReactType.love);
+        reactMap.put("wow",  ReactType.wow);
+        reactMap.put("haha", ReactType.haha);
+        reactMap.put("sad", ReactType.sad);
+        reactMap.put("angry", ReactType.angry);
+        React reactJSON = new React();
+        ReactType reactType = reactMap.get(reactSTRING);
+        reactJSON.setReaction(reactType);
+
         Optional<React> react = post.getReactions().stream().filter(r -> r.getUser().equals(user)).findFirst();
         //post.getReactions().stream().anyMatch(reaction -> reaction.getUser().equals(user))
         if (react.isPresent()) {

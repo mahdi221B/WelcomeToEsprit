@@ -7,10 +7,17 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
-import tn.esprit.spring.entity.Greeting;
-import tn.esprit.spring.entity.HelloMessage;
-import tn.esprit.spring.entity.Message;
+import tn.esprit.spring.entity.*;
+import tn.esprit.spring.repositories.ConversationRepository;
+import tn.esprit.spring.repositories.MessageRepository;
+import tn.esprit.spring.repositories.UserRepository;
 import tn.esprit.spring.services.IServiceMessage;
+
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 
 @Controller
 @AllArgsConstructor
@@ -24,8 +31,8 @@ public class WebSocketController {
 
     @MessageMapping("/resume/{to}")
     public void sendMessage(@DestinationVariable String to , Message message) {
-        iServiceMessage.simpleAdd(message, message.getSender().getId());
-        System.out.println("Received message: " + message.getContent() + " to: " + to);
+        message.setCreatedAt(LocalDateTime.now());
+        iServiceMessage.sendMessageToConversatiob(message,Integer.parseInt(to),message.getSender().getId());
         simpMessagingTemplate.convertAndSend("/start/initial/" + to, message);
     }
 

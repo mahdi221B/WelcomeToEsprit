@@ -12,5 +12,5 @@ public interface IServiceReact {
     public React retrieveReactById(Integer id);
     public React retrieveReactByUserIdAndPostId(Integer userId, Integer postId);
     public String userReactions(Integer userId, Integer postId);
-    public React addOrUpdateAndAssignReactToPost(React react, Integer idUser, Integer idPost) ;
+    public React addOrUpdateAndAssignReactToPost(String reactSTRING, Integer idUser, Integer idPost) ;
 }

@@ -1,9 +1,5 @@
 package tn.esprit.spring.entity;
 
 public enum ReactType {
-    LIKE,
-    HEART,
-    ANGRY,
-    SAD,
-    LOL
+    like, love, wow, haha, sad, angry
     }

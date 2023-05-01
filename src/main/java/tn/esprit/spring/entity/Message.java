@@ -17,8 +17,8 @@ import java.util.Date;
 @NoArgsConstructor
 public class Message extends AbstractEntity{
     String content;
-    @Temporal(TemporalType.TIMESTAMP)
-    Date createdAt = new Date();
+    @Column(nullable = true)
+    LocalDateTime createdAt;
     boolean deleted = false;
     @ManyToOne(cascade = CascadeType.ALL)
     @JsonIgnore

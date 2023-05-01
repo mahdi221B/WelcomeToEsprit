@@ -29,7 +29,6 @@ import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.sentiment.SentimentCoreAnnotations;
 import edu.stanford.nlp.util.CoreMap;
 import tn.esprit.spring.repositories.UserRepository;
-import tn.esprit.spring.services.impl.EmailService;
 
 import java.util.Properties;
 

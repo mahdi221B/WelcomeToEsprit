@@ -1,5 +1,4 @@
 package tn.esprit.spring.controllers;
-import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.spring.entity.Comment;
@@ -15,7 +14,6 @@ import java.util.List;
 @AllArgsConstructor
 @CrossOrigin(origins = "*")
 @RequestMapping("/comment")
-@Api
 public class CommentController {
     private final IServiceComment iserviceComment;
 

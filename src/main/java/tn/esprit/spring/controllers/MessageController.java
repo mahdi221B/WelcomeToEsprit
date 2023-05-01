@@ -2,6 +2,7 @@ package tn.esprit.spring.controllers;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import tn.esprit.spring.entity.Conversation;
 import tn.esprit.spring.entity.Message;
 import tn.esprit.spring.entity.Post;
 import tn.esprit.spring.services.IServiceMessage;
@@ -42,15 +43,16 @@ public class MessageController {
     public void sendMessageToConversation(@RequestBody Message message, @PathVariable("conversationId") Integer conversationId, @PathVariable("userId") Integer userId) {
         iServiceMessage.sendMessageToConversatiob(message, conversationId,userId);
     }
-    @GetMapping("/getMessagesByConversationIdAndUserId/{conversationId}/{userId}")
-    public List<Message> getMessagesByConversationIdAndUserId(@PathVariable Integer conversationId, @PathVariable Integer userId) {
-        return iServiceMessage.getMessagesByUserAndConversationId(conversationId, userId);
+    @GetMapping("/getMessagesByConversationIdAndUserId/{userId}")
+    public List<Conversation> getMessagesByConversationIdAndUserId(@PathVariable Integer userId) {
+        return iServiceMessage.getMessagesByUserAndConversationId(userId);
     }
     @GetMapping("/getMessagesByOtherUsersAndConversationId/{conversationId}/{userId}")
     public List<Message> getMessagesByOtherUsersAndConversationId(@PathVariable Integer conversationId, @PathVariable Integer userId) {
         return iServiceMessage.getMessagesByOtherUsersAndConversationId(conversationId, userId);
     }
     @GetMapping("/getConversationMessages/{conversationId}")
+    @ResponseBody
     public List<Message> getConversationMessages(@PathVariable Integer conversationId) {
         return iServiceMessage.getConversationMessages(conversationId);
     }
